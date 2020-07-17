@@ -72,13 +72,10 @@ public extension NeumorphicItem {
     ///
     /// Call this method on your application’s main thread when you want to adjust the modifiers of a view’s subviews. This method makes a note of the request and returns immediately. Because this method does not force an immediate update, but instead waits for the next update cycle, you can use it to invalidate the modifiers of multiple neumorphic items before any of those views are updated.
     func setNeedsModify() {
-        if !needsModify {
-            DispatchQueue.main.async {
-                self.modifyIfNeeded()
-            }
-        }
-        
         needsModify = true
+        DispatchQueue.main.async {
+            self.modifyIfNeeded()
+        }
     }
     
     /// Updates modifiers immediately, if modifiers updates are pending.
@@ -126,7 +123,7 @@ extension NeumorphicItem {
         get { objc_getAssociatedObject(self, &AssociatedObjectKey.stateModifiers) as? [StateModifier] ?? [] }
         set {
             objc_setAssociatedObject(self, &AssociatedObjectKey.stateModifiers, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            needsModify = true
+            setNeedsModify()
         }
     }
     
