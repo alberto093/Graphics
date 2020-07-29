@@ -24,36 +24,6 @@
 
 import UIKit
 
-#warning("Add animation to non animatable properties like layer.path, layer.frame in BorderModifier, ShadowModifier")
-/*
- override func layoutSubviews() {
-     super.layoutSubviews()
-
-     if let animation = layer.animation(forKey: "position") {
-         CATransaction.begin()
-         CATransaction.setAnimationDuration(animation.duration)
-         CATransaction.setAnimationTimingFunction(animation.timingFunction)
-
-         let frameAnimation = CABasicAnimation(keyPath: "frame")
-         topGradient.add(frameAnimation, forKey: "frame")
-         leftGradient.add(frameAnimation, forKey: "frame")
-         rightGradient.add(frameAnimation, forKey: "frame")
-         bottomGradient.add(frameAnimation, forKey: "frame")
-
-         let pathAnimation = CABasicAnimation(keyPath: "path")
-         topGradient.mask?.add(pathAnimation, forKey: "path")
-         leftGradient.mask?.add(pathAnimation, forKey: "path")
-         rightGradient.mask?.add(pathAnimation, forKey: "path")
-         bottomGradient.mask?.add(pathAnimation, forKey: "path")
-
-         layoutGradients()
-         CATransaction.commit()
-     } else {
-         layoutGradients()
-     }
- }
- */
-
 public class PropertyAnimator: NeumorphicItemAnimator {
     public enum Animation {
         case curve(UIView.AnimationCurve)
@@ -72,8 +42,8 @@ public class PropertyAnimator: NeumorphicItemAnimator {
             return UIViewPropertyAnimator(duration: duration, curve: curve)
         case .spring(let dampingRatio):
             return UIViewPropertyAnimator(duration: duration, dampingRatio: dampingRatio)
-        case .controlPoint(let p1, let p2):
-            return UIViewPropertyAnimator(duration: duration, controlPoint1: p1, controlPoint2: p2)
+        case let .controlPoint(controlPoint1, controlPoint2):
+            return UIViewPropertyAnimator(duration: duration, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
         case .timingParameters(let provider):
             return UIViewPropertyAnimator(duration: duration, timingParameters: provider)
         }

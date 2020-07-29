@@ -24,7 +24,7 @@
 
 import UIKit
 
-public class CornerRadiusModifier: NeumorphicItemModifier {
+public class CornerRadiusModifier {
     public enum Radius {
         case circle
         case equalTo(CGFloat)
@@ -37,14 +37,25 @@ public class CornerRadiusModifier: NeumorphicItemModifier {
         self.mask = mask
         self.radius = radius
     }
+}
+
+extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
+    public var roundedCorners: UIRectCorner {
+        mask.rectCorners
+    }
     
-    public func modify(_ view: NeumorphicItem) {
+    public func cornerRadii(in view: NeumorphicItem) -> CGSize {
+        let cornerRadius = self.cornerRadius(in: view)
+        return CGSize(width: cornerRadius, height: cornerRadius)
+    }
+    
+    public func modify(_ view: NeumorphicItem, animated: Bool) {
         view.contentView.clipsToBounds = true
         view.contentView.layer.maskedCorners = mask
         view.contentView.layer.cornerRadius = cornerRadius(in: view)
     }
     
-    public func revert(_ view: NeumorphicItem) {
+    public func revert(_ view: NeumorphicItem, animated: Bool) {
         view.contentView.layer.maskedCorners = .all
         view.contentView.layer.cornerRadius = 0
     }
@@ -56,17 +67,6 @@ public class CornerRadiusModifier: NeumorphicItemModifier {
         case .equalTo(let radius):
             return radius
         }
-    }
-}
-
-extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
-    public var roundedCorners: UIRectCorner {
-        mask.rectCorners
-    }
-    
-    public func cornerRadii(in view: NeumorphicItem) -> CGSize {
-        let cornerRadius = self.cornerRadius(in: view)
-        return CGSize(width: cornerRadius, height: cornerRadius)
     }
 }
 

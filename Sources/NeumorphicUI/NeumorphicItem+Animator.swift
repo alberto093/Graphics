@@ -39,52 +39,16 @@ public extension NeumorphicItem {
         guard let animatorIndex = animators.firstIndex(where: { $0 === animator }) else { return }
         animators.remove(at: animatorIndex)
     }
-    
-    func setNeedsAnimate() {
-        guard shouldAnimateModifiers != false else { return }
-        shouldAnimateModifiers = false
-        DispatchQueue.main.async {
-            self.shouldAnimateModifiers = true
-            guard self.isAnimationEnabled else { return }
-            self.layoutIfNeeded()
-            self.animateModifiers()
-        }
-    }
 }
 
 // MARK: - Private
 private struct AssociatedObjectKey {
     static var animatorsCache = "neumorphicItem_animators"
-    static var shouldAnimateModifiers = "neumorphicItem_shouldAnimateModifiers"
 }
 
 extension NeumorphicItem {
-    private var animators: [NeumorphicItemAnimator] {
+    private(set) var animators: [NeumorphicItemAnimator] {
         get { objc_getAssociatedObject(self, &AssociatedObjectKey.animatorsCache) as? [NeumorphicItemAnimator] ?? [] }
         set { objc_setAssociatedObject(self, &AssociatedObjectKey.animatorsCache, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-    
-    private var shouldAnimateModifiers: Bool? {
-        get { objc_getAssociatedObject(self, &AssociatedObjectKey.shouldAnimateModifiers) as? Bool }
-        set { objc_setAssociatedObject(self, &AssociatedObjectKey.shouldAnimateModifiers, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-    
-    var isAnimationEnabled: Bool {
-        shouldAnimateModifiers != nil && !animators.isEmpty
-    }
-    
-    private func animateModifiers() {
-        let group = DispatchGroup()
-        var revertedModifiers: [NeumorphicItemModifier] = []
-        animators.forEach {
-            group.enter()
-            $0.animate(
-                animations: { revertedModifiers.append(contentsOf: self.applyModifiers()) },
-                completion: group.leave)
-        }
-        
-        group.notify(queue: .main) {
-            revertedModifiers.forEach { $0.purge() }
-        }
     }
 }
