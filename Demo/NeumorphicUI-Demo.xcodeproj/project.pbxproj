@@ -12,6 +12,7 @@
 		D312263A246B025500FD2B69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3122639246B025500FD2B69 /* Assets.xcassets */; };
 		D312263D246B025500FD2B69 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D312263B246B025500FD2B69 /* LaunchScreen.storyboard */; };
 		D3528EC324C1DB160093FF46 /* NeumorphicUI in Frameworks */ = {isa = PBXBuildFile; productRef = D3528EC224C1DB160093FF46 /* NeumorphicUI */; };
+		D3A8BF3824D18F7F00669FC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A8BF3724D18F7F00669FC1 /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		D312263C246B025500FD2B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D312263E246B025500FD2B69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3528EC124C1DB120093FF46 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		D3A8BF3724D18F7F00669FC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D3CA5F99246B4984000217ED /* ImageUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ImageUI; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +79,7 @@
 			children = (
 				D312263E246B025500FD2B69 /* Info.plist */,
 				D3122639246B025500FD2B69 /* Assets.xcassets */,
+				D3A8BF3724D18F7F00669FC1 /* ViewController.swift */,
 				D312263B246B025500FD2B69 /* LaunchScreen.storyboard */,
 				D3122636246B025500FD2B69 /* Main.storyboard */,
 			);
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3A8BF3824D18F7F00669FC1 /* ViewController.swift in Sources */,
 				D3122631246B025500FD2B69 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,7 +354,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alberto093.NeumorphicUI-Demo";
 				PRODUCT_NAME = "NeumorphicUI-Demo";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -368,7 +372,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alberto093.NeumorphicUI-Demo";
 				PRODUCT_NAME = "NeumorphicUI-Demo";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
