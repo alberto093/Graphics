@@ -40,6 +40,10 @@ public class CornerRadiusModifier {
 }
 
 extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
+    public var allowsMultipleModifiers: Bool {
+        false
+    }
+    
     public var roundedCorners: UIRectCorner {
         mask.rectCorners
     }

@@ -30,6 +30,8 @@ public class ViewPropertyModifier<Item: NeumorphicItem, T>: NeumorphicItemModifi
     let value: T
     let defaultValue: T
     
+    public let allowsMultipleModifiers = false
+    
     init(keyPath: ReferenceWritableKeyPath<Item, T>, value: T, defaultValue: T) {
         self.keyPath = keyPath
         self.value = value

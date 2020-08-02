@@ -36,6 +36,8 @@ public class ShadowModifier: NeumorphicItemModifier {
     public var radius: CGFloat
     public var opacity: Float
     
+    public let allowsMultipleModifiers = true
+    
     private weak var shadowLayer: CALayer?
     
     public init(shadow: ShadowModifier.Shadow, color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {

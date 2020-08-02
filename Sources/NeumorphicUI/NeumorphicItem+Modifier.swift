@@ -26,6 +26,7 @@ import UIKit
 
 // MARK: - Public
 public protocol NeumorphicItemModifier: class {
+    var allowsMultipleModifiers: Bool { get }
     func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize)
     func revert(_ view: NeumorphicItem)
     func purge()

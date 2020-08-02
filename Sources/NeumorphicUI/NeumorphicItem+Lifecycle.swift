@@ -88,8 +88,23 @@ public extension NeumorphicItem {
                 .normal where !stateModifiers.contains(where: { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }):
                 stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1)
             default:
-                stateModifier.modifier.revert(self)
-                revertedModifiers.append(stateModifier.modifier)
+                let shouldRevertModifier: Bool
+                
+                if stateModifier.modifier.allowsMultipleModifiers {
+                    shouldRevertModifier = true
+                } else {
+                    let existActiveModifier = stateModifiers.contains {
+                        let stateRequirement = $0.state == viewState || $0.state == .normal
+                        return type(of: $0.modifier) == type(of: stateModifier.modifier) && stateRequirement
+                    }
+                    
+                    shouldRevertModifier = !existActiveModifier
+                }
+                
+                if shouldRevertModifier {
+                    stateModifier.modifier.revert(self)
+                    revertedModifiers.append(stateModifier.modifier)
+                }
             }
         }
         

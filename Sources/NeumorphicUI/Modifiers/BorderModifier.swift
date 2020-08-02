@@ -29,6 +29,8 @@ public class BorderModifier: NeumorphicItemModifier {
     public var width: CGFloat
     public var color: Color
     
+    public let allowsMultipleModifiers = true
+    
     private weak var borderLayer: CAGradientLayer?
     
     public init(border: Border, width: CGFloat, color: Color) {
