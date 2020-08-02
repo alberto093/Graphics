@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hI2-Wq-Jjy">
     <device id="ipad10_5" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -15,9 +15,49 @@
                     <view key="view" contentMode="scaleToFill" id="5D6-cE-QXk">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Akw-0o-j5Y" customClass="NeumorphicControl" customModule="NeumorphicUI">
+                                <rect key="frame" x="431" y="292" width="250" height="250"/>
+                                <subviews>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UNN-w5-fcr">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                        <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="UNN-w5-fcr" secondAttribute="trailing" id="Gcv-Kd-MKy"/>
+                                    <constraint firstAttribute="height" constant="250" id="HCm-Z6-Lqi"/>
+                                    <constraint firstAttribute="width" constant="250" id="IN6-2i-J9k"/>
+                                    <constraint firstItem="UNN-w5-fcr" firstAttribute="leading" secondItem="Akw-0o-j5Y" secondAttribute="leading" id="cTZ-iq-O14"/>
+                                    <constraint firstAttribute="bottom" secondItem="UNN-w5-fcr" secondAttribute="bottom" id="fc9-tL-KTi"/>
+                                    <constraint firstItem="UNN-w5-fcr" firstAttribute="top" secondItem="Akw-0o-j5Y" secondAttribute="top" id="rCF-Io-zEx"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="controlDidTap" destination="hI2-Wq-Jjy" eventType="touchUpInside" id="UOe-SV-1k2"/>
+                                </connections>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ld0-62-efb">
+                                <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="eti-vq-Zxq"/>
+                                    <constraint firstAttribute="width" constant="150" id="oN0-sQ-LQu"/>
+                                </constraints>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Ld0-62-efb" firstAttribute="top" secondItem="WcR-2d-aRq" secondAttribute="top" id="GPH-ML-oBb"/>
+                            <constraint firstItem="Ld0-62-efb" firstAttribute="leading" secondItem="WcR-2d-aRq" secondAttribute="leading" id="jTb-HM-GbK"/>
+                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerY" secondItem="WcR-2d-aRq" secondAttribute="centerY" id="rch-xx-PUB"/>
+                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerX" secondItem="WcR-2d-aRq" secondAttribute="centerX" id="u2y-yt-fuk"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="WcR-2d-aRq"/>
                     </view>
+                    <connections>
+                        <outlet property="control" destination="Akw-0o-j5Y" id="wta-Hp-Kz0"/>
+                        <outlet property="uiButton" destination="Ld0-62-efb" id="ZIu-Tj-55N"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lp2-7U-oZX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

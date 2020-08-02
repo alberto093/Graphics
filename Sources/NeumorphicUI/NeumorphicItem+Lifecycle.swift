@@ -85,10 +85,7 @@ public extension NeumorphicItem {
             switch stateModifier.state {
             case
                 viewState,
-                .normal where !viewState.contains(.disabled):
-                
-                let existStatefulModifier = stateModifiers.contains { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }
-                guard stateModifier.state != .normal || !existStatefulModifier else { continue }
+                .normal where !stateModifiers.contains(where: { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }):
                 stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1)
             default:
                 stateModifier.modifier.revert(self)
