@@ -70,7 +70,7 @@ public extension NeumorphicItem {
 }
 
 public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func modifier(_ modifier: NeumorphicItemModifier, state: UIControl.State) -> Self {
+    @discardableResult func modifier(_ modifier: NeumorphicItemModifier, state: State) -> Self {
         let stateModifier = StateModifier(state: state, modifier: modifier)
         stateModifiers.append(stateModifier)
         setNeedsModify()

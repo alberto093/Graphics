@@ -114,12 +114,12 @@ public extension NeumorphicItem {
 }
 
 public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius, state: UIControl.State = .normal) -> Self {
+    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius, state: State = .normal) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: radius)
         return self.modifier(modifier, state: state)
     }
     
-    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CGFloat, state: UIControl.State = .normal) -> Self {
+    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CGFloat, state: State = .normal) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: .equalTo(radius))
         return self.modifier(modifier, state: state)
     }

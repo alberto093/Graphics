@@ -143,12 +143,12 @@ public extension NeumorphicItem {
 }
 
 public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor, state: UIControl.State = .normal) -> Self {
+    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor, state: State = .normal) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
         return self.modifier(modifier, state: state)
     }
     
-    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, gradient: BorderModifier.GradientConfiguration, state: UIControl.State = .normal) -> Self {
+    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, gradient: BorderModifier.GradientConfiguration, state: State = .normal) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .gradient(configuration: gradient))
         return self.modifier(modifier, state: state)
     }
