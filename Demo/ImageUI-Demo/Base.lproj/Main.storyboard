@@ -37,18 +37,9 @@
                                     <action selector="controlDidTap" destination="hI2-Wq-Jjy" eventType="touchUpInside" id="UOe-SV-1k2"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ld0-62-efb">
-                                <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="eti-vq-Zxq"/>
-                                    <constraint firstAttribute="width" constant="150" id="oN0-sQ-LQu"/>
-                                </constraints>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Ld0-62-efb" firstAttribute="top" secondItem="WcR-2d-aRq" secondAttribute="top" id="GPH-ML-oBb"/>
-                            <constraint firstItem="Ld0-62-efb" firstAttribute="leading" secondItem="WcR-2d-aRq" secondAttribute="leading" id="jTb-HM-GbK"/>
                             <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerY" secondItem="WcR-2d-aRq" secondAttribute="centerY" id="rch-xx-PUB"/>
                             <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerX" secondItem="WcR-2d-aRq" secondAttribute="centerX" id="u2y-yt-fuk"/>
                         </constraints>
@@ -56,7 +47,6 @@
                     </view>
                     <connections>
                         <outlet property="control" destination="Akw-0o-j5Y" id="wta-Hp-Kz0"/>
-                        <outlet property="uiButton" destination="Ld0-62-efb" id="ZIu-Tj-55N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lp2-7U-oZX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
