@@ -51,11 +51,7 @@ public extension NeumorphicItem {
     /// You should not call this method directly. If you want to force a modifiers update, call the `setNeedsModify()` method instead to do so prior to the next drawing update.
     /// If you want to update the modifiers of your views immediately, call the `modifyIfNeeded()` method.
     func modifySubviews() {
-        if areAnimationsEnabled {
-            animateModifiers()
-        } else {
-            applyNeumorphism()
-        }
+        applyNeumorphism()
         
         for subview in subviews {
             guard let subitem = subview as? NeumorphicItem else { continue }
@@ -89,36 +85,17 @@ public extension NeumorphicItem {
             switch stateModifier.state {
             case
                 viewState,
-                .normal where !stateModifiers.contains(where: { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }):
-                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animated: areAnimationsEnabled)
+                .normal where !viewState.contains(.disabled):
+                
+                let existStatefulModifier = stateModifiers.contains { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }
+                guard stateModifier.state != .normal || !existStatefulModifier else { continue }
+                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1)
             default:
-                stateModifier.modifier.revert(self, animated: areAnimationsEnabled)
+                stateModifier.modifier.revert(self)
                 revertedModifiers.append(stateModifier.modifier)
             }
         }
         
         return revertedModifiers
-    }
-}
-
-// MARK: - Animations
-private extension NeumorphicItem {
-    var areAnimationsEnabled: Bool {
-        !animators.isEmpty
-    }
-    
-    func animateModifiers() {
-        let group = DispatchGroup()
-        var revertedModifiers: [NeumorphicItemModifier] = []
-        animators.forEach {
-            group.enter()
-            $0.animate(
-                animations: { revertedModifiers.append(contentsOf: self.applyModifiers()) },
-                completion: group.leave)
-        }
-        
-        group.notify(queue: .main) {
-            revertedModifiers.forEach { $0.purge() }
-        }
     }
 }

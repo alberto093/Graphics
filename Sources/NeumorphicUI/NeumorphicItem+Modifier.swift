@@ -26,8 +26,8 @@ import UIKit
 
 // MARK: - Public
 public protocol NeumorphicItemModifier: class {
-    func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animated: Bool)
-    func revert(_ view: NeumorphicItem, animated: Bool)
+    func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize)
+    func revert(_ view: NeumorphicItem)
     func purge()
 }
 
@@ -38,12 +38,12 @@ public extension NeumorphicItemModifier {
 public protocol NeumorphicItemRoundingModifier: NeumorphicItemModifier {
     var roundedCorners: UIRectCorner { get }
     func cornerRadii(in view: NeumorphicItem) -> CGSize
-    func modify(_ view: NeumorphicItem, animated: Bool)
+    func modify(_ view: NeumorphicItem)
 }
 
 public extension NeumorphicItemRoundingModifier {
-    func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animated: Bool) {
-        modify(view, animated: animated)
+    func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
+        modify(view)
     }
 }
 

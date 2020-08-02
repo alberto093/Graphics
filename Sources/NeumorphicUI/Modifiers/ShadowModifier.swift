@@ -46,7 +46,7 @@ public class ShadowModifier: NeumorphicItemModifier {
         self.opacity = opacity
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animated: Bool) {
+    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         let layer = prepareShadowLayer(view: view)
         switch shadow {
         case .outer:
@@ -58,8 +58,8 @@ public class ShadowModifier: NeumorphicItemModifier {
         }
     }
     
-    public func revert(_ view: NeumorphicItem, animated: Bool) {
-        #warning("Add basic animation to change the shadow path to 'zero'")
+    public func revert(_ view: NeumorphicItem) {
+
     }
     
     public func purge() {

@@ -49,13 +49,13 @@ extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
         return CGSize(width: cornerRadius, height: cornerRadius)
     }
     
-    public func modify(_ view: NeumorphicItem, animated: Bool) {
+    public func modify(_ view: NeumorphicItem) {
         view.contentView.clipsToBounds = true
         view.contentView.layer.maskedCorners = mask
         view.contentView.layer.cornerRadius = cornerRadius(in: view)
     }
     
-    public func revert(_ view: NeumorphicItem, animated: Bool) {
+    public func revert(_ view: NeumorphicItem) {
         view.contentView.layer.maskedCorners = .all
         view.contentView.layer.cornerRadius = 0
     }

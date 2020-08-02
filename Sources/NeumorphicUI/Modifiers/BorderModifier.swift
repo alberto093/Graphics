@@ -37,7 +37,7 @@ public class BorderModifier: NeumorphicItemModifier {
         self.color = color
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animated: Bool) {
+    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         let layer = prepareBorderLayer(view: view)
         view.contentView.clipsToBounds = true
         
@@ -55,8 +55,8 @@ public class BorderModifier: NeumorphicItemModifier {
         updateBorder(layer: layer, rectSize: layerSize, roundedCorners: roundedCorners, cornerRadii: cornerRadii)
     }
     
-    public func revert(_ view: NeumorphicItem, animated: Bool) {
-        #warning("Add basic animation to change the path to 'zero'")
+    public func revert(_ view: NeumorphicItem) {
+        
     }
     
     public func purge() {
