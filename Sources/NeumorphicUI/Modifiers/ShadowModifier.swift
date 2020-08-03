@@ -25,10 +25,6 @@
 import UIKit
 
 public class ShadowModifier: NeumorphicItemModifier {
-    #warning("Fix implementation")
-    public var modifiedLayer: CALayer?
-    public var allowsMultipleModifier: Bool = true
-    
     public enum Shadow {
         case outer
         case inner
@@ -39,6 +35,8 @@ public class ShadowModifier: NeumorphicItemModifier {
     public var offset: CGSize
     public var radius: CGFloat
     public var opacity: Float
+    
+    public let allowsMultipleModifiers = true
     
     private weak var shadowLayer: CALayer?
     
@@ -107,7 +105,7 @@ public extension NeumorphicItem where Self: UIControl {
         offset: CGSize = CGSize(width: 0, height: -3),
         radius: CGFloat = 3,
         opacity: Float = 1,
-        state: UIControl.State = .normal) -> Self {
+        state: State = .normal) -> Self {
         
         let modifier = ShadowModifier(shadow: shadow, color: color, offset: offset, radius: radius, opacity: opacity)
         return self.modifier(modifier, state: state)

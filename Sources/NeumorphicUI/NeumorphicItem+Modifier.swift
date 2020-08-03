@@ -26,8 +26,7 @@ import UIKit
 
 // MARK: - Public
 public protocol NeumorphicItemModifier: class {
-    var modifiedLayer: CALayer? { get set }
-    var allowsMultipleModifier: Bool { get }
+    var allowsMultipleModifiers: Bool { get }
     func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animation: NeumorphicItemAnimation?)
     func revert(_ view: NeumorphicItem, animation: NeumorphicItemAnimation?)
     func purge()
@@ -72,7 +71,7 @@ public extension NeumorphicItem {
 }
 
 public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func modifier(_ modifier: NeumorphicItemModifier, state: UIControl.State) -> Self {
+    @discardableResult func modifier(_ modifier: NeumorphicItemModifier, state: State) -> Self {
         let stateModifier = StateModifier(state: state, modifier: modifier)
         stateModifiers.append(stateModifier)
         setNeedsModify()

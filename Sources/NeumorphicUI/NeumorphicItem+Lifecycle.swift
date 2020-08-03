@@ -86,37 +86,30 @@ public extension NeumorphicItem {
         var revertedModifiers: [NeumorphicItemModifier] = []
         
         for stateModifier in stateModifiers {
-            guard let borderModifier = stateModifier.modifier as? BorderModifier else { continue }
-            
-            if stateModifier.state == .selected {
-                let border = stateModifiers.first { $0.modifier is BorderModifier }?.modifier as? BorderModifier
-                stateModifier.modifier.modifiedLayer = border?.modifiedLayer
+            switch stateModifier.state {
+            case
+                viewState,
+                .normal where !stateModifiers.contains(where: { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }):
                 stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animation: animation)
-            } else {
-                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animation: animation)
+            default:
+                let shouldRevertModifier: Bool
+                
+                if stateModifier.modifier.allowsMultipleModifiers {
+                    shouldRevertModifier = true
+                } else {
+                    let existActiveModifier = stateModifiers.contains {
+                        let stateRequirement = $0.state == viewState || $0.state == .normal
+                        return type(of: $0.modifier) == type(of: stateModifier.modifier) && stateRequirement
+                    }
+                    
+                    shouldRevertModifier = !existActiveModifier
+                }
+                
+                if shouldRevertModifier {
+                    stateModifier.modifier.revert(self, animation: animation)
+                    revertedModifiers.append(stateModifier.modifier)
+                }
             }
-            
-//            switch stateModifier.state {
-//            case viewState,
-//                 .normal where !viewState.contains(.disabled):
-//                let statefulModifier = stateModifiers.first { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }
-//                guard stateModifier.state != .normal || statefulModifier == nil else { continue }
-//
-//                if let test = statefulModifier {
-//                    stateModifier.modifier.modifiedLayer = test.modifier.modifiedLayer
-//                }
-//
-//                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animation: animation)
-//            default:
-//                break
-////                let shouldRevertModifier = !stateModifiers.contains {
-////                    let stateRequirement = $0.state == viewState || ($0.state == .normal && !viewState.contains(.disabled))
-////                    return type(of: $0.modifier) == type(of: stateModifier.modifier) && stateRequirement
-////                }
-////                guard shouldRevertModifier else { continue }
-////                stateModifier.modifier.revert(self, animation: animation)
-////                revertedModifiers.append(stateModifier.modifier)
-//            }
         }
         return revertedModifiers
     }

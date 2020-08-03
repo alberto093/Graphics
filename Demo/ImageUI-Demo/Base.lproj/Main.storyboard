@@ -16,37 +16,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mHj-cb-cHH" customClass="NeumorphicControl" customModule="NeumorphicUI">
-                                <rect key="frame" x="406" y="267" width="300" height="300"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Akw-0o-j5Y" customClass="NeumorphicControl" customModule="NeumorphicUI">
+                                <rect key="frame" x="431" y="292" width="250" height="250"/>
                                 <subviews>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fwo-4r-cKA">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
-                                        <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UNN-w5-fcr">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                        <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Fwo-4r-cKA" secondAttribute="bottom" id="8UR-kz-J2r"/>
-                                    <constraint firstAttribute="width" constant="300" id="QAb-E7-yuR"/>
-                                    <constraint firstItem="Fwo-4r-cKA" firstAttribute="leading" secondItem="mHj-cb-cHH" secondAttribute="leading" id="dha-vh-SeD"/>
-                                    <constraint firstAttribute="trailing" secondItem="Fwo-4r-cKA" secondAttribute="trailing" id="gka-wa-rJE"/>
-                                    <constraint firstItem="Fwo-4r-cKA" firstAttribute="top" secondItem="mHj-cb-cHH" secondAttribute="top" id="pI5-uI-nqe"/>
-                                    <constraint firstAttribute="height" constant="300" id="ybY-NA-iw6"/>
+                                    <constraint firstAttribute="trailing" secondItem="UNN-w5-fcr" secondAttribute="trailing" id="Gcv-Kd-MKy"/>
+                                    <constraint firstAttribute="height" constant="250" id="HCm-Z6-Lqi"/>
+                                    <constraint firstAttribute="width" constant="250" id="IN6-2i-J9k"/>
+                                    <constraint firstItem="UNN-w5-fcr" firstAttribute="leading" secondItem="Akw-0o-j5Y" secondAttribute="leading" id="cTZ-iq-O14"/>
+                                    <constraint firstAttribute="bottom" secondItem="UNN-w5-fcr" secondAttribute="bottom" id="fc9-tL-KTi"/>
+                                    <constraint firstItem="UNN-w5-fcr" firstAttribute="top" secondItem="Akw-0o-j5Y" secondAttribute="top" id="rCF-Io-zEx"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="controlDidTap" destination="hI2-Wq-Jjy" eventType="touchUpInside" id="RwF-ZP-dP2"/>
+                                    <action selector="controlDidTap" destination="hI2-Wq-Jjy" eventType="touchUpInside" id="UOe-SV-1k2"/>
                                 </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="mHj-cb-cHH" firstAttribute="centerY" secondItem="WcR-2d-aRq" secondAttribute="centerY" id="TDS-y0-1fl"/>
-                            <constraint firstItem="mHj-cb-cHH" firstAttribute="centerX" secondItem="WcR-2d-aRq" secondAttribute="centerX" id="v8x-I2-URv"/>
+                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerY" secondItem="WcR-2d-aRq" secondAttribute="centerY" id="rch-xx-PUB"/>
+                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerX" secondItem="WcR-2d-aRq" secondAttribute="centerX" id="u2y-yt-fuk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WcR-2d-aRq"/>
                     </view>
                     <connections>
-                        <outlet property="control" destination="mHj-cb-cHH" id="ytk-I9-FiY"/>
+                        <outlet property="control" destination="Akw-0o-j5Y" id="wta-Hp-Kz0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lp2-7U-oZX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

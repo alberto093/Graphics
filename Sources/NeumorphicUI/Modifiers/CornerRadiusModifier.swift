@@ -24,7 +24,7 @@
 
 import UIKit
 
-public class CornerRadiusModifier: NeumorphicItemRoundingModifier {
+public class CornerRadiusModifier {
     public enum Radius {
         case circle
         case equalTo(CGFloat)
@@ -32,14 +32,18 @@ public class CornerRadiusModifier: NeumorphicItemRoundingModifier {
     
     public var mask: CACornerMask
     public var radius: Radius
-    public var modifiedLayer: CALayer?
-    public let allowsMultipleModifier = false
     
     public init(mask: CACornerMask, radius: Radius) {
         self.mask = mask
         self.radius = radius
     }
+}
 
+extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
+    public var allowsMultipleModifiers: Bool {
+        false
+    }
+    
     public var roundedCorners: UIRectCorner {
         mask.rectCorners
     }
@@ -50,7 +54,6 @@ public class CornerRadiusModifier: NeumorphicItemRoundingModifier {
     }
     
     public func modify(_ view: NeumorphicItem, animation: NeumorphicItemAnimation?) {
-        modifiedLayer = view.contentView.layer
         view.contentView.clipsToBounds = true
         view.contentView.layer.maskedCorners = mask
         
@@ -145,12 +148,12 @@ public extension NeumorphicItem {
 }
 
 public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius, state: UIControl.State = .normal) -> Self {
+    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius, state: State = .normal) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: radius)
         return self.modifier(modifier, state: state)
     }
     
-    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CGFloat, state: UIControl.State = .normal) -> Self {
+    @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CGFloat, state: State = .normal) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: .equalTo(radius))
         return self.modifier(modifier, state: state)
     }

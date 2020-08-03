@@ -29,13 +29,9 @@ public class BorderModifier: NeumorphicItemModifier {
     public var width: CGFloat
     public var color: Color
     
-    public var modifiedLayer: CALayer?
-    public var allowsMultipleModifier: Bool = false
+    public let allowsMultipleModifiers = true
     
-    private var borderLayer: CAGradientLayer? {
-        modifiedLayer as? CAGradientLayer
-    }
-    
+    private weak var borderLayer: CAGradientLayer?
     private weak var maskLayer: CAShapeLayer?
     
     public init(border: Border, width: CGFloat, color: Color) {
@@ -167,22 +163,18 @@ public extension NeumorphicItem {
     @discardableResult func border(
         position: BorderModifier.Border = .center,
         width: CGFloat,
-        color: UIColor,
-        allowsMultipleModifier: Bool = false) -> Self {
+        color: UIColor) -> Self {
         
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
-        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier)
     }
     
     @discardableResult func border(
         position: BorderModifier.Border = .center,
         width: CGFloat,
-        gradient: BorderModifier.GradientConfiguration,
-        allowsMultipleModifier: Bool = false) -> Self {
+        gradient: BorderModifier.GradientConfiguration) -> Self {
         
         let modifier = BorderModifier(border: position, width: width, color: .gradient(configuration: gradient))
-        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier)
     }
 }
@@ -192,11 +184,9 @@ public extension NeumorphicItem where Self: UIControl {
         position: BorderModifier.Border = .center,
         width: CGFloat,
         color: UIColor,
-        state: UIControl.State = .normal,
-        allowsMultipleModifier: Bool = false) -> Self {
+        state: State = .normal) -> Self {
         
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
-        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier, state: state)
     }
     
@@ -204,11 +194,9 @@ public extension NeumorphicItem where Self: UIControl {
         position: BorderModifier.Border = .center,
         width: CGFloat,
         gradient: BorderModifier.GradientConfiguration,
-        state: UIControl.State = .normal,
-        allowsMultipleModifier: Bool = false) -> Self {
+        state: State = .normal) -> Self {
         
         let modifier = BorderModifier(border: position, width: width, color: .gradient(configuration: gradient))
-        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier, state: state)
     }
 }
@@ -221,7 +209,6 @@ private extension BorderModifier {
         } else {
             layer = CAGradientLayer()
             view.layer.insertSublayer(layer, above: view.contentView.layer)
-            self.modifiedLayer = layer
         }
         
         if maskLayer == nil {
