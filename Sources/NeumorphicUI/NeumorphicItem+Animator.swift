@@ -24,9 +24,14 @@
 
 import UIKit
 
+public enum NeumorphicItemAnimation {
+    case basic(CABasicAnimation)
+    case animator(UIViewPropertyAnimator, delay: TimeInterval)
+}
+
 // MARK: - Public
 public protocol NeumorphicItemAnimator: class {
-    func animate(animations: @escaping () -> Void, completion: @escaping () -> Void)
+    var animation: NeumorphicItemAnimation { get }
 }
 
 public extension NeumorphicItem {

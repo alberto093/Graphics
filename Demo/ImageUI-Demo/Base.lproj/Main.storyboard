@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hI2-Wq-Jjy">
     <device id="ipad10_5" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -15,9 +15,39 @@
                     <view key="view" contentMode="scaleToFill" id="5D6-cE-QXk">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mHj-cb-cHH" customClass="NeumorphicControl" customModule="NeumorphicUI">
+                                <rect key="frame" x="406" y="267" width="300" height="300"/>
+                                <subviews>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fwo-4r-cKA">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                        <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Fwo-4r-cKA" secondAttribute="bottom" id="8UR-kz-J2r"/>
+                                    <constraint firstAttribute="width" constant="300" id="QAb-E7-yuR"/>
+                                    <constraint firstItem="Fwo-4r-cKA" firstAttribute="leading" secondItem="mHj-cb-cHH" secondAttribute="leading" id="dha-vh-SeD"/>
+                                    <constraint firstAttribute="trailing" secondItem="Fwo-4r-cKA" secondAttribute="trailing" id="gka-wa-rJE"/>
+                                    <constraint firstItem="Fwo-4r-cKA" firstAttribute="top" secondItem="mHj-cb-cHH" secondAttribute="top" id="pI5-uI-nqe"/>
+                                    <constraint firstAttribute="height" constant="300" id="ybY-NA-iw6"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="controlDidTap" destination="hI2-Wq-Jjy" eventType="touchUpInside" id="RwF-ZP-dP2"/>
+                                </connections>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="mHj-cb-cHH" firstAttribute="centerY" secondItem="WcR-2d-aRq" secondAttribute="centerY" id="TDS-y0-1fl"/>
+                            <constraint firstItem="mHj-cb-cHH" firstAttribute="centerX" secondItem="WcR-2d-aRq" secondAttribute="centerX" id="v8x-I2-URv"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="WcR-2d-aRq"/>
                     </view>
+                    <connections>
+                        <outlet property="control" destination="mHj-cb-cHH" id="ytk-I9-FiY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lp2-7U-oZX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

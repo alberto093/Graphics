@@ -24,7 +24,7 @@
 
 import UIKit
 
-public class CornerRadiusModifier {
+public class CornerRadiusModifier: NeumorphicItemRoundingModifier {
     public enum Radius {
         case circle
         case equalTo(CGFloat)
@@ -32,14 +32,14 @@ public class CornerRadiusModifier {
     
     public var mask: CACornerMask
     public var radius: Radius
+    public var modifiedLayer: CALayer?
+    public let allowsMultipleModifier = false
     
     public init(mask: CACornerMask, radius: Radius) {
         self.mask = mask
         self.radius = radius
     }
-}
 
-extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
     public var roundedCorners: UIRectCorner {
         mask.rectCorners
     }
@@ -49,15 +49,46 @@ extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
         return CGSize(width: cornerRadius, height: cornerRadius)
     }
     
-    public func modify(_ view: NeumorphicItem, animated: Bool) {
+    public func modify(_ view: NeumorphicItem, animation: NeumorphicItemAnimation?) {
+        modifiedLayer = view.contentView.layer
         view.contentView.clipsToBounds = true
         view.contentView.layer.maskedCorners = mask
-        view.contentView.layer.cornerRadius = cornerRadius(in: view)
+        
+        let cornerRadius = self.cornerRadius(in: view)
+        
+        switch animation {
+        case .none:
+            view.contentView.layer.cornerRadius = cornerRadius
+        case .basic(let animation):
+            view.contentView.layer.cornerRadius = cornerRadius
+            animation.keyPath = #keyPath(CALayer.cornerRadius)
+            animation.toValue = cornerRadius
+            view.contentView.layer.add(animation, forKey: nil)
+        case let .animator(animator, delay):
+            animator.addAnimations {
+                view.contentView.layer.cornerRadius = self.cornerRadius(in: view)
+            }
+            animator.startAnimation(afterDelay: delay)
+        }
     }
     
-    public func revert(_ view: NeumorphicItem, animated: Bool) {
+    public func revert(_ view: NeumorphicItem, animation: NeumorphicItemAnimation?) {
         view.contentView.layer.maskedCorners = .all
-        view.contentView.layer.cornerRadius = 0
+        
+        switch animation {
+        case .none:
+            view.contentView.layer.cornerRadius = 0
+        case .basic(let animation):
+            view.contentView.layer.cornerRadius = 0
+            animation.keyPath = #keyPath(CALayer.cornerRadius)
+            animation.toValue = 0
+            view.contentView.layer.add(animation, forKey: nil)
+        case let .animator(animator, delay):
+            animator.addAnimations {
+                view.contentView.layer.cornerRadius = 0
+            }
+            animator.startAnimation(afterDelay: delay)
+        }
     }
 
     private func cornerRadius(in view: NeumorphicItem) -> CGFloat {

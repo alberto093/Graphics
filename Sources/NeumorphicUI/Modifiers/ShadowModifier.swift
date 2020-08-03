@@ -25,6 +25,10 @@
 import UIKit
 
 public class ShadowModifier: NeumorphicItemModifier {
+    #warning("Fix implementation")
+    public var modifiedLayer: CALayer?
+    public var allowsMultipleModifier: Bool = true
+    
     public enum Shadow {
         case outer
         case inner
@@ -46,7 +50,8 @@ public class ShadowModifier: NeumorphicItemModifier {
         self.opacity = opacity
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animated: Bool) {
+    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animation: NeumorphicItemAnimation?) {
+        #warning("Add animation")
         let layer = prepareShadowLayer(view: view)
         switch shadow {
         case .outer:
@@ -58,8 +63,23 @@ public class ShadowModifier: NeumorphicItemModifier {
         }
     }
     
-    public func revert(_ view: NeumorphicItem, animated: Bool) {
-        #warning("Add basic animation to change the shadow path to 'zero'")
+    public func revert(_ view: NeumorphicItem, animation: NeumorphicItemAnimation?) {
+        guard let shadowLayer = shadowLayer else { return }
+        
+        switch animation {
+        case .none:
+            shadowLayer.shadowOpacity = 0
+        case .basic(let animation):
+            shadowLayer.shadowOpacity = 0
+            animation.keyPath = #keyPath(CALayer.shadowOpacity)
+            animation.toValue = 0
+            shadowLayer.add(animation, forKey: nil)
+        case let .animator(animator, delay):
+            animator.addAnimations {
+                shadowLayer.shadowOpacity = 0
+            }
+            animator.startAnimation(afterDelay: delay)
+        }
     }
     
     public func purge() {

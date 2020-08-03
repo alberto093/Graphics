@@ -25,19 +25,19 @@
 import UIKit
 
 public class PropertyAnimator: NeumorphicItemAnimator {
-    public enum Animation {
+    public enum Timing {
         case curve(UIView.AnimationCurve)
         case spring(dampingRatio: CGFloat)
         case controlPoint(p1: CGPoint, p2: CGPoint)
         case timingParameters(UITimingCurveProvider)
     }
     
-    public var duration: TimeInterval
+    public let duration: TimeInterval
+    public let timing: Timing
     public var delay: TimeInterval
-    public var animation: Animation
     
     private lazy var animator: UIViewPropertyAnimator = {
-        switch animation {
+        switch timing {
         case .curve(let curve):
             return UIViewPropertyAnimator(duration: duration, curve: curve)
         case .spring(let dampingRatio):
@@ -49,26 +49,24 @@ public class PropertyAnimator: NeumorphicItemAnimator {
         }
     }()
     
-    public init(duration: TimeInterval, delay: TimeInterval = 0, animation: Animation) {
+    public var animation: NeumorphicItemAnimation {
+        .animator(animator, delay: delay)
+    }
+    
+    public init(duration: TimeInterval, delay: TimeInterval = 0, timing: Timing) {
         self.duration = duration
         self.delay = delay
-        self.animation = animation
+        self.timing = timing
     }
     
     deinit {
         animator.stopAnimation(true)
     }
-    
-    public func animate(animations: @escaping () -> Void, completion: @escaping () -> Void) {
-        animator.addAnimations(animations)
-        animator.startAnimation(afterDelay: delay)
-        animator.addCompletion { _ in completion() }
-    }
 }
 
 public extension NeumorphicItem {
-    @discardableResult func animate(duration: TimeInterval, delay: TimeInterval = 0, animation: PropertyAnimator.Animation) -> Self {
-        let animator = PropertyAnimator(duration: duration, animation: animation)
+    @discardableResult func animate(duration: TimeInterval, delay: TimeInterval = 0, timing: PropertyAnimator.Timing) -> Self {
+        let animator = PropertyAnimator(duration: duration, timing: timing)
         return self.animator(animator)
     }
 }

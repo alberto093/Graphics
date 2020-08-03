@@ -64,11 +64,11 @@ public extension NeumorphicItem {
     }
     
     private func applyNeumorphism() {
-        let revertedModifiers = applyModifiers()
+        let revertedModifiers = applyModifiers(animation: nil)
         revertedModifiers.forEach { $0.purge() }
     }
     
-    @discardableResult private func applyModifiers() -> [NeumorphicItemModifier] {
+    @discardableResult private func applyModifiers(animation: NeumorphicItemAnimation?) -> [NeumorphicItemModifier] {
         let viewState = (self as? UIControl)?.state ?? .normal
         var cornerMaskRadii: (UIRectCorner, CGSize) = (.allCorners, .zero)
         
@@ -86,17 +86,38 @@ public extension NeumorphicItem {
         var revertedModifiers: [NeumorphicItemModifier] = []
         
         for stateModifier in stateModifiers {
-            switch stateModifier.state {
-            case
-                viewState,
-                .normal where !stateModifiers.contains(where: { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }):
-                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animated: areAnimationsEnabled)
-            default:
-                stateModifier.modifier.revert(self, animated: areAnimationsEnabled)
-                revertedModifiers.append(stateModifier.modifier)
+            guard let borderModifier = stateModifier.modifier as? BorderModifier else { continue }
+            
+            if stateModifier.state == .selected {
+                let border = stateModifiers.first { $0.modifier is BorderModifier }?.modifier as? BorderModifier
+                stateModifier.modifier.modifiedLayer = border?.modifiedLayer
+                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animation: animation)
+            } else {
+                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animation: animation)
             }
+            
+//            switch stateModifier.state {
+//            case viewState,
+//                 .normal where !viewState.contains(.disabled):
+//                let statefulModifier = stateModifiers.first { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }
+//                guard stateModifier.state != .normal || statefulModifier == nil else { continue }
+//
+//                if let test = statefulModifier {
+//                    stateModifier.modifier.modifiedLayer = test.modifier.modifiedLayer
+//                }
+//
+//                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1, animation: animation)
+//            default:
+//                break
+////                let shouldRevertModifier = !stateModifiers.contains {
+////                    let stateRequirement = $0.state == viewState || ($0.state == .normal && !viewState.contains(.disabled))
+////                    return type(of: $0.modifier) == type(of: stateModifier.modifier) && stateRequirement
+////                }
+////                guard shouldRevertModifier else { continue }
+////                stateModifier.modifier.revert(self, animation: animation)
+////                revertedModifiers.append(stateModifier.modifier)
+//            }
         }
-        
         return revertedModifiers
     }
 }
@@ -112,9 +133,16 @@ private extension NeumorphicItem {
         var revertedModifiers: [NeumorphicItemModifier] = []
         animators.forEach {
             group.enter()
-            $0.animate(
-                animations: { revertedModifiers.append(contentsOf: self.applyModifiers()) },
-                completion: group.leave)
+            switch $0.animation {
+            case .basic:
+                CATransaction.begin()
+                CATransaction.setCompletionBlock(group.leave)
+                revertedModifiers.append(contentsOf: applyModifiers(animation: $0.animation))
+                CATransaction.commit()
+            case .animator(let animator, _):
+                animator.addCompletion { _ in group.leave() }
+                revertedModifiers.append(contentsOf: applyModifiers(animation: $0.animation))
+            }
         }
         
         group.notify(queue: .main) {

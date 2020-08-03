@@ -29,7 +29,14 @@ public class BorderModifier: NeumorphicItemModifier {
     public var width: CGFloat
     public var color: Color
     
-    private weak var borderLayer: CAGradientLayer?
+    public var modifiedLayer: CALayer?
+    public var allowsMultipleModifier: Bool = false
+    
+    private var borderLayer: CAGradientLayer? {
+        modifiedLayer as? CAGradientLayer
+    }
+    
+    private weak var maskLayer: CAShapeLayer?
     
     public init(border: Border, width: CGFloat, color: Color) {
         self.border = border
@@ -37,12 +44,12 @@ public class BorderModifier: NeumorphicItemModifier {
         self.color = color
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animated: Bool) {
+    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize, animation: NeumorphicItemAnimation?) {
         let layer = prepareBorderLayer(view: view)
         view.contentView.clipsToBounds = true
         
         let layerSize: CGSize
-        
+
         switch border {
         case .inside:
             layerSize = view.contentView.bounds.size
@@ -51,15 +58,41 @@ public class BorderModifier: NeumorphicItemModifier {
         case .outside:
             layerSize = view.contentView.bounds.insetBy(dx: -width, dy: -width).size
         }
-
-        updateBorder(layer: layer, rectSize: layerSize, roundedCorners: roundedCorners, cornerRadii: cornerRadii)
+        
+        switch animation {
+        case .none:
+            updateBorder(layer: layer, rectSize: layerSize, roundedCorners: roundedCorners, cornerRadii: cornerRadii)
+        case .basic(let animation):
+            updateBorder(layer: layer, rectSize: layerSize, roundedCorners: roundedCorners, cornerRadii: cornerRadii, animation: animation)
+        case let .animator(animator, delay):
+            animator.addAnimations {
+                self.updateBorder(layer: layer, rectSize: layerSize, roundedCorners: roundedCorners, cornerRadii: cornerRadii)
+            }
+            animator.startAnimation(afterDelay: delay)
+        }
     }
     
-    public func revert(_ view: NeumorphicItem, animated: Bool) {
-        #warning("Add basic animation to change the path to 'zero'")
+    public func revert(_ view: NeumorphicItem, animation: NeumorphicItemAnimation?) {
+        guard let borderLayer = borderLayer else { return }
+        
+        switch animation {
+        case .none:
+            borderLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
+        case .basic(let animation):
+            borderLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
+            animation.keyPath = #keyPath(CAGradientLayer.colors)
+            animation.toValue = borderLayer.colors
+            borderLayer.add(animation, forKey: nil)
+        case let .animator(animator, delay):
+            animator.addAnimations {
+                borderLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
+            }
+            animator.startAnimation(afterDelay: delay)
+        }
     }
     
     public func purge() {
+        borderLayer?.removeAllAnimations()
         borderLayer?.removeFromSuperlayer()
     }
 }
@@ -131,25 +164,51 @@ public extension BorderModifier {
 }
 
 public extension NeumorphicItem {
-    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor) -> Self {
+    @discardableResult func border(
+        position: BorderModifier.Border = .center,
+        width: CGFloat,
+        color: UIColor,
+        allowsMultipleModifier: Bool = false) -> Self {
+        
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
+        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier)
     }
     
-    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, gradient: BorderModifier.GradientConfiguration) -> Self {
+    @discardableResult func border(
+        position: BorderModifier.Border = .center,
+        width: CGFloat,
+        gradient: BorderModifier.GradientConfiguration,
+        allowsMultipleModifier: Bool = false) -> Self {
+        
         let modifier = BorderModifier(border: position, width: width, color: .gradient(configuration: gradient))
+        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier)
     }
 }
 
 public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor, state: UIControl.State = .normal) -> Self {
+    @discardableResult func border(
+        position: BorderModifier.Border = .center,
+        width: CGFloat,
+        color: UIColor,
+        state: UIControl.State = .normal,
+        allowsMultipleModifier: Bool = false) -> Self {
+        
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
+        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier, state: state)
     }
     
-    @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, gradient: BorderModifier.GradientConfiguration, state: UIControl.State = .normal) -> Self {
+    @discardableResult func border(
+        position: BorderModifier.Border = .center,
+        width: CGFloat,
+        gradient: BorderModifier.GradientConfiguration,
+        state: UIControl.State = .normal,
+        allowsMultipleModifier: Bool = false) -> Self {
+        
         let modifier = BorderModifier(border: position, width: width, color: .gradient(configuration: gradient))
+        modifier.allowsMultipleModifier = allowsMultipleModifier
         return self.modifier(modifier, state: state)
     }
 }
@@ -162,14 +221,20 @@ private extension BorderModifier {
         } else {
             layer = CAGradientLayer()
             view.layer.insertSublayer(layer, above: view.contentView.layer)
-            self.borderLayer = layer
+            self.modifiedLayer = layer
+        }
+        
+        if maskLayer == nil {
+            let shapeLayer = CAShapeLayer()
+            layer.mask = shapeLayer
+            maskLayer = shapeLayer
         }
         
         layer.frame = view.contentView.bounds
         return layer
     }
     
-    func updateBorder(layer: CAGradientLayer, rectSize: CGSize, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
+    func updateBorder(layer: CAGradientLayer, rectSize: CGSize, roundedCorners: UIRectCorner, cornerRadii: CGSize, animation: CABasicAnimation? = nil) {
         switch color {
         case .flat(let color):
             layer.type = .radial
@@ -182,6 +247,24 @@ private extension BorderModifier {
             layer.locations = configuration.locations?.map(NSNumber.init)
         }
         
+        if let colorsAnimation = animation {
+            let startPointAnimation = colorsAnimation.copy() as? CABasicAnimation
+            let endPointAnimation = colorsAnimation.copy() as? CABasicAnimation
+            let locationsAnimation = colorsAnimation.copy() as? CABasicAnimation
+            colorsAnimation.keyPath = #keyPath(CAGradientLayer.colors)
+            colorsAnimation.toValue = layer.colors
+            startPointAnimation?.keyPath = #keyPath(CAGradientLayer.startPoint)
+            startPointAnimation?.toValue = layer.startPoint
+            endPointAnimation?.keyPath = #keyPath(CAGradientLayer.endPoint)
+            endPointAnimation?.toValue = layer.endPoint
+            locationsAnimation?.keyPath = #keyPath(CAGradientLayer.locations)
+            locationsAnimation?.toValue = layer.locations
+            
+            let groupAnimation = CAAnimationGroup()
+            groupAnimation.animations = [colorsAnimation, startPointAnimation, endPointAnimation, locationsAnimation].compactMap { $0 }
+            layer.add(groupAnimation, forKey: nil)
+        }
+        
         switch border {
         case .inside:
             layer.frame = CGRect(origin: .zero, size: rectSize)
@@ -191,14 +274,18 @@ private extension BorderModifier {
             layer.frame = CGRect(origin: CGPoint(x: -width, y: -width), size: rectSize)
         }
         
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = CGRect(origin: .zero, size: rectSize)
+        maskLayer?.frame = CGRect(origin: .zero, size: rectSize)
         let holeRect = CGRect(x: width, y: width, width: rectSize.width - width * 2, height: rectSize.height - width * 2)
         let holePath = UIBezierPath(roundedRect: holeRect, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
         let maskPath = UIBezierPath(roundedRect: CGRect(origin: .zero, size: rectSize), byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
         maskPath.append(holePath)
-        maskLayer.fillRule = .evenOdd
-        maskLayer.path = maskPath.cgPath
-        layer.mask = maskLayer
+        maskLayer?.fillRule = .evenOdd
+        maskLayer?.path = maskPath.cgPath
+        
+        if let pathAnimation = animation?.copy() as? CABasicAnimation {
+            pathAnimation.keyPath = #keyPath(CAShapeLayer.path)
+            pathAnimation.toValue = maskPath.cgPath
+            maskLayer?.add(pathAnimation, forKey: nil)
+        }
     }
 }
