@@ -28,11 +28,11 @@ public class ViewPropertyModifier<Item: NeumorphicItem, T>: NeumorphicItemModifi
     
     let keyPath: ReferenceWritableKeyPath<Item, T>
     let value: T
-    let defaultValue: T
+    let defaultValue: T?
     
     public let allowsMultipleModifiers = false
     
-    init(keyPath: ReferenceWritableKeyPath<Item, T>, value: T, defaultValue: T) {
+    init(keyPath: ReferenceWritableKeyPath<Item, T>, value: T, defaultValue: T?) {
         self.keyPath = keyPath
         self.value = value
         self.defaultValue = defaultValue
@@ -44,20 +44,20 @@ public class ViewPropertyModifier<Item: NeumorphicItem, T>: NeumorphicItemModifi
     }
     
     public func revert(_ view: NeumorphicItem) {
-        guard let view = view as? Item else { return }
+        guard let view = view as? Item, let defaultValue = defaultValue else { return }
         view[keyPath: keyPath] = defaultValue
     }
 }
 
 public extension NeumorphicItem {
-    @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T) -> Self {
+    @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T? = nil) -> Self {
         let modifier = ViewPropertyModifier(keyPath: keyPath, value: value, defaultValue: defaultValue)
         return self.modifier(modifier)
     }
 }
 
 public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T, state: State = .normal) -> Self {
+    @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T? = nil, state: State = .normal) -> Self {
         let modifier = ViewPropertyModifier(keyPath: keyPath, value: value, defaultValue: defaultValue)
         return self.modifier(modifier, state: state)
     }
