@@ -57,11 +57,12 @@ To work properly a NibControl subclass must satisfy the following conditions:
         nibView.isUserInteractionEnabled = false
         addSubview(nibView)
         
+        nibView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-        nibView.leadingAnchor.constraint(equalTo: leadingAnchor),
-        nibView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        nibView.trailingAnchor.constraint(equalTo: trailingAnchor),
-        nibView.topAnchor.constraint(equalTo: topAnchor)])
+            nibView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            nibView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            nibView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            nibView.topAnchor.constraint(equalTo: topAnchor)])
     }
     
     open override func prepareForInterfaceBuilder() {

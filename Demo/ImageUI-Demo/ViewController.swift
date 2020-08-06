@@ -18,14 +18,7 @@ class ViewController: UIViewController {
         
         control
             .cornerRadius(radius: .circle)
-            .border(position: .inside, width: 25, color: .green)
-            .border(position: .inside, width: 50, color: .red)
-            .border(position: .inside, width: 75, color: .yellow)
-            .border(position: .inside, width: 100, color: .orange)
-            .border(position: .inside, width: 125, color: .brown)
-            .property(keyPath: \.alpha, value: 0.5)
-            .property(keyPath: \.alpha, value: 1, state: .selected)
-            
+            .blur(style: .light, intensity: 0.08)
     }
     
     @IBAction private func controlDidTap() {

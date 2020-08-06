@@ -56,6 +56,7 @@ import UIKit
         nibView = (type(of: self).nib.instantiate(withOwner: self, options: nil).first as! UIView)
         addSubview(nibView)
         
+        nibView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             nibView.leadingAnchor.constraint(equalTo: leadingAnchor),
             nibView.bottomAnchor.constraint(equalTo: bottomAnchor),

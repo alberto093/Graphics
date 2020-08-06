@@ -26,13 +26,13 @@ import UIKit
 
 public class ViewPropertyModifier<Item: NeumorphicItem, T>: NeumorphicItemModifier {
     
-    let keyPath: ReferenceWritableKeyPath<Item, T>
-    let value: T
-    let defaultValue: T?
+    public let keyPath: ReferenceWritableKeyPath<Item, T>
+    public let value: T
+    public let defaultValue: T?
     
     public let allowsMultipleModifiers = false
     
-    init(keyPath: ReferenceWritableKeyPath<Item, T>, value: T, defaultValue: T?) {
+    public init(keyPath: ReferenceWritableKeyPath<Item, T>, value: T, defaultValue: T?) {
         self.keyPath = keyPath
         self.value = value
         self.defaultValue = defaultValue

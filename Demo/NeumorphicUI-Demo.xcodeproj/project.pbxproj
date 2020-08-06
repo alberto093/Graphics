@@ -61,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				D3122630246B025500FD2B69 /* AppDelegate.swift */,
+				D3A8BF3724D18F7F00669FC1 /* ViewController.swift */,
 				D32A8398246B05EF00118BE7 /* Supporting Files */,
 			);
 			path = "ImageUI-Demo";
@@ -79,7 +80,6 @@
 			children = (
 				D312263E246B025500FD2B69 /* Info.plist */,
 				D3122639246B025500FD2B69 /* Assets.xcassets */,
-				D3A8BF3724D18F7F00669FC1 /* ViewController.swift */,
 				D312263B246B025500FD2B69 /* LaunchScreen.storyboard */,
 				D3122636246B025500FD2B69 /* Main.storyboard */,
 			);
