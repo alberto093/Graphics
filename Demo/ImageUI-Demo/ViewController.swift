@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         
         control
             .cornerRadius(radius: .circle)
-            .blur(style: .light, intensity: 0.08)
+            .blur(style: .prominent, intensity: 0.4)
     }
     
     @IBAction private func controlDidTap() {

@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "NeumorphicUI",
     platforms: [
-        .iOS(.v11)
+        .iOS(.v13)
     ],
     products: [
         .library(name: "NeumorphicUI", targets: ["NeumorphicUI"])

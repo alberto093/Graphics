@@ -54,7 +54,8 @@ extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
     }
     
     public func modify(_ view: NeumorphicItem) {
-        view.contentView.clipsToBounds = true
+        #warning("Remove clipsToBounds")
+//        view.contentView.clipsToBounds = true
         view.contentView.layer.maskedCorners = mask
         view.contentView.layer.cornerRadius = cornerRadius(in: view)
     }

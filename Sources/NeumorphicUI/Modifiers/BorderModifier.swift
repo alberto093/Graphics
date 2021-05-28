@@ -24,6 +24,7 @@
 
 import UIKit
 
+#warning("Refactoring by clearing clipsToBounds and add border to contentView.layer intead of view.layer")
 public class BorderModifier: NeumorphicItemModifier {
     public var border: Border
     public var width: CGFloat
@@ -41,7 +42,7 @@ public class BorderModifier: NeumorphicItemModifier {
     
     public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         let layer = prepareBorderLayer(view: view)
-        view.contentView.clipsToBounds = true
+//        view.contentView.clipsToBounds = true
         
         let layerSize: CGSize
         

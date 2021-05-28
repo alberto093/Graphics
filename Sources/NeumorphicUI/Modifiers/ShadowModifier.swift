@@ -24,6 +24,7 @@
 
 import UIKit
 
+#warning("Refactoring by removing clipsToBounds and creating a new inner and clipped view for innerShadow")
 public class ShadowModifier: NeumorphicItemModifier {
     public enum Shadow {
         case outer

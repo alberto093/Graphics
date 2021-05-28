@@ -24,11 +24,10 @@
 
 import UIKit
 
-#warning("Resolve cornerRadius clipsToBounds")
 public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItemModifier {
     
     public let subviewKeyPath: KeyPath<Item, SubView>
-    public let blurViewIndex: Int
+    public let blurViewIndex: Int?
     public let blurStyle: UIBlurEffect.Style
     public let blurIntensity: CGFloat
     public let allowsMultipleModifiers = true
@@ -40,7 +39,7 @@ public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItem
         }
     }
     
-    public init(subviewKeyPath: KeyPath<Item, SubView>, blurViewIndex: Int = 0, blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1) {
+    public init(subviewKeyPath: KeyPath<Item, SubView>, blurViewIndex: Int? = nil, blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1) {
         self.subviewKeyPath = subviewKeyPath
         self.blurViewIndex = blurViewIndex
         self.blurStyle = blurStyle
@@ -52,7 +51,7 @@ public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItem
         let blurView = prepareBlurEffectView(in: view)
         let effect = UIBlurEffect(style: blurStyle)
         
-        if let mask = (view.contentView.layer.mask as? CAShapeLayer) {
+        if let mask = view[keyPath: subviewKeyPath].layer.mask ?? view.contentView.layer.mask {
             blurView.layoutIfNeeded()
             blurView.layer.mask = mask
         } else {
@@ -80,13 +79,14 @@ public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItem
             blurView = blurEffectView
         } else {
             blurView = UIVisualEffectView()
-            blurView.clipsToBounds = true
-            view[keyPath: subviewKeyPath].insertSubview(blurView, at: blurViewIndex)
+            view[keyPath: subviewKeyPath].insertSubview(blurView, at: blurViewIndex ?? view[keyPath: subviewKeyPath].subviews.count)
             self.blurEffectView = blurView
         }
         
-        let subviewFrame = view[keyPath: subviewKeyPath].frame
-        blurView.frame = view[keyPath: subviewKeyPath].bounds.insetBy(dx: -subviewFrame.width, dy: -subviewFrame.height)
+        let subviewFrame = view[keyPath: subviewKeyPath].convert(view[keyPath: subviewKeyPath].bounds, to: view)
+        let widthInset = max(subviewFrame.minX, UIScreen.main.bounds.width - subviewFrame.maxX)
+        let heightInset = max(subviewFrame.minY, UIScreen.main.bounds.height - subviewFrame.maxY)
+        blurView.frame = view[keyPath: subviewKeyPath].bounds.insetBy(dx: -widthInset, dy: -heightInset)
         
         return blurView
     }
@@ -94,7 +94,7 @@ public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItem
 
 public extension NeumorphicItem {
     @discardableResult func blur(
-        subviewBlurIndex: Int = 0,
+        subviewBlurIndex: Int? = nil,
         style: UIBlurEffect.Style,
         intensity: CGFloat = 1) -> Self {
         
@@ -103,7 +103,7 @@ public extension NeumorphicItem {
     
     @discardableResult func blur<SubView: UIView>(
         _ subview: KeyPath<Self, SubView>,
-        subviewBlurIndex: Int = 0,
+        subviewBlurIndex: Int? = nil,
         style: UIBlurEffect.Style,
         intensity: CGFloat = 1) -> Self {
         
@@ -114,7 +114,7 @@ public extension NeumorphicItem {
 
 public extension NeumorphicItem where Self: UIControl {
     @discardableResult func blur(
-        subviewBlurIndex: Int = 0,
+        subviewBlurIndex: Int? = nil,
         style: UIBlurEffect.Style,
         intensity: CGFloat = 1,
         state: State = .normal) -> Self {
@@ -124,12 +124,36 @@ public extension NeumorphicItem where Self: UIControl {
     
     @discardableResult func blur<SubView: UIView>(
         _ subview: KeyPath<Self, SubView>,
-        subviewBlurIndex: Int = 0,
+        subviewBlurIndex: Int? = nil,
         style: UIBlurEffect.Style,
         intensity: CGFloat = 1,
         state: State = .normal) -> Self {
         
         let modifier = BlurModifier(subviewKeyPath: subview, blurViewIndex: subviewBlurIndex, blurStyle: style, blurIntensity: intensity)
         return self.modifier(modifier, state: state)
+    }
+}
+
+public extension UIRectCorner {
+    var cornerMask: CACornerMask {
+        var cornerMask = CACornerMask()
+        
+        if contains(.topLeft) {
+            cornerMask.insert(.layerMinXMinYCorner)
+        }
+        
+        if contains(.bottomLeft) {
+            cornerMask.insert(.layerMinXMaxYCorner)
+        }
+        
+        if contains(.bottomRight) {
+            cornerMask.insert(.layerMaxXMaxYCorner)
+        }
+        
+        if contains(.topRight) {
+            cornerMask.insert(.layerMaxXMinYCorner)
+        }
+        
+        return cornerMask
     }
 }
