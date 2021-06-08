@@ -24,28 +24,47 @@
 
 import UIKit
 
-#warning("Add vibracy support")
 public class BlurModifier: GraphicsItemModifier {
+    public enum Vibrancy {
+        case none
+        case `default`
+        case style(UIVibrancyEffectStyle)
+    }
+    
     public let blurStyle: UIBlurEffect.Style
     public let blurIntensity: CGFloat
-    public let allowsMultipleModifiers = true
+    public let vibrancy: Vibrancy
+    public let allowsMultipleModifiers = false
     
     private weak var blurEffectView: UIVisualEffectView?
+    private weak var vibrancyView: UIVisualEffectView?
+    
     private var intensityAnimator: UIViewPropertyAnimator? {
         didSet {
             oldValue?.stopAnimation(true)
         }
     }
     
-    public init(blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1) {
+    public init(blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1, vibrancy: Vibrancy = .none) {
         self.blurStyle = blurStyle
         self.blurIntensity = blurIntensity
+        self.vibrancy = vibrancy
     }
     
     public func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         let blurView = prepareBlurEffectView(in: view)
         let effect = UIBlurEffect(style: blurStyle)
+        let vibrancyEffect: UIVibrancyEffect?
         
+        switch vibrancy {
+        case .none:
+            vibrancyEffect = nil
+        case .default:
+            vibrancyEffect = UIVibrancyEffect(blurEffect: effect)
+        case .style(let style):
+            vibrancyEffect = UIVibrancyEffect(blurEffect: effect, style: style)
+        }
+
         if let mask = view.contentView.layer.mask {
             blurView.layoutIfNeeded()
             blurView.layer.mask = mask
@@ -54,7 +73,11 @@ public class BlurModifier: GraphicsItemModifier {
             blurView.layer.maskedCorners = roundedCorners.cornerMask
         }
         
-        intensityAnimator = UIViewPropertyAnimator(duration: 1, curve: .linear) { [weak blurEffectView] in blurEffectView?.effect = effect }
+        intensityAnimator = UIViewPropertyAnimator(duration: 1, curve: .linear) { [weak blurEffectView, weak vibrancyView] in
+            blurEffectView?.effect = effect
+            vibrancyView?.effect = vibrancyEffect
+        }
+        
         intensityAnimator?.fractionComplete = blurIntensity
     }
     
@@ -76,7 +99,18 @@ public class BlurModifier: GraphicsItemModifier {
         } else {
             blurView = UIVisualEffectView()
             blurView.clipsToBounds = true
-            blurView.contentView.addSubview(view.contentView)
+            
+            switch vibrancy {
+            case .none:
+                blurView.contentView.addSubview(view.contentView)
+            case .default, .style:
+                let vibrancyEffectView = UIVisualEffectView()
+                vibrancyEffectView.contentView.addSubview(view.contentView)
+                blurView.contentView.addSubview(vibrancyEffectView)
+                vibrancyEffectView.fill(view: blurView, insets: .zero, useSafeArea: false)
+                self.vibrancyView = vibrancyEffectView
+            }
+
             view.insertSubview(blurView, at: 0)
             blurView.fill(view: view, insets: .zero, useSafeArea: false)
             self.blurEffectView = blurView
@@ -89,16 +123,16 @@ public class BlurModifier: GraphicsItemModifier {
 }
 
 public extension GraphicsItem {
-    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1) -> Self {
-        let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity)
+    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, vibrancy: BlurModifier.Vibrancy = .none) -> Self {
+        let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity, vibrancy: vibrancy)
         return self.modifier(modifier)
     }
 }
 
 public extension GraphicsItem where Self: UIControl {
-    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, state: State = .normal) -> Self {
+    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, vibrancy: BlurModifier.Vibrancy = .none, state: State = .normal) -> Self {
         
-        let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity)
+        let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity, vibrancy: vibrancy)
         return self.modifier(modifier, state: state)
     }
 }

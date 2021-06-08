@@ -25,27 +25,6 @@
 import UIKit
 
 public extension GraphicsItem {
-    /// Invalidates the current modifiers of the receiver and triggers a modifiers update during the next update cycle.
-    ///
-    /// Call this method on your application’s main thread when you want to adjust the modifiers of a view’s subviews.
-    /// This method makes a note of the request and returns immediately. Because this method does not force an immediate update, but instead waits for the next update cycle, you
-    /// can use it to invalidate the modifiers of multiple graphics items before any of those views are updated.
-    func setNeedsModify() {
-        needsModify = true
-        DispatchQueue.main.async {
-            self.modifyIfNeeded()
-        }
-    }
-    
-    /// Updates modifiers immediately, if modifiers updates are pending.
-    ///
-    /// Use this method to force the `GraphicsItem` to update its modifiers immediately. If no modifiers updates are pending, this method exits without modifying the existing modifiers.
-    func modifyIfNeeded() {
-        guard needsModify else { return }
-        needsModify = false
-        modifySubviews()
-    }
-    
     /// Updates modifiers.
     ///
     /// You should not call this method directly. If you want to force a modifiers update, call the `setNeedsModify()` method instead to do so prior to the next drawing update.

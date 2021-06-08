@@ -52,7 +52,7 @@ public extension GraphicsItem {
     @discardableResult func modifier(_ modifier: GraphicsItemModifier) -> Self {
         let stateModifier = StateModifier(state: .normal, modifier: modifier)
         stateModifiers.append(stateModifier)
-        setNeedsModify()
+        setNeedsLayout()
         return self
     }
     
@@ -60,13 +60,13 @@ public extension GraphicsItem {
         guard let modifierIndex = stateModifiers.firstIndex(where: { $0.modifier === modifier }) else { return }
         stateModifiers.remove(at: modifierIndex)
         modifier.purge()
-        setNeedsModify()
+        setNeedsLayout()
     }
     
     func removeAllModifiers() {
         stateModifiers.forEach { $0.modifier.purge() }
         stateModifiers = []
-        setNeedsModify()
+        setNeedsLayout()
     }
 }
 
@@ -74,7 +74,7 @@ public extension GraphicsItem where Self: UIControl {
     @discardableResult func modifier(_ modifier: GraphicsItemModifier, state: State) -> Self {
         let stateModifier = StateModifier(state: state, modifier: modifier)
         stateModifiers.append(stateModifier)
-        setNeedsModify()
+        setNeedsLayout()
         return self
     }
 }
@@ -93,14 +93,11 @@ struct StateModifier {
 extension GraphicsItem {
     private(set) var stateModifiers: [StateModifier] {
         get { objc_getAssociatedObject(self, &AssociatedObjectKey.stateModifiers) as? [StateModifier] ?? [] }
-        set {
-            objc_setAssociatedObject(self, &AssociatedObjectKey.stateModifiers, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            setNeedsModify()
-        }
+        set { objc_setAssociatedObject(self, &AssociatedObjectKey.stateModifiers, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
-    var needsModify: Bool {
-        get { objc_getAssociatedObject(self, &AssociatedObjectKey.needsModify) as? Bool == true }
-        set { objc_setAssociatedObject(self, &AssociatedObjectKey.needsModify, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
+//    var needsModify: Bool {
+//        get { objc_getAssociatedObject(self, &AssociatedObjectKey.needsModify) as? Bool == true }
+//        set { objc_setAssociatedObject(self, &AssociatedObjectKey.needsModify, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+//    }
 }

@@ -37,7 +37,11 @@ import UIKit
 
 open class GraphicsView: UIView, GraphicsItem {
     open var contentView: UIView {
-        subviews.first ?? self
+        if let blurView = subviews.first as? UIVisualEffectView {
+            return blurView.contentView.subviews.first ?? self
+        } else {
+            return subviews.first ?? self
+        }
     }
     
     open override func layoutSubviews() {

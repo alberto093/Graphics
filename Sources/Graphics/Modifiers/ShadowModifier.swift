@@ -135,18 +135,22 @@ private extension ShadowModifier {
     }
     
     func updateInnerShadow(layer: CALayer, roundedCorners: UIRectCorner, cornerRadii: CGSize, maskLayer: CALayer? = nil) {
-        let insets = UIEdgeInsets(top: -layer.bounds.height, left: -layer.bounds.width, bottom: -layer.bounds.height, right: -layer.bounds.width)
-        let path: CGPath
-        
-        if let maskPath = (maskLayer as? CAShapeLayer)?.path {
-            path = UIBezierPath(cgPath: maskPath).reversing().cgPath
-        } else {
-            let bezierPath = UIBezierPath(roundedRect: layer.bounds.inset(by: insets), byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
-            let cutout = UIBezierPath(roundedRect: layer.bounds, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii).reversing()
-            bezierPath.append(cutout)
-            path = bezierPath.cgPath
-        }
-        
-        layer.shadowPath = path
+//        let insets = UIEdgeInsets(top: -layer.bounds.height, left: -layer.bounds.width, bottom: -layer.bounds.height, right: -layer.bounds.width)
+//        let path: CGPath
+//        
+//        if let maskPath = (maskLayer as? CAShapeLayer)?.path {
+//            let bezierPath = UIBezierPath(cgPath: maskPath)
+//            bezierPath.apply(.init(scaleX: 0.5, y: 0.5))
+//            let cutout = UIBezierPath(cgPath: maskPath).reversing()
+//            bezierPath.append(cutout)
+//            path = bezierPath.cgPath
+//        } else {
+//            let bezierPath = UIBezierPath(roundedRect: layer.bounds.inset(by: insets), byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
+//            let cutout = UIBezierPath(roundedRect: layer.bounds, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii).reversing()
+//            bezierPath.append(cutout)
+//            path = bezierPath.cgPath
+//        }
+//        
+//        layer.shadowPath = path
     }
 }
