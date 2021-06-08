@@ -7,23 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3122631246B025500FD2B69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3122630246B025500FD2B69 /* AppDelegate.swift */; };
-		D3122638246B025500FD2B69 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3122636246B025500FD2B69 /* Main.storyboard */; };
-		D312263A246B025500FD2B69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3122639246B025500FD2B69 /* Assets.xcassets */; };
-		D312263D246B025500FD2B69 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D312263B246B025500FD2B69 /* LaunchScreen.storyboard */; };
-		D3528EC324C1DB160093FF46 /* NeumorphicUI in Frameworks */ = {isa = PBXBuildFile; productRef = D3528EC224C1DB160093FF46 /* NeumorphicUI */; };
-		D3A8BF3824D18F7F00669FC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A8BF3724D18F7F00669FC1 /* ViewController.swift */; };
+		D3531571266F972F00A656EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353156F266F96BB00A656EE /* AppDelegate.swift */; };
+		D3531572266F973200A656EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531569266F96BB00A656EE /* ViewController.swift */; };
+		D3531573266F975900A656EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D353156A266F96BB00A656EE /* Assets.xcassets */; };
+		D3531574266F976400A656EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D353156B266F96BB00A656EE /* LaunchScreen.storyboard */; };
+		D3531575266F976700A656EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D353156D266F96BB00A656EE /* Main.storyboard */; };
+		D3531578266FB55600A656EE /* Graphics in Frameworks */ = {isa = PBXBuildFile; productRef = D3531577266FB55600A656EE /* Graphics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D312262D246B025500FD2B69 /* NeumorphicUI-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeumorphicUI-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D3122630246B025500FD2B69 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D3122637246B025500FD2B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D3122639246B025500FD2B69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D312263C246B025500FD2B69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		D312263E246B025500FD2B69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D3528EC124C1DB120093FF46 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
-		D3A8BF3724D18F7F00669FC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D312262D246B025500FD2B69 /* Graphics-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Graphics-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3531569266F96BB00A656EE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D353156A266F96BB00A656EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D353156C266F96BB00A656EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D353156E266F96BB00A656EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D353156F266F96BB00A656EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D3531570266F96BB00A656EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3CA5F99246B4984000217ED /* ImageUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ImageUI; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -32,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3528EC324C1DB160093FF46 /* NeumorphicUI in Frameworks */,
+				D3531578266FB55600A656EE /* Graphics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,72 +42,46 @@
 			isa = PBXGroup;
 			children = (
 				D3CA5F99246B4984000217ED /* ImageUI */,
-				D312262F246B025500FD2B69 /* ImageUI-Demo */,
+				D3531568266F96BB00A656EE /* Graphics-Demo */,
 				D312262E246B025500FD2B69 /* Products */,
-				D32A8388246B030A00118BE7 /* Frameworks */,
+				D3531576266FB55600A656EE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		D312262E246B025500FD2B69 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D312262D246B025500FD2B69 /* NeumorphicUI-Demo.app */,
+				D312262D246B025500FD2B69 /* Graphics-Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D312262F246B025500FD2B69 /* ImageUI-Demo */ = {
+		D3531568266F96BB00A656EE /* Graphics-Demo */ = {
 			isa = PBXGroup;
 			children = (
-				D3122630246B025500FD2B69 /* AppDelegate.swift */,
-				D3A8BF3724D18F7F00669FC1 /* ViewController.swift */,
-				D32A8398246B05EF00118BE7 /* Supporting Files */,
+				D3531569266F96BB00A656EE /* ViewController.swift */,
+				D353156A266F96BB00A656EE /* Assets.xcassets */,
+				D353156B266F96BB00A656EE /* LaunchScreen.storyboard */,
+				D353156D266F96BB00A656EE /* Main.storyboard */,
+				D353156F266F96BB00A656EE /* AppDelegate.swift */,
+				D3531570266F96BB00A656EE /* Info.plist */,
 			);
-			path = "ImageUI-Demo";
+			path = "Graphics-Demo";
 			sourceTree = "<group>";
 		};
-		D32A8388246B030A00118BE7 /* Frameworks */ = {
+		D3531576266FB55600A656EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D3528EBF24C1DB120093FF46 /* Sources */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D32A8398246B05EF00118BE7 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				D312263E246B025500FD2B69 /* Info.plist */,
-				D3122639246B025500FD2B69 /* Assets.xcassets */,
-				D312263B246B025500FD2B69 /* LaunchScreen.storyboard */,
-				D3122636246B025500FD2B69 /* Main.storyboard */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		D3528EBF24C1DB120093FF46 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				D3528EC024C1DB120093FF46 /* NeumorphicUI */,
-			);
-			name = Sources;
-			path = ../Sources;
-			sourceTree = "<group>";
-		};
-		D3528EC024C1DB120093FF46 /* NeumorphicUI */ = {
-			isa = PBXGroup;
-			children = (
-				D3528EC124C1DB120093FF46 /* Test.swift */,
-			);
-			path = NeumorphicUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D312262C246B025500FD2B69 /* NeumorphicUI-Demo */ = {
+		D312262C246B025500FD2B69 /* Graphics-Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D3122641246B025500FD2B69 /* Build configuration list for PBXNativeTarget "NeumorphicUI-Demo" */;
+			buildConfigurationList = D3122641246B025500FD2B69 /* Build configuration list for PBXNativeTarget "Graphics-Demo" */;
 			buildPhases = (
 				D3122629246B025500FD2B69 /* Sources */,
 				D312262A246B025500FD2B69 /* Frameworks */,
@@ -119,12 +92,12 @@
 			);
 			dependencies = (
 			);
-			name = "NeumorphicUI-Demo";
+			name = "Graphics-Demo";
 			packageProductDependencies = (
-				D3528EC224C1DB160093FF46 /* NeumorphicUI */,
+				D3531577266FB55600A656EE /* Graphics */,
 			);
 			productName = "ImageUI-Demo";
-			productReference = D312262D246B025500FD2B69 /* NeumorphicUI-Demo.app */;
+			productReference = D312262D246B025500FD2B69 /* Graphics-Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -134,7 +107,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Alberto Saltarelli";
 				TargetAttributes = {
 					D312262C246B025500FD2B69 = {
@@ -142,7 +115,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D3122628246B025500FD2B69 /* Build configuration list for PBXProject "NeumorphicUI-Demo" */;
+			buildConfigurationList = D3122628246B025500FD2B69 /* Build configuration list for PBXProject "Graphics-Demo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -155,7 +128,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D312262C246B025500FD2B69 /* NeumorphicUI-Demo */,
+				D312262C246B025500FD2B69 /* Graphics-Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -165,9 +138,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D312263D246B025500FD2B69 /* LaunchScreen.storyboard in Resources */,
-				D312263A246B025500FD2B69 /* Assets.xcassets in Resources */,
-				D3122638246B025500FD2B69 /* Main.storyboard in Resources */,
+				D3531575266F976700A656EE /* Main.storyboard in Resources */,
+				D3531573266F975900A656EE /* Assets.xcassets in Resources */,
+				D3531574266F976400A656EE /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,28 +172,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3A8BF3824D18F7F00669FC1 /* ViewController.swift in Sources */,
-				D3122631246B025500FD2B69 /* AppDelegate.swift in Sources */,
+				D3531572266F973200A656EE /* ViewController.swift in Sources */,
+				D3531571266F972F00A656EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D3122636246B025500FD2B69 /* Main.storyboard */ = {
+		D353156B266F96BB00A656EE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D3122637246B025500FD2B69 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		D312263B246B025500FD2B69 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D312263C246B025500FD2B69 /* Base */,
+				D353156C266F96BB00A656EE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		D353156D266F96BB00A656EE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D353156E266F96BB00A656EE /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -252,6 +225,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -312,6 +286,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -345,14 +320,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "ImageUI-Demo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Graphics-Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alberto093.NeumorphicUI-Demo";
-				PRODUCT_NAME = "NeumorphicUI-Demo";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alberto093.Graphics-Demo";
+				PRODUCT_NAME = "Graphics-Demo";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -363,14 +338,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "ImageUI-Demo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Graphics-Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alberto093.NeumorphicUI-Demo";
-				PRODUCT_NAME = "NeumorphicUI-Demo";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alberto093.Graphics-Demo";
+				PRODUCT_NAME = "Graphics-Demo";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -379,7 +354,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D3122628246B025500FD2B69 /* Build configuration list for PBXProject "NeumorphicUI-Demo" */ = {
+		D3122628246B025500FD2B69 /* Build configuration list for PBXProject "Graphics-Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D312263F246B025500FD2B69 /* Debug */,
@@ -388,7 +363,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3122641246B025500FD2B69 /* Build configuration list for PBXNativeTarget "NeumorphicUI-Demo" */ = {
+		D3122641246B025500FD2B69 /* Build configuration list for PBXNativeTarget "Graphics-Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3122642246B025500FD2B69 /* Debug */,
@@ -400,9 +375,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D3528EC224C1DB160093FF46 /* NeumorphicUI */ = {
+		D3531577266FB55600A656EE /* Graphics */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = NeumorphicUI;
+			productName = Graphics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

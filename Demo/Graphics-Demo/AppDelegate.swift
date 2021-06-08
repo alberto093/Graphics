@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  NeumorphicUI-Demo
+//  Graphics-Demo
 //
 //  Created by Alberto Saltarelli on 12/05/2020.
 //  Copyright © 2020 Alberto Saltarelli. All rights reserved.

@@ -22,8 +22,8 @@ nesting:
         warning: 2
 
 included:
-    - NeumorphicUI-Demo
-    - ../Sources/NeumorphicUI
+    - Graphics-Demo
+    - ../Sources/Graphics
     
 line_length:
     warning: 190

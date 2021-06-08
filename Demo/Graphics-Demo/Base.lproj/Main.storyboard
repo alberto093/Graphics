@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hI2-Wq-Jjy">
-    <device id="ipad10_5" orientation="landscape" layout="fullscreen" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hI2-Wq-Jjy">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,16 +10,30 @@
         <!--View Controller-->
         <scene sceneID="OlG-co-oTn">
             <objects>
-                <viewController id="hI2-Wq-Jjy" customClass="ViewController" customModule="NeumorphicUI_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hI2-Wq-Jjy" customClass="ViewController" customModule="Graphic_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5D6-cE-QXk">
-                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Akw-0o-j5Y" customClass="NeumorphicControl" customModule="NeumorphicUI">
-                                <rect key="frame" x="431" y="292" width="250" height="250"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="W7M-pU-NTZ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UNN-w5-fcr">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOu-pJ-9cW">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="600"/>
+                                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49r-E1-mxP">
+                                        <rect key="frame" x="300" y="0.0" width="300" height="600"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Akw-0o-j5Y" customClass="GraphicsControl" customModule="Graphic">
+                                <rect key="frame" x="175" y="175" width="250" height="250"/>
+                                <subviews>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" id="UNN-w5-fcr">
                                         <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alex" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QdI-LW-8EK">
                                                 <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
@@ -29,7 +42,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="QdI-LW-8EK" secondAttribute="trailing" id="Ils-qJ-NaJ"/>
                                             <constraint firstItem="QdI-LW-8EK" firstAttribute="top" secondItem="UNN-w5-fcr" secondAttribute="top" id="eHH-ot-Uqg"/>
@@ -40,39 +53,23 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="UNN-w5-fcr" secondAttribute="trailing" id="Gcv-Kd-MKy"/>
                                     <constraint firstAttribute="height" constant="250" id="HCm-Z6-Lqi"/>
                                     <constraint firstAttribute="width" constant="250" id="IN6-2i-J9k"/>
-                                    <constraint firstItem="UNN-w5-fcr" firstAttribute="leading" secondItem="Akw-0o-j5Y" secondAttribute="leading" id="cTZ-iq-O14"/>
-                                    <constraint firstAttribute="bottom" secondItem="UNN-w5-fcr" secondAttribute="bottom" id="fc9-tL-KTi"/>
-                                    <constraint firstItem="UNN-w5-fcr" firstAttribute="top" secondItem="Akw-0o-j5Y" secondAttribute="top" id="rCF-Io-zEx"/>
                                 </constraints>
                                 <connections>
                                     <action selector="controlDidTap" destination="hI2-Wq-Jjy" eventType="touchUpInside" id="UOe-SV-1k2"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xwa-0n-id2" customClass="USCard" customModule="NeumorphicUI">
-                                <rect key="frame" x="100" y="187" width="303" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="3"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" systemColor="systemOrangeColor"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="WcR-2d-aRq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerY" secondItem="WcR-2d-aRq" secondAttribute="centerY" id="rch-xx-PUB"/>
-                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerX" secondItem="WcR-2d-aRq" secondAttribute="centerX" id="u2y-yt-fuk"/>
+                            <constraint firstItem="WcR-2d-aRq" firstAttribute="trailing" secondItem="W7M-pU-NTZ" secondAttribute="trailing" id="FNu-f8-CH7"/>
+                            <constraint firstItem="W7M-pU-NTZ" firstAttribute="leading" secondItem="WcR-2d-aRq" secondAttribute="leading" id="GbM-eT-hdP"/>
+                            <constraint firstItem="W7M-pU-NTZ" firstAttribute="top" secondItem="WcR-2d-aRq" secondAttribute="top" id="TZe-ms-grv"/>
+                            <constraint firstItem="WcR-2d-aRq" firstAttribute="bottom" secondItem="W7M-pU-NTZ" secondAttribute="bottom" id="Xiz-cM-QlA"/>
+                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerX" secondItem="WcR-2d-aRq" secondAttribute="centerX" id="cAc-gW-T2e"/>
+                            <constraint firstItem="Akw-0o-j5Y" firstAttribute="centerY" secondItem="WcR-2d-aRq" secondAttribute="centerY" id="tkM-XG-eil"/>
                         </constraints>
                     </view>
                     <connections>
@@ -87,9 +84,6 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
