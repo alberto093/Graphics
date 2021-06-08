@@ -1,7 +1,7 @@
 //
 //  BorderModifier.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,7 @@
 
 import UIKit
 
-#warning("Refactoring by clearing clipsToBounds and add border to contentView.layer intead of view.layer")
-public class BorderModifier: NeumorphicItemModifier {
+public class BorderModifier: GraphicsItemModifier {
     public var border: Border
     public var width: CGFloat
     public var color: Color
@@ -40,9 +39,9 @@ public class BorderModifier: NeumorphicItemModifier {
         self.color = color
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
+    public func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         let layer = prepareBorderLayer(view: view)
-//        view.contentView.clipsToBounds = true
+        view.contentView.clipsToBounds = true
         
         let layerSize: CGSize
         
@@ -58,7 +57,7 @@ public class BorderModifier: NeumorphicItemModifier {
         updateBorder(layer: layer, rectSize: layerSize, roundedCorners: roundedCorners, cornerRadii: cornerRadii)
     }
     
-    public func revert(_ view: NeumorphicItem) {
+    public func revert(_ view: GraphicsItem) {
         
     }
     
@@ -133,7 +132,7 @@ public extension BorderModifier {
     }
 }
 
-public extension NeumorphicItem {
+public extension GraphicsItem {
     @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
         return self.modifier(modifier)
@@ -145,7 +144,7 @@ public extension NeumorphicItem {
     }
 }
 
-public extension NeumorphicItem where Self: UIControl {
+public extension GraphicsItem where Self: UIControl {
     @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor, state: State = .normal) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
         return self.modifier(modifier, state: state)
@@ -158,7 +157,7 @@ public extension NeumorphicItem where Self: UIControl {
 }
 
 private extension BorderModifier {
-    @discardableResult func prepareBorderLayer(view: NeumorphicItem) -> CAGradientLayer {
+    @discardableResult func prepareBorderLayer(view: GraphicsItem) -> CAGradientLayer {
         let layer: CAGradientLayer
         if let borderLayer = borderLayer {
             layer = borderLayer

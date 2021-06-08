@@ -1,7 +1,7 @@
 //
-//  NeumorphicItem+Lifecycle.swift
+//  GraphicsItem+Lifecycle.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,12 @@
 
 import UIKit
 
-public extension NeumorphicItem {
+public extension GraphicsItem {
     /// Invalidates the current modifiers of the receiver and triggers a modifiers update during the next update cycle.
     ///
     /// Call this method on your application’s main thread when you want to adjust the modifiers of a view’s subviews.
     /// This method makes a note of the request and returns immediately. Because this method does not force an immediate update, but instead waits for the next update cycle, you
-    /// can use it to invalidate the modifiers of multiple neumorphic items before any of those views are updated.
+    /// can use it to invalidate the modifiers of multiple graphics items before any of those views are updated.
     func setNeedsModify() {
         needsModify = true
         DispatchQueue.main.async {
@@ -39,7 +39,7 @@ public extension NeumorphicItem {
     
     /// Updates modifiers immediately, if modifiers updates are pending.
     ///
-    /// Use this method to force the `NeumorphicItem` to update its modifiers immediately. If no modifiers updates are pending, this method exits without modifying the existing modifiers.
+    /// Use this method to force the `GraphicsItem` to update its modifiers immediately. If no modifiers updates are pending, this method exits without modifying the existing modifiers.
     func modifyIfNeeded() {
         guard needsModify else { return }
         needsModify = false
@@ -51,25 +51,25 @@ public extension NeumorphicItem {
     /// You should not call this method directly. If you want to force a modifiers update, call the `setNeedsModify()` method instead to do so prior to the next drawing update.
     /// If you want to update the modifiers of your views immediately, call the `modifyIfNeeded()` method.
     func modifySubviews() {
-        applyNeumorphism()
+        applyGraphicss()
         
         for subview in subviews {
-            guard let subitem = subview as? NeumorphicItem else { continue }
+            guard let subitem = subview as? GraphicsItem else { continue }
             subitem.modifySubviews()
         }
     }
     
-    private func applyNeumorphism() {
+    private func applyGraphicss() {
         let revertedModifiers = applyModifiers()
         revertedModifiers.forEach { $0.purge() }
     }
     
-    @discardableResult private func applyModifiers() -> [NeumorphicItemModifier] {
+    @discardableResult private func applyModifiers() -> [GraphicsItemModifier] {
         let viewState = (self as? UIControl)?.state ?? .normal
         var cornerMaskRadii: (UIRectCorner, CGSize) = (.allCorners, .zero)
         
         for stateModifier in stateModifiers {
-            guard let modifier = stateModifier.modifier as? NeumorphicItemRoundingModifier else { continue }
+            guard let modifier = stateModifier.modifier as? GraphicsItemRoundingModifier else { continue }
             if stateModifier.state == viewState || stateModifier.state == .normal {
                 cornerMaskRadii = (modifier.roundedCorners, modifier.cornerRadii(in: self))
             }
@@ -79,7 +79,7 @@ public extension NeumorphicItem {
             }
         }
         
-        var revertedModifiers: [NeumorphicItemModifier] = []
+        var revertedModifiers: [GraphicsItemModifier] = []
         
         for stateModifier in stateModifiers {
             switch stateModifier.state {

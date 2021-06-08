@@ -1,7 +1,7 @@
 //
-//  NeumorphicItem+Modifier.swift
+//  GraphicsItem+Modifier.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,38 +25,38 @@
 import UIKit
 
 // MARK: - Public
-public protocol NeumorphicItemModifier: class {
+public protocol GraphicsItemModifier: AnyObject {
     var allowsMultipleModifiers: Bool { get }
-    func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize)
-    func revert(_ view: NeumorphicItem)
+    func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize)
+    func revert(_ view: GraphicsItem)
     func purge()
 }
 
-public extension NeumorphicItemModifier {
+public extension GraphicsItemModifier {
     func purge() { }
 }
 
-public protocol NeumorphicItemRoundingModifier: NeumorphicItemModifier {
+public protocol GraphicsItemRoundingModifier: GraphicsItemModifier {
     var roundedCorners: UIRectCorner { get }
-    func cornerRadii(in view: NeumorphicItem) -> CGSize
-    func modify(_ view: NeumorphicItem)
+    func cornerRadii(in view: GraphicsItem) -> CGSize
+    func modify(_ view: GraphicsItem)
 }
 
-public extension NeumorphicItemRoundingModifier {
-    func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
+public extension GraphicsItemRoundingModifier {
+    func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         modify(view)
     }
 }
 
-public extension NeumorphicItem {
-    @discardableResult func modifier(_ modifier: NeumorphicItemModifier) -> Self {
+public extension GraphicsItem {
+    @discardableResult func modifier(_ modifier: GraphicsItemModifier) -> Self {
         let stateModifier = StateModifier(state: .normal, modifier: modifier)
         stateModifiers.append(stateModifier)
         setNeedsModify()
         return self
     }
     
-    func remove(modifier: NeumorphicItemModifier) {
+    func remove(modifier: GraphicsItemModifier) {
         guard let modifierIndex = stateModifiers.firstIndex(where: { $0.modifier === modifier }) else { return }
         stateModifiers.remove(at: modifierIndex)
         modifier.purge()
@@ -70,8 +70,8 @@ public extension NeumorphicItem {
     }
 }
 
-public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func modifier(_ modifier: NeumorphicItemModifier, state: State) -> Self {
+public extension GraphicsItem where Self: UIControl {
+    @discardableResult func modifier(_ modifier: GraphicsItemModifier, state: State) -> Self {
         let stateModifier = StateModifier(state: state, modifier: modifier)
         stateModifiers.append(stateModifier)
         setNeedsModify()
@@ -81,16 +81,16 @@ public extension NeumorphicItem where Self: UIControl {
 
 // MARK: - Private
 private struct AssociatedObjectKey {
-    static var stateModifiers = "neumorphicItem_stateModifiers"
-    static var needsModify = "neumorphicItem_needsModify"
+    static var stateModifiers = "graphicsItem_stateModifiers"
+    static var needsModify = "graphicsItem_needsModify"
 }
 
 struct StateModifier {
     let state: UIControl.State
-    let modifier: NeumorphicItemModifier
+    let modifier: GraphicsItemModifier
 }
 
-extension NeumorphicItem {
+extension GraphicsItem {
     private(set) var stateModifiers: [StateModifier] {
         get { objc_getAssociatedObject(self, &AssociatedObjectKey.stateModifiers) as? [StateModifier] ?? [] }
         set {

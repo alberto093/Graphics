@@ -1,7 +1,7 @@
 //
 //  ViewPropertyModifier.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 
 import UIKit
 
-public class ViewPropertyModifier<Item: NeumorphicItem, T>: NeumorphicItemModifier {
+public class ViewPropertyModifier<Item: GraphicsItem, T>: GraphicsItemModifier {
     
     public let keyPath: ReferenceWritableKeyPath<Item, T>
     public let value: T
@@ -38,25 +38,25 @@ public class ViewPropertyModifier<Item: NeumorphicItem, T>: NeumorphicItemModifi
         self.defaultValue = defaultValue
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
+    public func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         guard let view = view as? Item else { return }
         view[keyPath: keyPath] = value
     }
     
-    public func revert(_ view: NeumorphicItem) {
+    public func revert(_ view: GraphicsItem) {
         guard let view = view as? Item, let defaultValue = defaultValue else { return }
         view[keyPath: keyPath] = defaultValue
     }
 }
 
-public extension NeumorphicItem {
+public extension GraphicsItem {
     @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T? = nil) -> Self {
         let modifier = ViewPropertyModifier(keyPath: keyPath, value: value, defaultValue: defaultValue)
         return self.modifier(modifier)
     }
 }
 
-public extension NeumorphicItem where Self: UIControl {
+public extension GraphicsItem where Self: UIControl {
     @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T? = nil, state: State = .normal) -> Self {
         let modifier = ViewPropertyModifier(keyPath: keyPath, value: value, defaultValue: defaultValue)
         return self.modifier(modifier, state: state)

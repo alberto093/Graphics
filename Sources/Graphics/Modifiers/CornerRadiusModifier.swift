@@ -1,7 +1,7 @@
 //
 //  CornerRadiusModifier.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ public class CornerRadiusModifier {
     }
 }
 
-extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
+extension CornerRadiusModifier: GraphicsItemRoundingModifier {
     public var allowsMultipleModifiers: Bool {
         false
     }
@@ -48,24 +48,23 @@ extension CornerRadiusModifier: NeumorphicItemRoundingModifier {
         mask.rectCorners
     }
     
-    public func cornerRadii(in view: NeumorphicItem) -> CGSize {
+    public func cornerRadii(in view: GraphicsItem) -> CGSize {
         let cornerRadius = self.cornerRadius(in: view)
         return CGSize(width: cornerRadius, height: cornerRadius)
     }
     
-    public func modify(_ view: NeumorphicItem) {
-        #warning("Remove clipsToBounds")
-//        view.contentView.clipsToBounds = true
+    public func modify(_ view: GraphicsItem) {
+        view.contentView.clipsToBounds = true
         view.contentView.layer.maskedCorners = mask
         view.contentView.layer.cornerRadius = cornerRadius(in: view)
     }
     
-    public func revert(_ view: NeumorphicItem) {
+    public func revert(_ view: GraphicsItem) {
         view.contentView.layer.maskedCorners = .all
         view.contentView.layer.cornerRadius = 0
     }
 
-    private func cornerRadius(in view: NeumorphicItem) -> CGFloat {
+    private func cornerRadius(in view: GraphicsItem) -> CGFloat {
         switch radius {
         case .circle:
             return min(view.contentView.bounds.width, view.contentView.bounds.height) / 2
@@ -106,7 +105,7 @@ public extension CACornerMask {
     }
 }
 
-public extension NeumorphicItem {
+public extension GraphicsItem {
     @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: radius)
         return self.modifier(modifier)
@@ -118,7 +117,7 @@ public extension NeumorphicItem {
     }
 }
 
-public extension NeumorphicItem where Self: UIControl {
+public extension GraphicsItem where Self: UIControl {
     @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius, state: State = .normal) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: radius)
         return self.modifier(modifier, state: state)

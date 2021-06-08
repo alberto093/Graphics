@@ -1,7 +1,7 @@
 //
 //  BlurModifier.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,8 @@
 
 import UIKit
 
-public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItemModifier {
-    
-    public let subviewKeyPath: KeyPath<Item, SubView>
-    public let blurViewIndex: Int?
+#warning("Add vibracy support")
+public class BlurModifier: GraphicsItemModifier {
     public let blurStyle: UIBlurEffect.Style
     public let blurIntensity: CGFloat
     public let allowsMultipleModifiers = true
@@ -39,19 +37,16 @@ public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItem
         }
     }
     
-    public init(subviewKeyPath: KeyPath<Item, SubView>, blurViewIndex: Int? = nil, blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1) {
-        self.subviewKeyPath = subviewKeyPath
-        self.blurViewIndex = blurViewIndex
+    public init(blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1) {
         self.blurStyle = blurStyle
         self.blurIntensity = blurIntensity
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
-        guard let view = view as? Item else { return }
+    public func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         let blurView = prepareBlurEffectView(in: view)
         let effect = UIBlurEffect(style: blurStyle)
         
-        if let mask = view[keyPath: subviewKeyPath].layer.mask ?? view.contentView.layer.mask {
+        if let mask = view.contentView.layer.mask {
             blurView.layoutIfNeeded()
             blurView.layer.mask = mask
         } else {
@@ -63,8 +58,9 @@ public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItem
         intensityAnimator?.fractionComplete = blurIntensity
     }
     
-    public func revert(_ view: NeumorphicItem) {
-        
+    public func revert(_ view: GraphicsItem) {
+        guard let contentView = blurEffectView?.contentView.subviews.first else { return }
+        view.addSubview(contentView)
     }
     
     public func purge() {
@@ -72,64 +68,37 @@ public class BlurModifier<Item: NeumorphicItem, SubView: UIView>: NeumorphicItem
         blurEffectView?.removeFromSuperview()
     }
     
-    private func prepareBlurEffectView(in view: Item) -> UIVisualEffectView {
+    private func prepareBlurEffectView(in view: GraphicsItem) -> UIVisualEffectView {
         let blurView: UIVisualEffectView
         
         if let blurEffectView = blurEffectView {
             blurView = blurEffectView
         } else {
             blurView = UIVisualEffectView()
-            view[keyPath: subviewKeyPath].insertSubview(blurView, at: blurViewIndex ?? view[keyPath: subviewKeyPath].subviews.count)
+            blurView.clipsToBounds = true
+            blurView.contentView.addSubview(view.contentView)
+            view.insertSubview(blurView, at: 0)
+            blurView.fill(view: view, insets: .zero, useSafeArea: false)
             self.blurEffectView = blurView
         }
         
-        let subviewFrame = view[keyPath: subviewKeyPath].convert(view[keyPath: subviewKeyPath].bounds, to: view)
-        let widthInset = max(subviewFrame.minX, UIScreen.main.bounds.width - subviewFrame.maxX)
-        let heightInset = max(subviewFrame.minY, UIScreen.main.bounds.height - subviewFrame.maxY)
-        blurView.frame = view[keyPath: subviewKeyPath].bounds.insetBy(dx: -widthInset, dy: -heightInset)
+        blurView.frame = view.bounds
         
         return blurView
     }
 }
 
-public extension NeumorphicItem {
-    @discardableResult func blur(
-        subviewBlurIndex: Int? = nil,
-        style: UIBlurEffect.Style,
-        intensity: CGFloat = 1) -> Self {
-        
-        blur(\.contentView, subviewBlurIndex: subviewBlurIndex, style: style, intensity: intensity)
-    }
-    
-    @discardableResult func blur<SubView: UIView>(
-        _ subview: KeyPath<Self, SubView>,
-        subviewBlurIndex: Int? = nil,
-        style: UIBlurEffect.Style,
-        intensity: CGFloat = 1) -> Self {
-        
-        let modifier = BlurModifier(subviewKeyPath: subview, blurViewIndex: subviewBlurIndex, blurStyle: style, blurIntensity: intensity)
+public extension GraphicsItem {
+    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1) -> Self {
+        let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity)
         return self.modifier(modifier)
     }
 }
 
-public extension NeumorphicItem where Self: UIControl {
-    @discardableResult func blur(
-        subviewBlurIndex: Int? = nil,
-        style: UIBlurEffect.Style,
-        intensity: CGFloat = 1,
-        state: State = .normal) -> Self {
+public extension GraphicsItem where Self: UIControl {
+    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, state: State = .normal) -> Self {
         
-        blur(\.contentView, subviewBlurIndex: subviewBlurIndex, style: style, intensity: intensity, state: state)
-    }
-    
-    @discardableResult func blur<SubView: UIView>(
-        _ subview: KeyPath<Self, SubView>,
-        subviewBlurIndex: Int? = nil,
-        style: UIBlurEffect.Style,
-        intensity: CGFloat = 1,
-        state: State = .normal) -> Self {
-        
-        let modifier = BlurModifier(subviewKeyPath: subview, blurViewIndex: subviewBlurIndex, blurStyle: style, blurIntensity: intensity)
+        let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity)
         return self.modifier(modifier, state: state)
     }
 }

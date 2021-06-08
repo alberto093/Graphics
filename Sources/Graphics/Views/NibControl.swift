@@ -1,7 +1,7 @@
 //
-//  NibView.swift
+//  NibControl.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,18 +25,18 @@
 import UIKit
 
 /**
- An abstract class that allows to load view from nib.
- A NibView sublcass can be instantiated programmatically or embeded inside a Storyboard.
- 
- To work properly a NibView subclass must satisfy the following conditions:
- - The the nib name must match the subclass name
- - The view inside the nib should be a regular UIView
- - The file's owner of the nib must be the subclass type
- */
-@IBDesignable open class NibView: UIView {
+An abstract class that allows to load custom control's view from nib.
+A NibControl sublcass can be instantiated programmatically or embeded inside a Storyboard.
+
+To work properly a NibControl subclass must satisfy the following conditions:
+- The the nib name must match the subclass name
+- The view inside the nib should be a regular UIView
+- The file's owner of the nib must be the subclass type
+*/
+@IBDesignable open class NibControl: UIControl {
     /// It returns the real nib view.
     ///
-    /// You should use this view to setup the user interaction (e.g. UIGestureRecognizer).
+    /// The user-interaction is set to `false` by default.
     public private(set) var nibView: UIView!
 
     public override init(frame: CGRect) {
@@ -54,6 +54,7 @@ import UIKit
         translatesAutoresizingMaskIntoConstraints = false
         //swiftlint:disable:next force_cast
         nibView = (type(of: self).nib.instantiate(withOwner: self, options: nil).first as! UIView)
+        nibView.isUserInteractionEnabled = false
         addSubview(nibView)
         
         nibView.translatesAutoresizingMaskIntoConstraints = false

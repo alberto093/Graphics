@@ -1,7 +1,7 @@
 //
-//  NeumorphicControl.swift
+//  GraphicsControl.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 
 import UIKit
 
-@IBDesignable open class NeumorphicNibControl: NibControl, NeumorphicItem {
+@IBDesignable open class GraphicsNibControl: NibControl, GraphicsItem {
     public var contentView: UIView {
         nibView
     }
@@ -57,14 +57,14 @@ import UIKit
     
     /// Tells the control that its state changed.
     ///
-    /// The default implementation of this method updates the neumorphic state. Subclasses can override it to perform additional actions when state changed.
+    /// The default implementation of this method updates the graphics state. Subclasses can override it to perform additional actions when state changed.
     /// You should call super at some point in your implementation.
     open func stateDidChange() {
         setNeedsLayout()
     }
 }
 
-open class NeumorphicControl: UIControl, NeumorphicItem {
+open class GraphicsControl: UIControl, GraphicsItem {
     open var contentView: UIView {
         subviews.first ?? self
     }
@@ -97,7 +97,7 @@ open class NeumorphicControl: UIControl, NeumorphicItem {
     
     /// Tells the control that its state changed.
     ///
-    /// The default implementation of this method updates the neumorphic state. Subclasses can override it to perform additional actions when state changed.
+    /// The default implementation of this method updates the graphics state. Subclasses can override it to perform additional actions when state changed.
     /// You should call super at some point in your implementation.
     open func stateDidChange() {
         setNeedsLayout()

@@ -1,7 +1,7 @@
 //
 //  ShadowModifier.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,7 @@
 
 import UIKit
 
-#warning("Refactoring by removing clipsToBounds and creating a new inner and clipped view for innerShadow")
-public class ShadowModifier: NeumorphicItemModifier {
+public class ShadowModifier: GraphicsItemModifier {
     public enum Shadow {
         case outer
         case inner
@@ -49,7 +48,7 @@ public class ShadowModifier: NeumorphicItemModifier {
         self.opacity = opacity
     }
     
-    public func modify(_ view: NeumorphicItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
+    public func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         let layer = prepareShadowLayer(view: view)
         switch shadow {
         case .outer:
@@ -61,7 +60,7 @@ public class ShadowModifier: NeumorphicItemModifier {
         }
     }
     
-    public func revert(_ view: NeumorphicItem) {
+    public func revert(_ view: GraphicsItem) {
 
     }
     
@@ -70,7 +69,7 @@ public class ShadowModifier: NeumorphicItemModifier {
     }
 }
 
-public extension NeumorphicItem {
+public extension GraphicsItem {
     @discardableResult func shadow(
         _ shadow: ShadowModifier.Shadow = .outer,
         color: UIColor = .black,
@@ -83,7 +82,7 @@ public extension NeumorphicItem {
     }
 }
 
-public extension NeumorphicItem where Self: UIControl {
+public extension GraphicsItem where Self: UIControl {
     @discardableResult func shadow(
         _ shadow: ShadowModifier.Shadow = .outer,
         color: UIColor = .black,
@@ -98,7 +97,7 @@ public extension NeumorphicItem where Self: UIControl {
 }
 
 private extension ShadowModifier {
-    @discardableResult func prepareShadowLayer(view: NeumorphicItem) -> CALayer {
+    @discardableResult func prepareShadowLayer(view: GraphicsItem) -> CALayer {
         let layer: CALayer
         if let shadowLayer = shadowLayer {
             layer = shadowLayer
@@ -126,6 +125,7 @@ private extension ShadowModifier {
         return layer
     }
     
+    #warning("Add support for custom mask")
     func updateOuterShadow(layer: CALayer, roundedCorners: UIRectCorner, cornerRadii: CGSize, maskLayer: CALayer? = nil) {
         if let maskPath = (maskLayer as? CAShapeLayer)?.path {
             layer.shadowPath = maskPath
@@ -135,12 +135,18 @@ private extension ShadowModifier {
     }
     
     func updateInnerShadow(layer: CALayer, roundedCorners: UIRectCorner, cornerRadii: CGSize, maskLayer: CALayer? = nil) {
-        #warning("Add custom mask path implementation")
         let insets = UIEdgeInsets(top: -layer.bounds.height, left: -layer.bounds.width, bottom: -layer.bounds.height, right: -layer.bounds.width)
-        let path = UIBezierPath(roundedRect: layer.bounds.inset(by: insets), byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
-        let cutout = UIBezierPath(roundedRect: layer.bounds, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii).reversing()
-        path.append(cutout)
+        let path: CGPath
         
-        layer.shadowPath = path.cgPath
+        if let maskPath = (maskLayer as? CAShapeLayer)?.path {
+            path = UIBezierPath(cgPath: maskPath).reversing().cgPath
+        } else {
+            let bezierPath = UIBezierPath(roundedRect: layer.bounds.inset(by: insets), byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
+            let cutout = UIBezierPath(roundedRect: layer.bounds, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii).reversing()
+            bezierPath.append(cutout)
+            path = bezierPath.cgPath
+        }
+        
+        layer.shadowPath = path
     }
 }

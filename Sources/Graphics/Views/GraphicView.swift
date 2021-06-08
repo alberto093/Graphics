@@ -1,7 +1,7 @@
 //
-//  UIview+Coder.swift
+//  GraphicsView.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,24 @@
 
 import UIKit
 
-@objc extension UIView {
-    /// The `nib` having the name of the class as name
-    open class var nib: UINib {
-        UINib(nibName: identifier, bundle: Bundle(for: self))
+@IBDesignable open class GraphicsNibView: NibView, GraphicsItem {
+    public var contentView: UIView {
+        nibView
     }
     
-    /// The name of the class
-    public static var identifier: String {
-        String(describing: self)
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        modifySubviews()
+    }
+}
+
+open class GraphicsView: UIView, GraphicsItem {
+    open var contentView: UIView {
+        subviews.first ?? self
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        modifySubviews()
     }
 }

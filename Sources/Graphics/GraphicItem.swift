@@ -1,7 +1,7 @@
 //
-//  NeumorphicView.swift
+//  GraphicsItem.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,24 +24,26 @@
 
 import UIKit
 
-@IBDesignable open class NeumorphicNibView: NibView, NeumorphicItem {
-    public var contentView: UIView {
-        nibView
-    }
-    
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        modifySubviews()
-    }
-}
-
-open class NeumorphicView: UIView, NeumorphicItem {
-    open var contentView: UIView {
-        subviews.first ?? self
-    }
-    
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        modifySubviews()
-    }
+/// A set of methods that can make a custom object eligible to participate in Graphics.
+///
+/// If you are conforming directly with `GraphicsItem` (e.g. `UICollectionViewCell`) remember to call `modifySubviews()` in your `layoutSubviews()` implementation. Otherwise you can use the provided components like: `GraphicsView` and `GraphicsControl`.
+///
+/// ```
+/// override func layoutSubviews() {
+///     super.layoutSubviews()
+///     modifySubviews()
+/// }
+/// ```
+///
+/// The view hierarchy should be
+///
+/// ````
+/// | GraphicsItem (clear background color)
+/// | | UIView (e.g. the content view)
+/// ````
+///
+/// The must important thing is to layout the content view using autoresizing mask instead of autolayout. Otherwise some modifiers (e.g. blur modifier) should not work as expected
+///
+public protocol GraphicsItem: UIView {
+    var contentView: UIView { get }
 }

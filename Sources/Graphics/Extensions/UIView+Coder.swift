@@ -1,7 +1,7 @@
 //
-//  NeumorphicItem.swift
+//  UIview+Coder.swift
 //
-//  Copyright © 2020 NeumorphicUI - Alberto Saltarelli
+//  Copyright © 2020 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,17 +24,14 @@
 
 import UIKit
 
-/// A set of methods that can make a custom object eligible to participate in Neumorphism.
-///
-/// If you are conforming directly with `NeumorphicItem` (e.g. `UICollectionViewCell`) remember to call `modifySubviews()` in your `layoutSubviews()` implementation.
-///
-/// ```
-/// override func layoutSubviews() {
-///     super.layoutSubviews()
-///     modifySubviews()
-/// }
-/// ```
-///
-public protocol NeumorphicItem: UIView {
-    var contentView: UIView { get }
+@objc extension UIView {
+    /// The `nib` having the name of the class as name
+    open class var nib: UINib {
+        UINib(nibName: identifier, bundle: Bundle(for: self))
+    }
+    
+    /// The name of the class
+    public static var identifier: String {
+        String(describing: self)
+    }
 }
