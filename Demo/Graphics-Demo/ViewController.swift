@@ -15,10 +15,15 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = UIBezierPath.couponMask(bounds: control.bounds, circleMaskLocationY: control.bounds.midY, circleMaskRadius: control.bounds.width / 4).cgPath
+        control.contentView.layer.mask = shapeLayer
+
         control
-            .cornerRadius(radius: .circle)
-            .shadow(offset: .zero, radius: 12, opacity: 1)
-            .blur(style: .regular, intensity: 0.2, vibrancy: .default)
+//            .cornerRadius(radius: .circle)
+            .shadow(offset: CGSize(width: 10, height: 40), radius: 12, opacity: 1)
+            .blur(style: .regular, intensity: 0.2, vibrancy: .style(.fill))
             .border(position: .inside, width: 5, gradient: .init(colors: [.blue, .green]))
     }
     

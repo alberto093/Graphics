@@ -23,7 +23,7 @@
 		D353156E266F96BB00A656EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D353156F266F96BB00A656EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3531570266F96BB00A656EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D3CA5F99246B4984000217ED /* ImageUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ImageUI; path = ..; sourceTree = "<group>"; };
+		D3CA5F99246B4984000217ED /* Graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Graphics; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +41,7 @@
 		D3122624246B025500FD2B69 = {
 			isa = PBXGroup;
 			children = (
-				D3CA5F99246B4984000217ED /* ImageUI */,
+				D3CA5F99246B4984000217ED /* Graphics */,
 				D3531568266F96BB00A656EE /* Graphics-Demo */,
 				D312262E246B025500FD2B69 /* Products */,
 				D3531576266FB55600A656EE /* Frameworks */,
@@ -96,7 +96,7 @@
 			packageProductDependencies = (
 				D3531577266FB55600A656EE /* Graphics */,
 			);
-			productName = "ImageUI-Demo";
+			productName = "Graphics-Demo";
 			productReference = D312262D246B025500FD2B69 /* Graphics-Demo.app */;
 			productType = "com.apple.product-type.application";
 		};

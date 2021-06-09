@@ -24,6 +24,8 @@
 
 import UIKit
 
+#warning("Add bezier path masking")
+// Shadow support both custom mask path and corner radius modifier. It doesn't support both at the same time.
 public class ShadowModifier: GraphicsItemModifier {
     public enum Shadow {
         case outer
@@ -49,6 +51,7 @@ public class ShadowModifier: GraphicsItemModifier {
     }
     
     public func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
+        view.contentView.clipsToBounds = true
         let layer = prepareShadowLayer(view: view)
         switch shadow {
         case .outer:
@@ -126,11 +129,20 @@ private extension ShadowModifier {
     }
     
     func updateOuterShadow(layer: CALayer, roundedCorners: UIRectCorner, cornerRadii: CGSize, in view: GraphicsItem) {
-        if view.isBlurredBackground {
-            if let maskPath = (view.contentView.layer.mask as? CAShapeLayer)?.path {
-                #warning("Add custom path reversing")
+        if view.isBlurredBackground, let blurView = view.blurView {
+            let pathRect = layer.bounds.insetBy(dx: -radius, dy: -radius)
+            
+            if let maskPath = (blurView.layer.mask as? CAShapeLayer)?.path {
+                let path = UIBezierPath(cgPath: maskPath)
+                let transform = CGAffineTransform(scaleX: pathRect.width / layer.bounds.width, y: pathRect.height / layer.bounds.height)
+                    .concatenating(CGAffineTransform(translationX: -radius, y: -radius))
+                path.apply(transform)
+                let cutout = UIBezierPath(cgPath: maskPath).reversing()
+                path.append(cutout)
+
+                layer.shadowPath = path.cgPath
             } else {
-                let path = UIBezierPath(roundedRect: layer.bounds.insetBy(dx: -radius, dy: -radius), byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
+                let path = UIBezierPath(roundedRect: pathRect, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
                 let hole = UIBezierPath(roundedRect: layer.bounds, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii).reversing()
                 path.append(hole)
                 layer.shadowPath = path.cgPath
@@ -145,10 +157,17 @@ private extension ShadowModifier {
     }
     
     func updateInnerShadow(layer: CALayer, roundedCorners: UIRectCorner, cornerRadii: CGSize, in view: GraphicsItem) {
+        let pathRect = layer.bounds.insetBy(dx: -layer.bounds.width, dy: -layer.bounds.height)
+        
         if let maskPath = (view.contentView.layer.mask as? CAShapeLayer)?.path {
-            #warning("Add custom mask path implementation")
+            let path = UIBezierPath(cgPath: maskPath)
+            path.apply(CGAffineTransform(scaleX: pathRect.width / layer.bounds.width, y: pathRect.height / layer.bounds.height))
+            let cutout = UIBezierPath(cgPath: maskPath).reversing()
+            path.append(cutout)
+
+            layer.shadowPath = path.cgPath
         } else {
-            let path = UIBezierPath(roundedRect: layer.bounds.insetBy(dx: -layer.bounds.width, dy: -layer.bounds.height), byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
+            let path = UIBezierPath(roundedRect: pathRect, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
             let cutout = UIBezierPath(roundedRect: layer.bounds, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii).reversing()
             path.append(cutout)
             

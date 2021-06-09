@@ -49,9 +49,13 @@ public protocol GraphicsItem: UIView {
 }
 
 extension GraphicsItem {
-    /// A view that some modifiers (e.g. blur) can add in the view tree above the graphics item and below its content view
+    var blurView: UIVisualEffectView? {
+        isBlurredBackground ? subviews.first as? UIVisualEffectView : nil
+    }
+    
+    /// It represents the view that contains the content view. Some modifiers (e.g. blur) can add stacked views in the view tree above the graphics item and below its content view
     var backgroundView: UIView? {
-        guard isBlurredBackground, let blurView = subviews.first as? UIVisualEffectView else { return nil }
+        guard isBlurredBackground, let blurView = blurView else { return nil }
         
         if let vibrancyView = blurView.contentView.subviews.first as? UIVisualEffectView {
             return vibrancyView.contentView
