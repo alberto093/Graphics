@@ -15,12 +15,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
         control
             .cornerRadius(radius: .circle)
-            .blur(style: .regular)
-            .border(width: 2, gradient: .init(type: .conic, colors: [.red, .yellow]))
-//            .shadow(radius: 20, opacity: 10)
+            .shadow(.inner, offset: .zero, radius: 12, opacity: 1)
+            .blur(style: .regular, intensity: 0.2)
+            .border(width: 1, gradient: .init(colors: [.blue, .green]))
     }
     
     @IBAction private func controlDidTap() {
@@ -46,7 +45,7 @@ extension UIBezierPath {
             withCenter: CGPoint(x: bounds.maxX, y: circleMaskLocationY),
             radius: circleMaskRadius,
             startAngle: .pi / 2,
-            endAngle: 3/2 * .pi,
+            endAngle: 3 / 2 * .pi,
             clockwise: true)
         path.addLine(to: CGPoint(x: bounds.maxX, y: 0))
         path.close()

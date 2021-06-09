@@ -82,7 +82,6 @@ public extension GraphicsItem where Self: UIControl {
 // MARK: - Private
 private struct AssociatedObjectKey {
     static var stateModifiers = "graphicsItem_stateModifiers"
-    static var needsModify = "graphicsItem_needsModify"
 }
 
 struct StateModifier {
@@ -96,8 +95,13 @@ extension GraphicsItem {
         set { objc_setAssociatedObject(self, &AssociatedObjectKey.stateModifiers, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
-//    var needsModify: Bool {
-//        get { objc_getAssociatedObject(self, &AssociatedObjectKey.needsModify) as? Bool == true }
-//        set { objc_setAssociatedObject(self, &AssociatedObjectKey.needsModify, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-//    }
+    var isBlurredBackground: Bool {
+        stateModifiers.contains { $0.modifier is BlurModifier }
+    }
+}
+
+extension GraphicsItem where Self: UIControl {
+    var isBlurredBackground: Bool {
+        stateModifiers.contains { $0.modifier is BlurModifier && state.contains($0.state) }
+    }
 }
