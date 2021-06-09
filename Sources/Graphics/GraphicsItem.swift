@@ -47,3 +47,16 @@ import UIKit
 public protocol GraphicsItem: UIView {
     var contentView: UIView { get }
 }
+
+extension GraphicsItem {
+    /// A view that some modifiers (e.g. blur) can add in the view tree above the graphics item and below its content view
+    var backgroundView: UIView? {
+        guard isBlurredBackground, let blurView = subviews.first as? UIVisualEffectView else { return nil }
+        
+        if let vibrancyView = blurView.contentView.subviews.first as? UIVisualEffectView {
+            return vibrancyView.contentView
+        } else {
+            return blurView.contentView
+        }
+    }
+}

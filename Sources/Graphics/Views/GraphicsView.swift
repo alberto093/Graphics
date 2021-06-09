@@ -37,8 +37,8 @@ import UIKit
 
 open class GraphicsView: UIView, GraphicsItem {
     open var contentView: UIView {
-        if let blurView = subviews.first as? UIVisualEffectView {
-            return blurView.contentView.subviews.first ?? self
+        if let backgroundView = backgroundView {
+            return backgroundView.subviews.first ?? self
         } else {
             return subviews.first ?? self
         }

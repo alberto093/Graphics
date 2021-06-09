@@ -17,9 +17,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         control
             .cornerRadius(radius: .circle)
-            .shadow(.inner, offset: .zero, radius: 12, opacity: 1)
-            .blur(style: .regular, intensity: 0.2)
-            .border(width: 1, gradient: .init(colors: [.blue, .green]))
+            .shadow(offset: .zero, radius: 12, opacity: 1)
+            .blur(style: .regular, intensity: 0.2, vibrancy: .default)
+            .border(position: .inside, width: 5, gradient: .init(colors: [.blue, .green]))
     }
     
     @IBAction private func controlDidTap() {

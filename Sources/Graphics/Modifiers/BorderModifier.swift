@@ -158,15 +158,15 @@ public extension GraphicsItem where Self: UIControl {
 
 private extension BorderModifier {
     @discardableResult func prepareBorderLayer(view: GraphicsItem) -> CAGradientLayer {
-        let layer: CAGradientLayer
-        if let borderLayer = borderLayer {
-            layer = borderLayer
+        let layer = borderLayer ?? CAGradientLayer()
+
+        if view.isBlurredBackground, let backgrounView = view.backgroundView {
+            backgrounView.layer.insertSublayer(layer, at: 1)
         } else {
-            layer = CAGradientLayer()
-            view.layer.insertSublayer(layer, above: view.contentView.layer)
-            self.borderLayer = layer
+            view.layer.insertSublayer(layer, at: 1)
         }
-        
+
+        self.borderLayer = layer
         layer.frame = view.contentView.bounds
         return layer
     }
