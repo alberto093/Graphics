@@ -26,6 +26,7 @@ import UIKit
 
 // MARK: - Public
 public protocol GraphicsItemModifier: AnyObject {
+    var priority: GraphicsItemModifierPriority { get }
     var allowsMultipleModifiers: Bool { get }
     func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize)
     func revert(_ view: GraphicsItem)
@@ -33,6 +34,10 @@ public protocol GraphicsItemModifier: AnyObject {
 }
 
 public extension GraphicsItemModifier {
+    var priority: GraphicsItemModifierPriority {
+        .high
+    }
+    
     func purge() { }
 }
 
@@ -45,6 +50,24 @@ public protocol GraphicsItemRoundingModifier: GraphicsItemModifier {
 public extension GraphicsItemRoundingModifier {
     func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize) {
         modify(view)
+    }
+}
+
+/// The layout priority is used to indicate to the modifiers-based layout system which modifiers are more important.
+public struct GraphicsItemModifierPriority: Hashable, Equatable, RawRepresentable {
+    public static let required = GraphicsItemModifierPriority(1000)
+    public static let high = GraphicsItemModifierPriority(750)
+    public static let low = GraphicsItemModifierPriority(250)
+    
+    public let rawValue: Int
+    private let valueRange = 0...1000
+    
+    public init(_ rawValue: Int) {
+        self.rawValue = Swift.min(Swift.max(rawValue, valueRange.lowerBound), valueRange.upperBound)
+    }
+
+    public init(rawValue: Int) {
+        self.rawValue = Swift.min(Swift.max(rawValue, valueRange.lowerBound), valueRange.upperBound)
     }
 }
 
@@ -82,6 +105,7 @@ public extension GraphicsItem where Self: UIControl {
 // MARK: - Private
 private struct AssociatedObjectKey {
     static var stateModifiers = "graphicsItem_stateModifiers"
+    static var needsSorting = "neumorphicItem_needsSorting"
 }
 
 struct StateModifier {
@@ -90,9 +114,17 @@ struct StateModifier {
 }
 
 extension GraphicsItem {
-    private(set) var stateModifiers: [StateModifier] {
+    var stateModifiers: [StateModifier] {
         get { objc_getAssociatedObject(self, &AssociatedObjectKey.stateModifiers) as? [StateModifier] ?? [] }
-        set { objc_setAssociatedObject(self, &AssociatedObjectKey.stateModifiers, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &AssociatedObjectKey.stateModifiers, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            needsSorting = true
+        }
+    }
+    
+    var needsSorting: Bool {
+        get { objc_getAssociatedObject(self, &AssociatedObjectKey.needsSorting) as? Bool == true }
+        set { objc_setAssociatedObject(self, &AssociatedObjectKey.needsSorting, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
     var isBlurredBackground: Bool {

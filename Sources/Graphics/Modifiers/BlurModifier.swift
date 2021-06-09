@@ -35,6 +35,7 @@ public class BlurModifier: GraphicsItemModifier {
     public let blurIntensity: CGFloat
     public let vibrancy: Vibrancy
     public let allowsMultipleModifiers = false
+    public let priority: GraphicsItemModifierPriority = .required
     
     private weak var blurEffectView: UIVisualEffectView?
     private weak var vibrancyView: UIVisualEffectView?

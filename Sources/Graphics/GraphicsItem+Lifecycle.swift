@@ -30,7 +30,11 @@ public extension GraphicsItem {
     /// You should not call this method directly. If you want to force a modifiers update, call the `setNeedsModify()` method instead to do so prior to the next drawing update.
     /// If you want to update the modifiers of your views immediately, call the `modifyIfNeeded()` method.
     func modifySubviews() {
-        applyGraphicss()
+        if needsSorting {
+            stateModifiers = stateModifiers.sorted { $0.modifier.priority.rawValue > $1.modifier.priority.rawValue }
+            needsSorting = false
+        }
+        applyGraphics()
         
         for subview in subviews {
             guard let subitem = subview as? GraphicsItem else { continue }
@@ -38,7 +42,7 @@ public extension GraphicsItem {
         }
     }
     
-    private func applyGraphicss() {
+    private func applyGraphics() {
         let revertedModifiers = applyModifiers()
         revertedModifiers.forEach { $0.purge() }
     }
