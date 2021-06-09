@@ -28,6 +28,8 @@ public class BlurModifier: GraphicsItemModifier {
     public enum Vibrancy {
         case none
         case `default`
+        
+        @available(iOS 13.0, *)
         case style(UIVibrancyEffectStyle)
     }
     
@@ -63,7 +65,11 @@ public class BlurModifier: GraphicsItemModifier {
         case .default:
             vibrancyEffect = UIVibrancyEffect(blurEffect: effect)
         case .style(let style):
-            vibrancyEffect = UIVibrancyEffect(blurEffect: effect, style: style)
+            if #available(iOS 13.0, *) {
+                vibrancyEffect = UIVibrancyEffect(blurEffect: effect, style: style)
+            } else {
+                vibrancyEffect = UIVibrancyEffect(blurEffect: effect)
+            }
         }
 
         if let mask = view.contentView.layer.mask {

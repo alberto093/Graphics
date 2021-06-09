@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Graphics'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'A framework built on UIKit that allows to create UIView modifiers.'
   s.homepage         = 'https://github.com/alberto093/Graphics'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }

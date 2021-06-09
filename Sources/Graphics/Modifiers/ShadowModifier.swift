@@ -24,7 +24,6 @@
 
 import UIKit
 
-#warning("Add bezier path masking")
 // Shadow support both custom mask path and corner radius modifier. It doesn't support both at the same time.
 public class ShadowModifier: GraphicsItemModifier {
     public enum Shadow {
