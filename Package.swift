@@ -3,14 +3,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "NeumorphicUI",
+    name: "Graphics",
     platforms: [
         .iOS(.v11)
     ],
     products: [
-        .library(name: "NeumorphicUI", targets: ["NeumorphicUI"])
+        .library(name: "Graphics", targets: ["Graphics"])
     ],
     targets: [
-        .target(name: "NeumorphicUI")
+        .target(name: "Graphics")
     ]
 )

@@ -1,2 +1,2 @@
-# NeumorphicUI
-A framework built on UIKit that allows to create UIView modifiers
+# Graphics
+A framework built on UIKit that allows to create and use view modifiers.
