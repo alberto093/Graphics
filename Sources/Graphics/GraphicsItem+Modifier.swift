@@ -25,11 +25,69 @@
 import UIKit
 
 // MARK: - Public
+/// A modifier that you apply to a `UIView` or a `UIControl`, producing a different version of the original value.
+///
+/// Adopt the ``GraphicsItemModifier`` protocol when you want to create a reusable
+/// modifier that you can apply to any view.
+///
+/// You can apply ``modifier(_:)`` directly to a view, but a more common and
+/// idiomatic approach uses ``modifier(_:)`` to define an extension to
+/// ``GraphicsItem`` itself that incorporates the view modifier:
+///
+///     extension GraphicsItem {
+///         @discardableResult func customModifier() -> Self {
+///             modifier(CustomModifier())
+///         }
+///     }
+///
+/// You can then apply the bordered caption to any view, similar to this:
+///
+///     UILabel()
+///         .shadow()
+///         .customModifier()
 public protocol GraphicsItemModifier: AnyObject {
+    
+    /// The priority of the modifier.
+    ///
+    /// By default, all modifiers have high priority.
+    /// Higher priority constraints are satisfied before lower priority constraints.
+    /// Priorities may not change from nonrequired to required, or from required to nonrequired.Changing from one optional priority to another optional priority is allowed even after the modifier is applied on a view.
+    /// Priorities must be greater than 0 and less than or equal to required.
     var priority: GraphicsItemModifierPriority { get }
+    
+    /// A Boolean value specifying whether the view can applies multiple modifiers for the same modifier's type.
+    ///
+    /// When this property is set to `true`, the modifiers system allows the view to be modified using all the same type modifiers provided.
+    ///
+    /// When the property is set to `false`, the modifiers system applies the highest priority modifier and reverts the others.
     var allowsMultipleModifiers: Bool { get }
+    
+    /// The core function in which modifier is applied the to the given view.
+    ///
+    /// - Parameters:
+    ///   - view: The graphics view in which modifier must be applied.
+    ///   - roundedCorners: The corners applied by the corner radius modifier. Use this parameter to round only a subset of the corners of the rectangle.
+    ///   - cornerRadii: The radius of each corner oval.
+    ///
+    /// If the modifier needs to be rounded you should use the two parameters provided or better you firstly need to check if the content view of the graphics item was masked, then use it. Otherwise you can ignore this two parameters.
+    ///
+    /// The implementation can be animated using an `animator`.
     func modify(_ view: GraphicsItem, roundedCorners: UIRectCorner, cornerRadii: CGSize)
+    
+    
+    /// Remove the effects of the modifier.
+    ///
+    /// - Parameter view: The graphics view in which modifier was applied.
+    ///
+    /// The implementation can be animated using an `animator`.
     func revert(_ view: GraphicsItem)
+    
+    
+    /// This method clean and reset any stored properties in order to reset the state of view at its original value.
+    ///
+    /// Modifier system calls this method at the end of animation in order to allows you to fine control the animation in the `revert(_:)` method.
+    ///
+    /// he default implementation of this method does nothing.
     func purge()
 }
 
@@ -55,8 +113,15 @@ public extension GraphicsItemRoundingModifier {
 
 /// The layout priority is used to indicate to the modifiers-based layout system which modifiers are more important.
 public struct GraphicsItemModifierPriority: Hashable, Equatable, RawRepresentable {
+    /// A required modifier.
+    ///
+    /// Do not specify a modifier that exceeds this number.
     public static let required = GraphicsItemModifierPriority(1000)
+    
+    /// The priority level with which a view applies its modifier.
     public static let high = GraphicsItemModifierPriority(750)
+    
+    /// The priority level with which a view applies its modifier.
     public static let low = GraphicsItemModifierPriority(250)
     
     public let rawValue: Int
@@ -72,6 +137,14 @@ public struct GraphicsItemModifierPriority: Hashable, Equatable, RawRepresentabl
 }
 
 public extension GraphicsItem {
+    /// Applies a modifier to a graphics item and returns the callers.
+    ///
+    /// Use this modifier to combine a ``GraphicsItem`` and a ``GraphicsItemModifier``, to update the view layout.
+    ///
+    /// - Parameter modifier: The modifier to apply to this view.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
+    ///
+    /// This method invalidates the current layout of the receiver and triggers a layout update during the next update cycle.
     @discardableResult func modifier(_ modifier: GraphicsItemModifier) -> Self {
         let stateModifier = StateModifier(state: .normal, modifier: modifier)
         stateModifiers.append(stateModifier)
@@ -79,6 +152,11 @@ public extension GraphicsItem {
         return self
     }
     
+    /// Removes a modifier from a graphics item.
+    ///
+    /// - Parameter modifier: The modifier to remove from this view.
+    ///
+    /// This method invalidates the current layout of the receiver and triggers a layout update during the next update cycle.
     func remove(modifier: GraphicsItemModifier) {
         guard let modifierIndex = stateModifiers.firstIndex(where: { $0.modifier === modifier }) else { return }
         stateModifiers.remove(at: modifierIndex)
@@ -86,6 +164,9 @@ public extension GraphicsItem {
         setNeedsLayout()
     }
     
+    /// Remove all modifiers from a graphics item.
+    ///
+    /// This method invalidates the current layout of the receiver and triggers a layout update during the next update cycle.
     func removeAllModifiers() {
         stateModifiers.forEach { $0.modifier.purge() }
         stateModifiers = []
@@ -94,6 +175,16 @@ public extension GraphicsItem {
 }
 
 public extension GraphicsItem where Self: UIControl {
+    /// Applies a modifier to a graphics item and returns the callers.
+    ///
+    /// Use this modifier to combine a ``GraphicsItem`` and a ``GraphicsItemModifier``, to update the view layout.
+    ///
+    /// - Parameters:
+    ///   - modifier: The modifier to apply to this view.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
+    ///
+    /// This method invalidates the current layout of the receiver and triggers a layout update during the next update cycle.
     @discardableResult func modifier(_ modifier: GraphicsItemModifier, state: State) -> Self {
         let stateModifier = StateModifier(state: state, modifier: modifier)
         stateModifiers.append(stateModifier)

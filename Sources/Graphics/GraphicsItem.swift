@@ -35,16 +35,19 @@ import UIKit
 /// }
 /// ```
 ///
-/// The view hierarchy should be
+/// The view hierarchy should be:
 ///
 /// ````
 /// | GraphicsItem (clear background color)
 /// | | UIView (e.g. the content view)
 /// ````
 ///
-/// The must important thing is to layout the content view using autoresizing mask instead of autolayout. Otherwise some modifiers (e.g. blur modifier) should not work as expected
+/// The must important thing is to layout the content view using autoresizing mask instead of autolayout. Otherwise some modifiers (e.g. blur modifier) should not work as expected.
 ///
 public protocol GraphicsItem: UIView {
+    /// The main view that you add your view’s custom content to.
+    ///
+    /// When configuring a graphics item, you add any custom views representing your component’s content to this view. The graphics item object places the content in this view in front of any background views.
     var contentView: UIView { get }
 }
 

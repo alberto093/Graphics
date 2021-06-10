@@ -24,7 +24,7 @@
 
 import UIKit
 
-public class CornerRadiusModifier {
+public class CornerRadiusModifier: GraphicsItemRoundingModifier {
     public enum Radius {
         case circle
         case equalTo(CGFloat)
@@ -33,19 +33,16 @@ public class CornerRadiusModifier {
     public var mask: CACornerMask
     public var radius: Radius
     
-    public init(mask: CACornerMask, radius: Radius) {
-        self.mask = mask
-        self.radius = radius
-    }
-}
-
-extension CornerRadiusModifier: GraphicsItemRoundingModifier {
-    public var allowsMultipleModifiers: Bool {
-        false
-    }
+    public let priority: GraphicsItemModifierPriority = .required
+    public let allowsMultipleModifiers = false
     
     public var roundedCorners: UIRectCorner {
         mask.rectCorners
+    }
+    
+    public init(mask: CACornerMask, radius: Radius) {
+        self.mask = mask
+        self.radius = radius
     }
     
     public func cornerRadii(in view: GraphicsItem) -> CGSize {

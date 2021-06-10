@@ -28,7 +28,7 @@ import UIKit
  An abstract class that allows to load view from nib.
  A NibView sublcass can be instantiated programmatically or embeded inside a Storyboard.
  
- To work properly a NibView subclass must satisfy the following conditions:
+ To work properly a ``NibView`` subclass must satisfy the following conditions:
  - The the nib name must match the subclass name
  - The view inside the nib should be a regular UIView
  - The file's owner of the nib must be the subclass type

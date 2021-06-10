@@ -27,8 +27,8 @@ import UIKit
 public extension GraphicsItem {
     /// Updates modifiers.
     ///
-    /// You should not call this method directly. If you want to force a modifiers update, call the `setNeedsModify()` method instead to do so prior to the next drawing update.
-    /// If you want to update the modifiers of your views immediately, call the `modifyIfNeeded()` method.
+    /// You should not call this method directly. If you want to force a modifiers update, call the `setNeedsLayout()` method instead to do so prior to the next drawing update.
+    /// If you want to update the modifiers of your views immediately, call the `layoutIfNeeded()` method.
     func modifySubviews() {
         if needsSorting {
             stateModifiers = stateModifiers.sorted { $0.modifier.priority.rawValue > $1.modifier.priority.rawValue }

@@ -24,6 +24,11 @@
 
 import UIKit
 
+/// A default implementation of `GraphicsItem` that allows you to create a nib for a specified control.
+///
+/// You should design your component starting directly from the content view of the graphics item.
+///
+/// It provides a new method called `stateDidChange` that allows you to perform any additional actions.
 @IBDesignable open class GraphicsNibControl: NibControl, GraphicsItem {
     public var contentView: UIView {
         nibView
@@ -64,6 +69,11 @@ import UIKit
     }
 }
 
+/// A subclass of `UIControl` that conforms to `GraphicsItem`.
+///
+/// You should design your component following the view hierarchy documented in `GraphicsItem` protocol. The default implementation of the content view requirement returns the first subview.
+///
+/// It provides a new method called `stateDidChange` that allows you to perform any additional actions.
 open class GraphicsControl: UIControl, GraphicsItem {
     open var contentView: UIView {
         if let backgroundView = backgroundView {

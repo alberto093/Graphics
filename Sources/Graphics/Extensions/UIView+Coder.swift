@@ -24,14 +24,14 @@
 
 import UIKit
 
-@objc extension UIView {
+extension UIView {
     /// The `nib` having the name of the class as name
     open class var nib: UINib {
         UINib(nibName: identifier, bundle: Bundle(for: self))
     }
     
     /// The name of the class
-    public static var identifier: String {
+    static var identifier: String {
         String(describing: self)
     }
 }

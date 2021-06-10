@@ -24,6 +24,9 @@
 
 import UIKit
 
+/// A default implementation of `GraphicsItem` that allows you to create a nib for a specified view.
+///
+/// You should design your component starting directly from the content view of the graphics item.
 @IBDesignable open class GraphicsNibView: NibView, GraphicsItem {
     public var contentView: UIView {
         nibView
@@ -35,6 +38,9 @@ import UIKit
     }
 }
 
+/// A subclass of `UIView` that conforms to `GraphicsItem`.
+///
+/// You should design your component following the view hierarchy documented in `GraphicsItem` protocol. The default implementation of the content view requirement returns the first subview.
 open class GraphicsView: UIView, GraphicsItem {
     open var contentView: UIView {
         if let backgroundView = backgroundView {
