@@ -24,18 +24,25 @@
 
 import UIKit
 
+/// A modifier that allows to blur a graphics view.
 public class BlurModifier: GraphicsItemModifier {
+    /// Constants that specify the vibrancy style.
     public enum Vibrancy {
-        case none
         case `default`
         
         @available(iOS 13.0, *)
         case style(UIVibrancyEffectStyle)
     }
     
+    /// The intensity of the blur effect. See [UIBlurEffect.Style](https://developer.apple.com/documentation/uikit/uiblureffect/style) for valid options.
     public let blurStyle: UIBlurEffect.Style
+    
+    /// The percentage of the blur effect. Values should be ranged from 0 to 1.
     public let blurIntensity: CGFloat
-    public let vibrancy: Vibrancy
+    
+    /// The vibrancy effect for a specific blur effect.
+    public let vibrancy: Vibrancy?
+    
     public let allowsMultipleModifiers = false
     public let priority: GraphicsItemModifierPriority = .required
     
@@ -48,7 +55,13 @@ public class BlurModifier: GraphicsItemModifier {
         }
     }
     
-    public init(blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1, vibrancy: Vibrancy = .none) {
+    /// It creates a new blur modifier.
+    ///
+    /// - Parameters:
+    ///   - blurStyle: The intensity of the blur effect. See [UIBlurEffect.Style](https://developer.apple.com/documentation/uikit/uiblureffect/style) for valid options.
+    ///   - blurIntensity: The percentage of the blur effect. Values should be ranged from 0 to 1.
+    ///   - vibrancy: The vibrancy effect for a specific blur effect.
+    public init(blurStyle: UIBlurEffect.Style, blurIntensity: CGFloat = 1, vibrancy: Vibrancy? = nil) {
         self.blurStyle = blurStyle
         self.blurIntensity = blurIntensity
         self.vibrancy = vibrancy
@@ -130,40 +143,54 @@ public class BlurModifier: GraphicsItemModifier {
 }
 
 public extension GraphicsItem {
-    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, vibrancy: BlurModifier.Vibrancy = .none) -> Self {
+    /// Applies a Gaussian blur to this view.
+    ///
+    /// - Parameters:
+    ///   - style: The intensity of the blur effect. See [UIBlurEffect.Style](https://developer.apple.com/documentation/uikit/uiblureffect/style) for valid options.
+    ///   - intensity: The percentage of the blur effect. Values should be ranged from 0 to 1.
+    ///   - vibrancy: The vibrancy effect for a specific blur effect.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
+    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, vibrancy: BlurModifier.Vibrancy? = nil) -> Self {
         let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity, vibrancy: vibrancy)
         return self.modifier(modifier)
     }
 }
 
 public extension GraphicsItem where Self: UIControl {
-    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, vibrancy: BlurModifier.Vibrancy = .none, state: State = .normal) -> Self {
+    /// Applies a Gaussian blur to this view.
+    /// - Parameters:
+    ///   - style: The intensity of the blur effect. See [UIBlurEffect.Style](https://developer.apple.com/documentation/uikit/uiblureffect/style) for valid options.
+    ///   - intensity: The percentage of the blur effect. Values should be ranged from 0 to 1.
+    ///   - vibrancy: The vibrancy effect for a specific blur effect.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
+    @discardableResult func blur(style: UIBlurEffect.Style, intensity: CGFloat = 1, vibrancy: BlurModifier.Vibrancy? = nil, state: State = .normal) -> Self {
         
         let modifier = BlurModifier(blurStyle: style, blurIntensity: intensity, vibrancy: vibrancy)
         return self.modifier(modifier, state: state)
     }
 }
 
-public extension UIRectCorner {
+extension UIRectCorner {
     var cornerMask: CACornerMask {
         var cornerMask = CACornerMask()
-        
+
         if contains(.topLeft) {
             cornerMask.insert(.layerMinXMinYCorner)
         }
-        
+
         if contains(.bottomLeft) {
             cornerMask.insert(.layerMinXMaxYCorner)
         }
-        
+
         if contains(.bottomRight) {
             cornerMask.insert(.layerMaxXMaxYCorner)
         }
-        
+
         if contains(.topRight) {
             cornerMask.insert(.layerMaxXMinYCorner)
         }
-        
+
         return cornerMask
     }
 }

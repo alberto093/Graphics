@@ -24,15 +24,29 @@
 
 import UIKit
 
+/// A modifier that allows to add a border to a graphics view.
+///
+/// It supports the corner radius applied to the view but It doesn't support any custom mask.
 public class BorderModifier: GraphicsItemModifier {
+    /// The position of border layer.
     public var border: Border
+    
+    /// The thickness of the border.
     public var width: CGFloat
+    
+    /// The color of the border.
     public var color: Color
     
     public let allowsMultipleModifiers = true
     
     private weak var borderLayer: CAGradientLayer?
     
+    /// It creates a new border modifier.
+    ///
+    /// - Parameters:
+    ///   - border: The position of border layer.
+    ///   - width: The thickness of the border.
+    ///   - color: The color of the border.
     public init(border: Border, width: CGFloat, color: Color) {
         self.border = border
         self.width = width
@@ -67,24 +81,49 @@ public class BorderModifier: GraphicsItemModifier {
 }
 
 public extension BorderModifier {
+    /// Constants that specify the border position.
     enum Border {
+        
+        /// Border is visually inside the view.
         case inside
+        
+        /// Border is visually over the view.
         case center
+        
+        /// Border is visually outside the view.
         case outside
     }
     
+    /// Constants that specify the border color.
     enum Color {
         case gradient(configuration: GradientConfiguration)
         case flat(UIColor)
     }
     
+    /// A configuration that will be provided to a gradient layer.
     struct GradientConfiguration {
+        /// The style of gradient drawn by the layer.
         let type: CAGradientLayerType
+        
+        /// An array of `UIColor` objects defining the color of each gradient stop.
         let colors: [UIColor]
+        
+        /// An optional array of numbers defining the location of each gradient stop.
         let locations: [Double]?
+        
+        /// The start point of the gradient when drawn in the layer’s coordinate space.
         let startPoint: CGPoint
+        
+        /// The end point of the gradient when drawn in the layer’s coordinate space.
         let endPoint: CGPoint
         
+        /// It creates a gradient configuration.
+        /// - Parameters:
+        ///   - type: The style of gradient drawn by the layer.
+        ///   - colors: An array of `UIColor` objects defining the color of each gradient stop.
+        ///   - locations: An optional array of numbers defining the location of each gradient stop.
+        ///   - startPoint: The start point of the gradient when drawn in the layer’s coordinate space.
+        ///   - endPoint: The end point of the gradient when drawn in the layer’s coordinate space.
         public init(
             type: CAGradientLayerType = .axial,
             colors: [UIColor],
@@ -133,11 +172,23 @@ public extension BorderModifier {
 }
 
 public extension GraphicsItem {
+    /// Adds a border to this view with the specified style and width.
+    /// - Parameters:
+    ///   - position: The position of border layer.
+    ///   - width: The thickness of the border.
+    ///   - color: The color of the border.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
         return self.modifier(modifier)
     }
     
+    /// Adds a border to this view with the specified style and width.
+    /// - Parameters:
+    ///   - position: The position of border layer.
+    ///   - width: The thickness of the border.
+    ///   - gradient: The configuration for the gradient layer.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, gradient: BorderModifier.GradientConfiguration) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .gradient(configuration: gradient))
         return self.modifier(modifier)
@@ -145,11 +196,25 @@ public extension GraphicsItem {
 }
 
 public extension GraphicsItem where Self: UIControl {
+    /// Adds a border to this view with the specified style and width.
+    /// - Parameters:
+    ///   - position: The position of border layer.
+    ///   - width: The thickness of the border.
+    ///   - color: The color of the border.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, color: UIColor, state: State = .normal) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .flat(color))
         return self.modifier(modifier, state: state)
     }
     
+    /// Adds a border to this view with the specified style and width.
+    /// - Parameters:
+    ///   - position: The position of border layer.
+    ///   - width: The thickness of the border.
+    ///   - gradient: The configuration for the gradient layer.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func border(position: BorderModifier.Border = .center, width: CGFloat, gradient: BorderModifier.GradientConfiguration, state: State = .normal) -> Self {
         let modifier = BorderModifier(border: position, width: width, color: .gradient(configuration: gradient))
         return self.modifier(modifier, state: state)
