@@ -1,7 +1,7 @@
 //
 //  UIview+Coder.swift
 //
-//  Copyright © 2020 Graphics - Alberto Saltarelli
+//  Copyright © 2021 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
