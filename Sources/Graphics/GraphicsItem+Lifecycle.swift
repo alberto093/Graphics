@@ -31,7 +31,12 @@ public extension GraphicsItem {
     /// If you want to update the modifiers of your views immediately, call the `modifyIfNeeded()` method.
     func modifySubviews() {
         if needsSorting {
-            stateModifiers = stateModifiers.sorted { $0.modifier.priority.rawValue > $1.modifier.priority.rawValue }
+            stateModifiers = stateModifiers.sorted {
+                let lhs = ($0.modifier.priority.rawValue, $0.state.rawValue)
+                let rhs = ($1.modifier.priority.rawValue, $1.state.rawValue)
+                return lhs > rhs
+            }
+            
             needsSorting = false
         }
         applyGraphics()
@@ -63,31 +68,27 @@ public extension GraphicsItem {
         }
         
         var revertedModifiers: [GraphicsItemModifier] = []
-        
+        var viewStateAppliedModifiers: Set<String> = []
+        var normalStateAppliedModifiers: Set<String> = []
+
         for stateModifier in stateModifiers {
+            let modifierIdentifier = type(of: stateModifier.modifier).identifier
+
             switch stateModifier.state {
-            case
-                viewState,
-                .normal where !stateModifiers.contains(where: { type(of: $0.modifier) == type(of: stateModifier.modifier) && $0.state == viewState }):
+            case viewState where
+                    !viewStateAppliedModifiers.contains(modifierIdentifier) || stateModifier.modifier.allowsMultipleModifiers:
+                
                 stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1)
+                viewStateAppliedModifiers.insert(modifierIdentifier)
+            case .normal where
+                    !viewStateAppliedModifiers.contains(modifierIdentifier) &&
+                    (!normalStateAppliedModifiers.contains(modifierIdentifier) || stateModifier.modifier.allowsMultipleModifiers):
+                
+                stateModifier.modifier.modify(self, roundedCorners: cornerMaskRadii.0, cornerRadii: cornerMaskRadii.1)
+                normalStateAppliedModifiers.insert(modifierIdentifier)
             default:
-                let shouldRevertModifier: Bool
-                
-                if stateModifier.modifier.allowsMultipleModifiers {
-                    shouldRevertModifier = true
-                } else {
-                    let existActiveModifier = stateModifiers.contains {
-                        let stateRequirement = $0.state == viewState || $0.state == .normal
-                        return type(of: $0.modifier) == type(of: stateModifier.modifier) && stateRequirement
-                    }
-                    
-                    shouldRevertModifier = !existActiveModifier
-                }
-                
-                if shouldRevertModifier {
-                    stateModifier.modifier.revert(self)
-                    revertedModifiers.append(stateModifier.modifier)
-                }
+                stateModifier.modifier.revert(self)
+                revertedModifiers.append(stateModifier.modifier)
             }
         }
         

@@ -78,7 +78,6 @@ public class ShadowModifier: GraphicsItemModifier {
             view.clipsToBounds = false
             updateOuterShadow(layer: layer, roundedCorners: roundedCorners, cornerRadii: cornerRadii, in: view)
         case .inner:
-            view.contentView.clipsToBounds = true
             updateInnerShadow(layer: layer, roundedCorners: roundedCorners, cornerRadii: cornerRadii, in: view)
         }
     }
@@ -172,7 +171,7 @@ public extension GraphicsItem where Self: UIControl {
         state: UIControl.State = .normal) -> Self {
         
         let modifier = ShadowModifier(shadow: shadow, color: color, offset: offset, radius: blur / UIScreen.main.scale, opacity: opacity)
-        return self.modifier(modifier)
+        return self.modifier(modifier, state: state)
     }
 }
 

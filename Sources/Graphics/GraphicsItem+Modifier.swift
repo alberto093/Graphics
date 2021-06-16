@@ -155,10 +155,7 @@ public extension GraphicsItem {
     ///
     /// This method invalidates the current layout of the receiver and triggers a layout update during the next update cycle.
     @discardableResult func modifier(_ modifier: GraphicsItemModifier) -> Self {
-        let stateModifier = StateModifier(state: .normal, modifier: modifier)
-        stateModifiers.append(stateModifier)
-        setNeedsLayout()
-        return self
+        modify(with: modifier, for: .normal)
     }
     
     /// Removes a modifier from a graphics item.
@@ -181,6 +178,13 @@ public extension GraphicsItem {
         stateModifiers = []
         setNeedsLayout()
     }
+    
+    private func modify(with modifier: GraphicsItemModifier, for state: UIControl.State) -> Self {
+        let stateModifier = StateModifier(state: state, modifier: modifier)
+        stateModifiers.append(stateModifier)
+        setNeedsLayout()
+        return self
+    }
 }
 
 public extension GraphicsItem where Self: UIControl {
@@ -195,14 +199,18 @@ public extension GraphicsItem where Self: UIControl {
     ///
     /// This method invalidates the current layout of the receiver and triggers a layout update during the next update cycle.
     @discardableResult func modifier(_ modifier: GraphicsItemModifier, state: State) -> Self {
-        let stateModifier = StateModifier(state: state, modifier: modifier)
-        stateModifiers.append(stateModifier)
-        setNeedsLayout()
-        return self
+        modify(with: modifier, for: state)
     }
 }
 
 // MARK: - Private
+extension GraphicsItemModifier {
+    /// The name of the class
+    static var identifier: String {
+        String(describing: self)
+    }
+}
+
 private struct AssociatedObjectKey {
     static var stateModifiers = "graphicsItem_stateModifiers"
     static var needsSorting = "neumorphicItem_needsSorting"
