@@ -26,15 +26,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="384.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Buttons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mzE-1T-FVF">
-                                                    <rect key="frame" x="20" y="14" width="53" height="17"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="GraphicButton" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mzE-1T-FVF">
+                                                    <rect key="frame" x="20" y="14" width="98" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="corner radius, shadow" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="us1-ZD-3on">
-                                                    <rect key="frame" x="234.5" y="14" width="142" height="17"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="corner radius, shadows, gradients" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="us1-ZD-3on">
+                                                    <rect key="frame" x="160" y="14" width="216.5" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -66,7 +66,7 @@
             </objects>
             <point key="canvasLocation" x="1237.68115942029" y="328.79464285714283"/>
         </scene>
-        <!--Neumorphic Buttons View Controller-->
+        <!--Examples of GraphicButton-->
         <scene sceneID="0S9-HY-QiZ">
             <objects>
                 <viewController id="bxo-UU-9ZP" customClass="NeumorphicButtonsViewController" customModule="Graphics_Demo" customModuleProvider="target" sceneMemberID="viewController">
@@ -78,7 +78,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="pWu-a0-wQ2">
-                                        <rect key="frame" x="16" y="242" width="382" height="290"/>
+                                        <rect key="frame" x="16" y="182" width="382" height="410"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="LtB-fW-kLc" customClass="GraphicsButton" customModule="Graphics">
                                                 <rect key="frame" x="0.0" y="0.0" width="382" height="180"/>
@@ -87,15 +87,19 @@
                                                     <constraint firstAttribute="height" constant="180" id="2uB-lk-G5C"/>
                                                 </constraints>
                                                 <connections>
-                                                    <action selector="titleButtonDidTap" destination="bxo-UU-9ZP" eventType="touchUpInside" id="Pwr-Wf-B4Z"/>
+                                                    <action selector="buttonDidTap:" destination="bxo-UU-9ZP" eventType="touchUpInside" id="GqW-MY-Snn"/>
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="DfM-oe-LIp" customClass="GraphicsButton" customModule="Graphics">
-                                                <rect key="frame" x="0.0" y="230" width="382" height="60"/>
+                                                <rect key="frame" x="101" y="230" width="180" height="180"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="jJc-qd-MW7"/>
+                                                    <constraint firstAttribute="width" constant="180" id="0Kh-vc-9wt"/>
+                                                    <constraint firstAttribute="height" constant="180" id="jJc-qd-MW7"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="buttonDidTap:" destination="bxo-UU-9ZP" eventType="touchUpInside" id="Nqs-VE-uHN"/>
+                                                </connections>
                                             </view>
                                         </subviews>
                                     </stackView>
@@ -112,10 +116,10 @@
                             <constraint firstItem="Hn8-8d-8f2" firstAttribute="bottom" secondItem="WWf-la-Iv0" secondAttribute="bottom" id="JMV-ez-SbG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="gcF-MA-msj"/>
+                    <navigationItem key="navigationItem" title="Examples of GraphicButton" id="gcF-MA-msj"/>
                     <connections>
-                        <outlet property="gradientButton" destination="DfM-oe-LIp" id="skK-Ju-Jvw"/>
-                        <outlet property="titleButton" destination="LtB-fW-kLc" id="CN0-zA-pQR"/>
+                        <outlet property="gradientButton" destination="LtB-fW-kLc" id="CN0-zA-pQR"/>
+                        <outlet property="imageButton" destination="DfM-oe-LIp" id="OCv-ax-WKb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DPq-tW-ePm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -141,14 +145,6 @@
             <point key="canvasLocation" x="327.536231884058" y="328.79464285714283"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="DfM-oe-LIp">
-            <size key="intrinsicContentSize" width="414" height="0.0"/>
-        </designable>
-        <designable name="LtB-fW-kLc">
-            <size key="intrinsicContentSize" width="414" height="0.0"/>
-        </designable>
-    </designables>
     <resources>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
