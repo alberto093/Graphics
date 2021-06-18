@@ -24,6 +24,27 @@
 
 import UIKit
 
+
+/*
+ 
+ private let borderModifier = BorderModifier(border: .center, width: 1, color: .flat(.black))
+ borderModifier.color = .gradient(configuration: .init(colors: configuration.gradientColors, startPoint: CGPoint(x: 1, y: 0.5), endPoint: CGPoint(x: 0, y: 0.5)))
+ 
+ toggleView
+     .cornerRadius(radius: .circle)
+     .modifier(borderModifier)
+     .shadow(color: .darkShadow, offset: CGSize(width: 10, height: 10), blur: 30, opacity: 0.4)
+     .shadow(color: .lightShadow, offset: CGSize(width: -10, height: -10), blur: 30, opacity: 1)
+ 
+ private func applyPreferredToggleModifiersIfNeeded() {
+     guard configuration.isToggleEnabled else { return }
+     shadow(.inner, color: .lightShadow, offset: CGSize(width: -10, height: -10), blur: 10, opacity: 0.7)
+     shadow(.inner, color: .darkShadow, offset: CGSize(width: 10, height: 10), blur: 10, opacity: 0.2)
+     cornerRadius(radius: .circle)
+ }
+ 
+ */
+
 #warning("Create segmented struct that allows to set both text and image for each segment. Create APIs like insertSegmentImage:at: and insertSegmentTitle:at:")
 
 /// A horizontal control that consists of multiple segments, each segment functioning as a discrete button.
@@ -33,7 +54,7 @@ import UIKit
 ///
 ///     segmentedControl.addTarget(self, action: "action:", forControlEvents: .valueChanged)
 ///
-open class GraphicsSegmentedControl: NeumorphicControl {
+open class GraphicsSegmentedControl: GraphicsControl {
     private struct Constants {
         static let segmentAnimationDuration: TimeInterval = 0.18
     }
@@ -42,8 +63,8 @@ open class GraphicsSegmentedControl: NeumorphicControl {
     
     private let segmentsStackView = UIStackView()
     
-    private let toggleView: NeumorphicView = {
-        let view = NeumorphicView()
+    private let toggleView: GraphicsView = {
+        let view = GraphicsView()
         let contentView = UIView()
         view.addSubview(contentView)
         contentView.fill(view: view, insets: .zero, useSafeArea: false)
@@ -51,8 +72,6 @@ open class GraphicsSegmentedControl: NeumorphicControl {
     }()
     
     private let lineView = GradientView()
-    
-    private let borderModifier = BorderModifier(border: .center, width: 1, color: .flat(.black))
     
     private var segments: [UILabel] {
         segmentsStackView.arrangedSubviews as? [UILabel] ?? []
@@ -71,10 +90,11 @@ open class GraphicsSegmentedControl: NeumorphicControl {
             setupTitles()
             
             switch selectedSegmentIndex {
-            case NeumorphicSegmentedControl.noSegment:
+            case GraphicsSegmentedControl.noSegment,
+                 _ where titles.isEmpty:
                 update()
             default:
-                selectedSegmentIndex = selectedSegmentIndex.clamped(to: titles.indices)
+                selectedSegmentIndex = selectedSegmentIndex < titles.count ? selectedSegmentIndex : 0
             }
         }
     }
@@ -82,7 +102,6 @@ open class GraphicsSegmentedControl: NeumorphicControl {
     var configuration = Configuration() {
         didSet {
             removeAllModifiers()
-            applyPreferredToggleModifiersIfNeeded()
             update()
         }
     }
@@ -96,17 +115,17 @@ open class GraphicsSegmentedControl: NeumorphicControl {
     }
     private var isTrackingToggle = false
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
     }
     
-    override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         let segmentIndex = isTrackingToggle ? highlightedSegmentIndex : selectedSegmentIndex
         updateToggleView(segmentIndex: segmentIndex)
@@ -124,12 +143,6 @@ open class GraphicsSegmentedControl: NeumorphicControl {
         contentView.fill(view: self, insets: .zero, useSafeArea: false)
         segmentsStackView.fill(view: contentView, insets: .zero, useSafeArea: false)
     
-        toggleView
-            .cornerRadius(radius: .circle)
-            .modifier(borderModifier)
-            .shadow(color: .darkShadow, offset: CGSize(width: 10, height: 10), blur: 30, opacity: 0.4)
-            .shadow(color: .lightShadow, offset: CGSize(width: -10, height: -10), blur: 30, opacity: 1)
-        
         lineView.startPoint = CGPoint(x: 0, y: 0.5)
         lineView.endPoint = CGPoint(x: 1, y: 0.5)
         
@@ -148,11 +161,17 @@ open class GraphicsSegmentedControl: NeumorphicControl {
     
     private func update() {
         contentView.backgroundColor = configuration.backgroundColor
-        toggleView.isHidden = !configuration.isToggleEnabled
-        toggleView.contentView.backgroundColor = configuration.backgroundColor
-        borderModifier.color = .gradient(configuration: .init(colors: configuration.gradientColors, startPoint: CGPoint(x: 1, y: 0.5), endPoint: CGPoint(x: 0, y: 0.5)))
-        lineView.colors = configuration.gradientColors
-        lineView.isHidden = configuration.isToggleEnabled
+        
+        switch configuration.selectionStyle {
+        case .toggle(let backgroundColor):
+            toggleView.isHidden = false
+            lineView.isHidden = true
+            toggleView.contentView.backgroundColor = backgroundColor
+        case .line(_, let colors):
+            lineView.isHidden = false
+            toggleView.isHidden = true
+            lineView.colors = colors.count == 1 ? [colors[0], colors[0]] : colors
+        }
         
         titles.enumerated().forEach {
             guard let label = segments[safe: $0.offset] else { return }
@@ -225,7 +244,7 @@ open class GraphicsSegmentedControl: NeumorphicControl {
     }
     
     private func updateLineView(segmentIndex: Int) {
-        guard case .line(let lineConfiguration) = configuration.selectionStyle, segments.indices.contains(segmentIndex) else { return }
+        guard case .line(let lineConfiguration, _) = configuration.selectionStyle, segments.indices.contains(segmentIndex) else { return }
         
         layoutIfNeeded()
         lineView.frame.size.height = lineConfiguration.height
@@ -266,13 +285,6 @@ open class GraphicsSegmentedControl: NeumorphicControl {
         lineView.layer.cornerRadius = min(lineWidth, lineConfiguration.height) / 2
     }
     
-    private func applyPreferredToggleModifiersIfNeeded() {
-        guard configuration.isToggleEnabled else { return }
-        shadow(.inner, color: .lightShadow, offset: CGSize(width: -10, height: -10), blur: 10, opacity: 0.7)
-        shadow(.inner, color: .darkShadow, offset: CGSize(width: 10, height: 10), blur: 10, opacity: 0.2)
-        cornerRadius(radius: .circle)
-    }
-    
     private func animateToggleTracking() {
         UIView.animate(
             withDuration: Constants.segmentAnimationDuration,
@@ -289,10 +301,10 @@ open class GraphicsSegmentedControl: NeumorphicControl {
             }
         }
         
-        return NeumorphicSegmentedControl.noSegment
+        return GraphicsSegmentedControl.noSegment
     }
 
-    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    open override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         guard super.beginTracking(touch, with: event) else { return false }
 
         let touchLocation = touch.location(in: self)
@@ -302,10 +314,10 @@ open class GraphicsSegmentedControl: NeumorphicControl {
         return true
     }
     
-    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    open override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         guard super.continueTracking(touch, with: event) else { return false }
         let touchLocation = touch.location(in: self)
-        let highlightingSegmentIndex = isHighlighted || isTrackingToggle ? indexForSegment(at: touchLocation.x) : NeumorphicSegmentedControl.noSegment
+        let highlightingSegmentIndex = isHighlighted || isTrackingToggle ? indexForSegment(at: touchLocation.x) : GraphicsSegmentedControl.noSegment
         
         if highlightingSegmentIndex != highlightedSegmentIndex, !isTrackingToggle || segments.indices.contains(highlightingSegmentIndex) {
             highlightedSegmentIndex = highlightingSegmentIndex
@@ -315,7 +327,7 @@ open class GraphicsSegmentedControl: NeumorphicControl {
         return true
     }
     
-    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+    open override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         super.endTracking(touch, with: event)
         let isValueChanged = selectedSegmentIndex != highlightedSegmentIndex && (isHighlighted || isTrackingToggle)
         isTrackingToggle = false
@@ -330,15 +342,15 @@ open class GraphicsSegmentedControl: NeumorphicControl {
     }
 }
 
-extension NeumorphicSegmentedControl {
+extension GraphicsSegmentedControl {
     enum SegmentWidth {
         case intrinsic
         case equalTo(width: CGFloat)
     }
     
     enum SelectionStyle {
-        case toggle
-        case line(configuration: LineConfiguration)
+        case toggle(background: UIColor)
+        case line(configuration: LineConfiguration, colors: [UIColor])
     }
     
     struct LineConfiguration {
@@ -375,15 +387,9 @@ extension NeumorphicSegmentedControl {
     }
     
     struct Configuration {
-        var primaryColor: UIColor
-        var secondaryColor: UIColor?
         var backgroundColor: UIColor
         var segmentsPadding: CGFloat
         var selectionStyle: SelectionStyle
-        
-        var gradientColors: [UIColor] {
-            [primaryColor, secondaryColor ?? primaryColor]
-        }
         
         fileprivate var isToggleEnabled: Bool {
             switch selectionStyle {
@@ -395,14 +401,10 @@ extension NeumorphicSegmentedControl {
         }
 
         init(
-            primaryColor: UIColor = .appBackground,
-            secondaryColor: UIColor? = nil,
-            backgroundColor: UIColor = .appBackground,
+            backgroundColor: UIColor = .lightGray,
             segmentsPadding: CGFloat = 30,
-            selectionStyle: SelectionStyle = .toggle) {
+            selectionStyle: SelectionStyle = .toggle(background: .darkGray)) {
             
-            self.primaryColor = primaryColor
-            self.secondaryColor = secondaryColor
             self.backgroundColor = backgroundColor
             self.segmentsPadding = segmentsPadding
             self.selectionStyle = selectionStyle

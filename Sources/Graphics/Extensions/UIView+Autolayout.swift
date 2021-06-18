@@ -24,7 +24,7 @@
 
 import UIKit
 
-@objc public extension UIView {
+public extension UIView {
     /**
      Adds Autolayout constraints to fill `view` with `self`
      
