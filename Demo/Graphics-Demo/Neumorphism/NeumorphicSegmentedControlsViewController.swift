@@ -36,7 +36,12 @@ class NeumorphicSegmentedControlsViewController: UIViewController {
         
         gradientSegmentedControl.toggleItem
             .cornerRadius(radius: .circle)
-            .border(width: 4, gradient: BorderModifier.GradientConfiguration(colors: [.red, .orange]))
+            .border(
+                width: 4,
+                gradient: BorderModifier.GradientConfiguration(
+                    colors: [.red, .orange],
+                    startPoint: CGPoint(x: 0, y: 0.5),
+                    endPoint: CGPoint(x: 1, y: 0.5)))
             .shadow(color: .darkShadow, offset: CGSize(width: 10, height: 10), blur: 30, opacity: 0.4)
             .shadow(color: .lightShadow, offset: CGSize(width: -10, height: -10), blur: 30, opacity: 1)
         
