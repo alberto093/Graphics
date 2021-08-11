@@ -24,30 +24,30 @@
 
 import UIKit
 
-class GradientView: UIView {
-    override static var layerClass: AnyClass {
+open class GradientView: UIView {
+    public override static var layerClass: AnyClass {
         CAGradientLayer.self
     }
     
-    var startPoint: CGPoint = CGPoint(x: 0.5, y: 0)
-    var endPoint: CGPoint = CGPoint(x: 0.5, y: 1)
+    public var startPoint: CGPoint = CGPoint(x: 0.5, y: 0)
+    public var endPoint: CGPoint = CGPoint(x: 0.5, y: 1)
     private var firstColor: UIColor = .clear
     private var secondColor: UIColor = .clear
 
-    var gradientLayer: CAGradientLayer {
+    public var gradientLayer: CAGradientLayer {
         // swiftlint:disable:next force_cast
         layer as! CAGradientLayer
     }
     
-    var colors: [UIColor]? {
+    public var colors: [UIColor]? {
         didSet { setNeedsDisplay() }
     }
     
-    var locations: [Double]? {
+    public var locations: [Double]? {
         didSet { setNeedsDisplay() }
     }
     
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         super.draw(rect)
         gradientLayer.colors = (colors ?? [firstColor, secondColor]).map(\.cgColor)
         gradientLayer.startPoint = startPoint
@@ -55,7 +55,7 @@ class GradientView: UIView {
         gradientLayer.locations = locations?.map(NSNumber.init)
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         backgroundColor = .clear
     }

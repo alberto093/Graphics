@@ -61,11 +61,11 @@ public class BorderModifier: GraphicsItemModifier {
         
         switch border {
         case .inside:
-            layerSize = view.contentView.bounds.size
+            layerSize = view.bounds.size
         case .center:
-            layerSize = view.contentView.bounds.insetBy(dx: -width / 2, dy: -width / 2).size
+            layerSize = view.bounds.insetBy(dx: -width / 2, dy: -width / 2).size
         case .outside:
-            layerSize = view.contentView.bounds.insetBy(dx: -width, dy: -width).size
+            layerSize = view.bounds.insetBy(dx: -width, dy: -width).size
         }
 
         updateBorder(layer: layer, rectSize: layerSize, roundedCorners: roundedCorners, cornerRadii: cornerRadii)

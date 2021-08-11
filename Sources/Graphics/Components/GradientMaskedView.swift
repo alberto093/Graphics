@@ -24,10 +24,10 @@
 
 import UIKit
 
-class GradientMaskedView: GradientView {
-    @IBOutlet private weak var contentMaskView: UIView!
+public class GradientMaskedView: GradientView {
+    @IBOutlet public weak var contentMaskView: UIView!
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         layer.mask = contentMaskView.layer
     }
