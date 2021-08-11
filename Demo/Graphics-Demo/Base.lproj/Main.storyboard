@@ -55,6 +55,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Xl0-8J-dCJ" kind="show" id="TxQ-Es-ZbP"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -76,7 +79,7 @@
             </objects>
             <point key="canvasLocation" x="1237.68115942029" y="328.79464285714283"/>
         </scene>
-        <!--Examples of GraphicButton-->
+        <!--GraphicsButton-->
         <scene sceneID="0S9-HY-QiZ">
             <objects>
                 <viewController id="bxo-UU-9ZP" customClass="NeumorphicButtonsViewController" customModule="Graphics_Demo" customModuleProvider="target" sceneMemberID="viewController">
@@ -126,7 +129,7 @@
                             <constraint firstItem="Hn8-8d-8f2" firstAttribute="bottom" secondItem="WWf-la-Iv0" secondAttribute="bottom" id="JMV-ez-SbG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Examples of GraphicButton" id="gcF-MA-msj"/>
+                    <navigationItem key="navigationItem" title="GraphicsButton" id="gcF-MA-msj"/>
                     <connections>
                         <outlet property="gradientButton" destination="LtB-fW-kLc" id="CN0-zA-pQR"/>
                         <outlet property="imageButton" destination="DfM-oe-LIp" id="OCv-ax-WKb"/>
@@ -134,7 +137,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DPq-tW-ePm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2273.913043478261" y="156.69642857142856"/>
+            <point key="canvasLocation" x="2212" y="-177"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="t4b-Sz-mhS">
@@ -153,6 +156,98 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mgP-em-ZRp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="327.536231884058" y="328.79464285714283"/>
+        </scene>
+        <!--GraphicsSegmentedControl-->
+        <scene sceneID="WqB-Qh-KOZ">
+            <objects>
+                <viewController id="Xl0-8J-dCJ" customClass="NeumorphicSegmentedControlsViewController" customModule="Graphics_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cGH-0V-CZa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Vjl-8V-b3i">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="iYD-M4-Dc5">
+                                        <rect key="frame" x="0.0" y="182" width="414" height="410"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="jFe-UD-fJR" customClass="GraphicsSegmentedControl" customModule="Graphics">
+                                                <rect key="frame" x="16" y="0.0" width="382" height="50"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="JDr-hL-sxA"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="buttonDidTap:" destination="bxo-UU-9ZP" eventType="touchUpInside" id="Jq2-xg-pI2"/>
+                                                </connections>
+                                            </view>
+                                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="nbE-xU-EbV" customClass="GraphicsSegmentedControl" customModule="Graphics">
+                                                <rect key="frame" x="16" y="100" width="382" height="50"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="C6M-wD-tEI"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="buttonDidTap:" destination="bxo-UU-9ZP" eventType="touchUpInside" id="o2S-CW-sxh"/>
+                                                </connections>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TWa-Bz-o4d">
+                                                <rect key="frame" x="0.0" y="200" width="414" height="210"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="paf-fO-ltV" customClass="GraphicsSegmentedControl" customModule="Graphics">
+                                                        <rect key="frame" x="16" y="80" width="382" height="50"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="zpv-WY-DLd"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <action selector="buttonDidTap:" destination="bxo-UU-9ZP" eventType="touchUpInside" id="z6D-yn-h1C"/>
+                                                        </connections>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="paf-fO-ltV" secondAttribute="trailing" constant="16" id="GMb-Dp-g9i"/>
+                                                    <constraint firstItem="paf-fO-ltV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TWa-Bz-o4d" secondAttribute="leading" constant="16" id="RYl-KT-BsK"/>
+                                                    <constraint firstItem="paf-fO-ltV" firstAttribute="top" secondItem="TWa-Bz-o4d" secondAttribute="top" constant="80" id="STB-ke-Exg"/>
+                                                    <constraint firstAttribute="bottom" secondItem="paf-fO-ltV" secondAttribute="bottom" constant="80" id="vrd-oQ-jOG"/>
+                                                    <constraint firstItem="paf-fO-ltV" firstAttribute="centerX" secondItem="TWa-Bz-o4d" secondAttribute="centerX" id="wNS-q0-27S"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="TWa-Bz-o4d" secondAttribute="trailing" id="GSl-Be-PU4"/>
+                                            <constraint firstItem="jFe-UD-fJR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iYD-M4-Dc5" secondAttribute="leading" constant="16" id="GhS-sW-xz8"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jFe-UD-fJR" secondAttribute="trailing" constant="16" id="JJI-VU-MsK"/>
+                                            <constraint firstItem="TWa-Bz-o4d" firstAttribute="leading" secondItem="iYD-M4-Dc5" secondAttribute="leading" id="YQW-ZB-H66"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nbE-xU-EbV" secondAttribute="trailing" constant="16" id="kjc-LX-tKO"/>
+                                            <constraint firstItem="nbE-xU-EbV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iYD-M4-Dc5" secondAttribute="leading" constant="16" id="xNU-Hv-aTf"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="16" left="0.0" bottom="16" right="0.0"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="iHw-Mx-67G"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iHw-Mx-67G" firstAttribute="bottom" secondItem="Vjl-8V-b3i" secondAttribute="bottom" id="Uxc-bx-Atu"/>
+                            <constraint firstItem="Vjl-8V-b3i" firstAttribute="top" secondItem="iHw-Mx-67G" secondAttribute="top" id="bI4-ng-00F"/>
+                            <constraint firstItem="Vjl-8V-b3i" firstAttribute="leading" secondItem="iHw-Mx-67G" secondAttribute="leading" id="hmg-th-XPJ"/>
+                            <constraint firstItem="iHw-Mx-67G" firstAttribute="trailing" secondItem="Vjl-8V-b3i" secondAttribute="trailing" id="r5n-Lm-bKB"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="GraphicsSegmentedControl" id="6f9-cN-6Bh"/>
+                    <connections>
+                        <outlet property="darkSegmentedControl" destination="paf-fO-ltV" id="ZhH-aB-XB8"/>
+                        <outlet property="darkSegmentedControlContainerView" destination="TWa-Bz-o4d" id="KSh-cg-gbF"/>
+                        <outlet property="gradientSegmentedControl" destination="jFe-UD-fJR" id="uAf-K3-clu"/>
+                        <outlet property="tintSegmentedControl" destination="nbE-xU-EbV" id="sls-Mu-8NR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dkq-8o-13d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3064" y="-177"/>
         </scene>
     </scenes>
     <designables>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D31D60DE26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60DD26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift */; };
 		D3531571266F972F00A656EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353156F266F96BB00A656EE /* AppDelegate.swift */; };
 		D3531573266F975900A656EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D353156A266F96BB00A656EE /* Assets.xcassets */; };
 		D3531574266F976400A656EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D353156B266F96BB00A656EE /* LaunchScreen.storyboard */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		D312262D246B025500FD2B69 /* Graphics-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Graphics-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D31D60DD26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeumorphicSegmentedControlsViewController.swift; sourceTree = "<group>"; };
 		D353156A266F96BB00A656EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D353156C266F96BB00A656EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D353156E266F96BB00A656EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		D35841C3267900D700E6A01D /* Neumorphism */ = {
 			isa = PBXGroup;
 			children = (
+				D31D60DD26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift */,
 				D35841C1267900D400E6A01D /* NeumorphicButtonsViewController.swift */,
 			);
 			path = Neumorphism;
@@ -194,6 +197,7 @@
 				D35841C2267900D400E6A01D /* NeumorphicButtonsViewController.swift in Sources */,
 				D3531571266F972F00A656EE /* AppDelegate.swift in Sources */,
 				D35841C62679021000E6A01D /* UIColor+.swift in Sources */,
+				D31D60DE26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

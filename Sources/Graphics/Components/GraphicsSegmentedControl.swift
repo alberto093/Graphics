@@ -24,33 +24,10 @@
 
 import UIKit
 
-
-/*
- 
- private let borderModifier = BorderModifier(border: .center, width: 1, color: .flat(.black))
- borderModifier.color = .gradient(configuration: .init(colors: configuration.gradientColors, startPoint: CGPoint(x: 1, y: 0.5), endPoint: CGPoint(x: 0, y: 0.5)))
- 
- toggleView
-     .cornerRadius(radius: .circle)
-     .modifier(borderModifier)
-     .shadow(color: .darkShadow, offset: CGSize(width: 10, height: 10), blur: 30, opacity: 0.4)
-     .shadow(color: .lightShadow, offset: CGSize(width: -10, height: -10), blur: 30, opacity: 1)
- 
- private func applyPreferredToggleModifiersIfNeeded() {
-     guard configuration.isToggleEnabled else { return }
-     shadow(.inner, color: .lightShadow, offset: CGSize(width: -10, height: -10), blur: 10, opacity: 0.7)
-     shadow(.inner, color: .darkShadow, offset: CGSize(width: 10, height: 10), blur: 10, opacity: 0.2)
-     cornerRadius(radius: .circle)
- }
- 
- */
-
-#warning("Create segmented struct that allows to set both text and image for each segment. Create APIs like insertSegmentImage:at: and insertSegmentTitle:at:")
-
 /// A horizontal control that consists of multiple segments, each segment functioning as a discrete button.
 ///
 /// A segmented control can display a title (an NSString object) or an image (UIImage object). The `GraphicsSegmentedControl` object automatically resizes segments to fit proportionally within their superview unless they have a specific width set.
-/// You register the target-action methods for a segmented.  control using the `valueChanged` constant as shown below.
+/// You register the target-action methods for a segmented control using the `valueChanged` constant as shown below.
 ///
 ///     segmentedControl.addTarget(self, action: "action:", forControlEvents: .valueChanged)
 ///
@@ -85,7 +62,13 @@ open class GraphicsSegmentedControl: GraphicsControl {
         didSet { update() }
     }
     
-    var titles: [String] = [] {
+    public var toggleItemInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) {
+        didSet {
+            updateToggleView(segmentIndex: selectedSegmentIndex)
+        }
+    }
+    
+    open var titles: [String] = [] {
         didSet {
             setupTitles()
             
@@ -99,20 +82,21 @@ open class GraphicsSegmentedControl: GraphicsControl {
         }
     }
     
-    var configuration = Configuration() {
+    open var configuration = Configuration() {
         didSet {
             removeAllModifiers()
             update()
         }
     }
 
-    var selectedSegmentIndex = noSegment {
+    open var selectedSegmentIndex = noSegment {
         didSet { update() }
     }
     
     private var highlightedSegmentIndex = noSegment {
         didSet { update() }
     }
+    
     private var isTrackingToggle = false
     
     public override init(frame: CGRect) {
@@ -238,9 +222,10 @@ open class GraphicsSegmentedControl: GraphicsControl {
     private func updateToggleView(segmentIndex: Int) {
         guard configuration.isToggleEnabled, segments.indices.contains(segmentIndex) else { return }
         layoutIfNeeded()
-        toggleView.frame.size.width = segments[segmentIndex].bounds.width
-        toggleView.frame.size.height = bounds.height
-        toggleView.frame.origin.x = segments[0..<segmentIndex].reduce(0) { $0 + $1.bounds.width }
+        toggleView.frame.size.width = segments[segmentIndex].bounds.width - (toggleItemInsets.left + toggleItemInsets.right)
+        toggleView.frame.size.height = bounds.height - (toggleItemInsets.top + toggleItemInsets.bottom)
+        toggleView.frame.origin.x = segments[0..<segmentIndex].reduce(0) { $0 + $1.bounds.width } + toggleItemInsets.left
+        toggleView.frame.origin.y = toggleItemInsets.top
     }
     
     private func updateLineView(segmentIndex: Int) {
@@ -342,7 +327,7 @@ open class GraphicsSegmentedControl: GraphicsControl {
     }
 }
 
-extension GraphicsSegmentedControl {
+public extension GraphicsSegmentedControl {
     enum SegmentWidth {
         case intrinsic
         case equalTo(width: CGFloat)
@@ -354,31 +339,29 @@ extension GraphicsSegmentedControl {
     }
     
     struct LineConfiguration {
-        //swiftlint:disable nesting
-        enum Width {
+        public enum Width {
             case fill(padding: CGFloat)
             case proportional(padding: CGFloat)
             case equalTo(CGFloat)
         }
         
-        enum Edge {
+        public enum Edge {
             case top
             case bottom
         }
         
-        enum Position {
+        public enum Position {
             case inner
             case center
             case outer
         }
-        //swiftlint:enable nesting
         
-        let width: Width
-        let height: CGFloat
-        let edge: Edge
-        let position: Position
+        public let width: Width
+        public let height: CGFloat
+        public let edge: Edge
+        public let position: Position
         
-        init(width: Width = .proportional(padding: 0), height: CGFloat = 2, edge: Edge = .bottom, position: Position = .center) {
+        public init(width: Width = .proportional(padding: 0), height: CGFloat = 2, edge: Edge = .bottom, position: Position = .center) {
             self.width = width
             self.height = height
             self.edge = edge
@@ -387,9 +370,9 @@ extension GraphicsSegmentedControl {
     }
     
     struct Configuration {
-        var backgroundColor: UIColor
-        var segmentsPadding: CGFloat
-        var selectionStyle: SelectionStyle
+        public var backgroundColor: UIColor
+        public var segmentsPadding: CGFloat
+        public var selectionStyle: SelectionStyle
         
         fileprivate var isToggleEnabled: Bool {
             switch selectionStyle {
@@ -400,7 +383,7 @@ extension GraphicsSegmentedControl {
             }
         }
 
-        init(
+        public init(
             backgroundColor: UIColor = .lightGray,
             segmentsPadding: CGFloat = 30,
             selectionStyle: SelectionStyle = .toggle(background: .darkGray)) {
@@ -426,5 +409,11 @@ extension GraphicsSegmentedControl {
 
     func widthForSegment(at segment: Int) -> SegmentWidth? {
         widths[segment]
+    }
+}
+
+public extension GraphicsSegmentedControl {
+    var toggleItem: GraphicsItem {
+        toggleView
     }
 }
