@@ -125,9 +125,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Other examples" id="Ggh-3i-Xu7">
-                                <cells/>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="K1f-jW-iil" id="n2H-UV-Bsh"/>
@@ -388,10 +385,14 @@
                                 <rect key="frame" x="0.0" y="50" width="820" height="1110"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="pWu-a0-wQ2">
-                                        <rect key="frame" x="16" y="350" width="788" height="410"/>
+                                        <rect key="frame" x="16" y="261" width="788" height="588"/>
                                         <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="42m-3o-94H" customClass="GraphicsButton" customModule="Graphics">
+                                                <rect key="frame" x="274" y="0.0" width="240" height="128"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
                                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="LtB-fW-kLc" customClass="GraphicsButton" customModule="Graphics">
-                                                <rect key="frame" x="187" y="0.0" width="414" height="180"/>
+                                                <rect key="frame" x="187" y="178" width="414" height="180"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="180" id="2uB-lk-G5C"/>
@@ -401,7 +402,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="DfM-oe-LIp" customClass="GraphicsButton" customModule="Graphics">
-                                                <rect key="frame" x="304" y="230" width="180" height="180"/>
+                                                <rect key="frame" x="304" y="408" width="180" height="180"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="180" id="0Kh-vc-9wt"/>
@@ -428,6 +429,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Buttons" id="gcF-MA-msj"/>
                     <connections>
+                        <outlet property="gradientBackgroundButton" destination="42m-3o-94H" id="y9S-6T-akQ"/>
                         <outlet property="gradientButton" destination="LtB-fW-kLc" id="CN0-zA-pQR"/>
                         <outlet property="imageButton" destination="DfM-oe-LIp" id="OCv-ax-WKb"/>
                     </connections>

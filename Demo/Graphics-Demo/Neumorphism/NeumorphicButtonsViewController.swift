@@ -11,6 +11,7 @@ import Graphics
 
 class NeumorphicButtonsViewController: UIViewController {
     
+    @IBOutlet private weak var gradientBackgroundButton: GraphicsButton!
     @IBOutlet private weak var gradientButton: GraphicsButton!
     @IBOutlet private weak var imageButton: GraphicsButton!
     
@@ -18,8 +19,22 @@ class NeumorphicButtonsViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .demoBackground
+        setupGradientButton()
         setupTitleButton()
         setupImageButton()
+    }
+    
+    private func setupGradientButton() {
+        gradientBackgroundButton.configuration.background = .solid(.demoBackground)
+        gradientBackgroundButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
+        
+        gradientBackgroundButton
+            .cornerRadius(radius: .circle)
+            .border(width: 5, gradient: BorderModifier.GradientConfiguration(colors: [.orange, .red], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5)))
+        
+        gradientBackgroundButton.setTitle("Graphics", for: .normal)
+        gradientBackgroundButton.setTitleGradient(colors: [.orange, .red], for: .normal)
+        gradientBackgroundButton.titleLabel.font = .boldSystemFont(ofSize: 48)
     }
     
     private func setupTitleButton() {
