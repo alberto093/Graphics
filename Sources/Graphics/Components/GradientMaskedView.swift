@@ -1,5 +1,5 @@
 //
-//  UIview+Coder.swift
+//  GradientMaskedView.swift
 //
 //  Copyright © 2021 Graphics - Alberto Saltarelli
 //
@@ -24,14 +24,11 @@
 
 import UIKit
 
-@objc extension UIView {
-    /// The `nib` having the name of the class as name
-    open class var nib: UINib {
-        UINib(nibName: identifier, bundle: Bundle(for: self))
-    }
+public class GradientMaskedView: GradientView {
+    @IBOutlet public weak var contentMaskView: UIView!
     
-    /// The name of the class
-    public static var identifier: String {
-        String(describing: self)
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.mask = contentMaskView.layer
     }
 }

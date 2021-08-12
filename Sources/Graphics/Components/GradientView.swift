@@ -1,5 +1,5 @@
 //
-//  UIview+Coder.swift
+//  GradientView.swift
 //
 //  Copyright © 2021 Graphics - Alberto Saltarelli
 //
@@ -24,14 +24,39 @@
 
 import UIKit
 
-@objc extension UIView {
-    /// The `nib` having the name of the class as name
-    open class var nib: UINib {
-        UINib(nibName: identifier, bundle: Bundle(for: self))
+open class GradientView: UIView {
+    public override static var layerClass: AnyClass {
+        CAGradientLayer.self
     }
     
-    /// The name of the class
-    public static var identifier: String {
-        String(describing: self)
+    public var startPoint: CGPoint = CGPoint(x: 0.5, y: 0)
+    public var endPoint: CGPoint = CGPoint(x: 0.5, y: 1)
+    private var firstColor: UIColor = .clear
+    private var secondColor: UIColor = .clear
+
+    public var gradientLayer: CAGradientLayer {
+        // swiftlint:disable:next force_cast
+        layer as! CAGradientLayer
+    }
+    
+    public var colors: [UIColor]? {
+        didSet { setNeedsDisplay() }
+    }
+    
+    public var locations: [Double]? {
+        didSet { setNeedsDisplay() }
+    }
+    
+    public override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        gradientLayer.colors = (colors ?? [firstColor, secondColor]).map(\.cgColor)
+        gradientLayer.startPoint = startPoint
+        gradientLayer.endPoint = endPoint
+        gradientLayer.locations = locations?.map(NSNumber.init)
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        backgroundColor = .clear
     }
 }

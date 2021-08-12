@@ -1,7 +1,7 @@
 //
 //  ShadowModifier.swift
 //
-//  Copyright © 2020 Graphics - Alberto Saltarelli
+//  Copyright © 2021 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,23 +24,44 @@
 
 import UIKit
 
-// Shadow support both custom mask path and corner radius modifier. It doesn't support both at the same time.
+/// A modifier that allows to shadow the view's content.
+///
+/// Shadow modifier supports both custom mask path and corner radius modifier. It doesn't support both at the same time.
 public class ShadowModifier: GraphicsItemModifier {
+    /// Constants that specify the shadow position.
     public enum Shadow {
         case outer
         case inner
     }
     
+    /// The position of the shadow.
     public var shadow: Shadow
+    
+    /// The color of the layer’s shadow.
     public var color: UIColor
+    
+    /// The offset (in points) of the shadow.
     public var offset: CGSize
+    
+    /// The blur radius (in points) used to render the shadow.
     public var radius: CGFloat
+    
+    /// The opacity of the layer’s shadow.
+    ///
+    /// The value in this property must be in the range 0.0 (transparent) to 1.0 (opaque).
     public var opacity: Float
     
     public let allowsMultipleModifiers = true
     
     private weak var shadowLayer: CALayer?
     
+    /// It creates a new shadow modifier.
+    /// - Parameters:
+    ///   - shadow: The position of the shadow.
+    ///   - color: The color of the layer’s shadow.
+    ///   - offset: The offset (in points) of the shadow.
+    ///   - radius: The blur radius (in points) used to render the shadow.
+    ///   - opacity: The opacity of the layer’s shadow.
     public init(shadow: ShadowModifier.Shadow, color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {
         self.shadow = shadow
         self.color = color
@@ -57,7 +78,6 @@ public class ShadowModifier: GraphicsItemModifier {
             view.clipsToBounds = false
             updateOuterShadow(layer: layer, roundedCorners: roundedCorners, cornerRadii: cornerRadii, in: view)
         case .inner:
-            view.contentView.clipsToBounds = true
             updateInnerShadow(layer: layer, roundedCorners: roundedCorners, cornerRadii: cornerRadii, in: view)
         }
     }
@@ -72,6 +92,14 @@ public class ShadowModifier: GraphicsItemModifier {
 }
 
 public extension GraphicsItem {
+    /// Adds a shadow to this view.
+    /// - Parameters:
+    ///   - shadow: The position of the shadow.
+    ///   - color: The shadow’s color.
+    ///   - offset: The offset (in points) of the shadow.
+    ///   - radius: The blur radius (in points) used to render the shadow.
+    ///   - opacity: The opacity of the shadow.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func shadow(
         _ shadow: ShadowModifier.Shadow = .outer,
         color: UIColor = .black,
@@ -82,9 +110,37 @@ public extension GraphicsItem {
         let modifier = ShadowModifier(shadow: shadow, color: color, offset: offset, radius: radius, opacity: opacity)
         return self.modifier(modifier)
     }
+    
+    /// Adds a shadow to this view.
+    /// - Parameters:
+    ///   - shadow: The position of the shadow.
+    ///   - color: The shadow’s color.
+    ///   - offset: The offset (in points) of the shadow.
+    ///   - blur: The blur radius used to render the shadow.
+    ///   - opacity: The opacity of the shadow.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
+    @discardableResult func shadow(
+        _ shadow: ShadowModifier.Shadow = .outer,
+        color: UIColor = .black,
+        offset: CGSize = CGSize(width: 0, height: -3),
+        blur: CGFloat = UIScreen.main.scale * 3,
+        opacity: Float = 1) -> Self {
+        
+        let modifier = ShadowModifier(shadow: shadow, color: color, offset: offset, radius: blur / UIScreen.main.scale, opacity: opacity)
+        return self.modifier(modifier)
+    }
 }
 
 public extension GraphicsItem where Self: UIControl {
+    /// Adds a shadow to this view.
+    /// - Parameters:
+    ///   - shadow: The position of the shadow.
+    ///   - color: The shadow’s color.
+    ///   - offset: The offset (in points) of the shadow.
+    ///   - radius: The blur radius (in points) used to render the shadow.
+    ///   - opacity: The opacity of the shadow.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func shadow(
         _ shadow: ShadowModifier.Shadow = .outer,
         color: UIColor = .black,
@@ -94,6 +150,27 @@ public extension GraphicsItem where Self: UIControl {
         state: State = .normal) -> Self {
         
         let modifier = ShadowModifier(shadow: shadow, color: color, offset: offset, radius: radius, opacity: opacity)
+        return self.modifier(modifier, state: state)
+    }
+    
+    /// Adds a shadow to this view.
+    /// - Parameters:
+    ///   - shadow: The position of the shadow.
+    ///   - color: The shadow’s color.
+    ///   - offset: The offset (in points) of the shadow.
+    ///   - blur: The blur radius used to render the shadow.
+    ///   - opacity: The opacity of the shadow.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
+    @discardableResult func shadow(
+        _ shadow: ShadowModifier.Shadow = .outer,
+        color: UIColor = .black,
+        offset: CGSize = CGSize(width: 0, height: -3),
+        blur: CGFloat = UIScreen.main.scale * 3,
+        opacity: Float = 1,
+        state: UIControl.State = .normal) -> Self {
+        
+        let modifier = ShadowModifier(shadow: shadow, color: color, offset: offset, radius: blur / UIScreen.main.scale, opacity: opacity)
         return self.modifier(modifier, state: state)
     }
 }

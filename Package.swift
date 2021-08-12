@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -11,6 +11,8 @@ let package = Package(
         .library(name: "Graphics", targets: ["Graphics"])
     ],
     targets: [
-        .target(name: "Graphics")
+        .target(
+            name: "Graphics",
+            resources: [.process("GraphicsButton.xib")])
     ]
 )

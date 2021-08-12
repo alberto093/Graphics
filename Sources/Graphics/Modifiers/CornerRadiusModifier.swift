@@ -1,7 +1,7 @@
 //
 //  CornerRadiusModifier.swift
 //
-//  Copyright © 2020 Graphics - Alberto Saltarelli
+//  Copyright © 2021 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,18 @@
 
 import UIKit
 
+/// A modifier that allows to clips a view to its bounding frame.
 public class CornerRadiusModifier: GraphicsItemRoundingModifier {
+    /// Constants that specify the corner radius.
     public enum Radius {
         case circle
         case equalTo(CGFloat)
     }
     
+    /// Defines which of the four corners receives the masking. Defaults to all four corners.
     public var mask: CACornerMask
+    
+    /// The radius to use when drawing rounded corners for the layer’s background.
     public var radius: Radius
     
     public let priority: GraphicsItemModifierPriority = .required
@@ -40,6 +45,10 @@ public class CornerRadiusModifier: GraphicsItemRoundingModifier {
         mask.rectCorners
     }
     
+    /// It creates a new corner radius modifier.
+    /// - Parameters:
+    ///   - mask: Defines which of the four corners receives the masking. Defaults to all four corners.
+    ///   - radius: The radius to use when drawing rounded corners for the layer’s background.
     public init(mask: CACornerMask, radius: Radius) {
         self.mask = mask
         self.radius = radius
@@ -71,8 +80,8 @@ public class CornerRadiusModifier: GraphicsItemRoundingModifier {
     }
 }
 
-public extension CACornerMask {
-    static let all: CACornerMask = [
+extension CACornerMask {
+    public static let all: CACornerMask = [
         .layerMinXMinYCorner,
         .layerMaxXMinYCorner,
         .layerMinXMaxYCorner,
@@ -103,11 +112,21 @@ public extension CACornerMask {
 }
 
 public extension GraphicsItem {
+    /// Clips this view to its bounding frame, with the specified corner radius.
+    /// - Parameters:
+    ///   - mask: Defines which of the four corners receives the masking. Defaults to all four corners.
+    ///   - radius: The radius to use when drawing rounded corners for the layer’s background.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: radius)
         return self.modifier(modifier)
     }
     
+    /// Clips this view to its bounding frame, with the specified corner radius.
+    /// - Parameters:
+    ///   - mask: Defines which of the four corners receives the masking. Defaults to all four corners.
+    ///   - radius: The radius to use when drawing rounded corners for the layer’s background.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CGFloat) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: .equalTo(radius))
         return self.modifier(modifier)
@@ -115,11 +134,23 @@ public extension GraphicsItem {
 }
 
 public extension GraphicsItem where Self: UIControl {
+    /// Clips this view to its bounding frame, with the specified corner radius.
+    /// - Parameters:
+    ///   - mask: Defines which of the four corners receives the masking. Defaults to all four corners.
+    ///   - radius: The radius to use when drawing rounded corners for the layer’s background.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CornerRadiusModifier.Radius, state: State = .normal) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: radius)
         return self.modifier(modifier, state: state)
     }
     
+    /// Clips this view to its bounding frame, with the specified corner radius.
+    /// - Parameters:
+    ///   - mask: Defines which of the four corners receives the masking. Defaults to all four corners.
+    ///   - radius: The radius to use when drawing rounded corners for the layer’s background.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func cornerRadius(mask: CACornerMask = .all, radius: CGFloat, state: State = .normal) -> Self {
         let modifier = CornerRadiusModifier(mask: mask, radius: .equalTo(radius))
         return self.modifier(modifier, state: state)

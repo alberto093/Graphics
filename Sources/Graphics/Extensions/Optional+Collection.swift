@@ -1,5 +1,5 @@
 //
-//  UIview+Coder.swift
+//  Optional+Collection.swift
 //
 //  Copyright © 2021 Graphics - Alberto Saltarelli
 //
@@ -22,16 +22,17 @@
 //  THE SOFTWARE.
 //
 
-import UIKit
+import Foundation
 
-@objc extension UIView {
-    /// The `nib` having the name of the class as name
-    open class var nib: UINib {
-        UINib(nibName: identifier, bundle: Bundle(for: self))
-    }
+extension Optional where Wrapped: Collection {
     
-    /// The name of the class
-    public static var identifier: String {
-        String(describing: self)
+    /// Checks if a collections is `nil` or `isEmpty`
+    var isNilOrEmpty: Bool {
+        switch self {
+        case .none:
+            return true
+        case .some(let collection):
+            return collection.isEmpty
+        }
     }
 }

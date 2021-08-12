@@ -1,7 +1,7 @@
 //
 //  ViewPropertyModifier.swift
 //
-//  Copyright © 2020 Graphics - Alberto Saltarelli
+//  Copyright © 2021 Graphics - Alberto Saltarelli
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,25 @@
 
 import UIKit
 
+/// A modifier that allows to change view properties.
 public class ViewPropertyModifier<Item: GraphicsItem, T>: GraphicsItemModifier {
     
+    /// A key path that indicates the property of the view to update.
     public let keyPath: ReferenceWritableKeyPath<Item, T>
+    
+    /// The new value to set for the item specified by keyPath.
     public let value: T
-    public let defaultValue: T?
+    
+    /// An optional value that modifier set from the item specified by keyPath when It will be reverted.
+    public var defaultValue: T?
     
     public let allowsMultipleModifiers = false
     
+    /// It creates a new view property modifier.
+    /// - Parameters:
+    ///   - keyPath: A key path that indicates the property of the view to update.
+    ///   - value: The new value to set for the item specified by keyPath.
+    ///   - defaultValue: An optional value that modifier set from the item specified by keyPath when It will be reverted.
     public init(keyPath: ReferenceWritableKeyPath<Item, T>, value: T, defaultValue: T?) {
         self.keyPath = keyPath
         self.value = value
@@ -50,6 +61,13 @@ public class ViewPropertyModifier<Item: GraphicsItem, T>: GraphicsItemModifier {
 }
 
 public extension GraphicsItem {
+    /// Change the value of a view's property.
+    ///
+    /// - Parameters:
+    ///   - keyPath: A key path that indicates the property of the view to update.
+    ///   - value: The new value to set for the item specified by keyPath.
+    ///   - defaultValue: An optional value that modifier set from the item specified by keyPath when It will be reverted.
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T? = nil) -> Self {
         let modifier = ViewPropertyModifier(keyPath: keyPath, value: value, defaultValue: defaultValue)
         return self.modifier(modifier)
@@ -57,6 +75,14 @@ public extension GraphicsItem {
 }
 
 public extension GraphicsItem where Self: UIControl {
+    /// Change the value of a view's property.
+    ///
+    /// - Parameters:
+    ///   - keyPath: A key path that indicates the property of the view to update.
+    ///   - value: The new value to set for the item specified by keyPath.
+    ///   - defaultValue: An optional value that modifier set from the item specified by keyPath when It will be reverted.
+    ///   - state: The state that uses the specified modifier. The possible values are described in [UIControl.State](https://developer.apple.com/documentation/uikit/uicontrol/state).
+    /// - Returns: It returns the callers in order to apply multiple modifiers using the dot notation.
     @discardableResult func property<T>(keyPath: ReferenceWritableKeyPath<Self, T>, value: T, defaultValue: T? = nil, state: State = .normal) -> Self {
         let modifier = ViewPropertyModifier(keyPath: keyPath, value: value, defaultValue: defaultValue)
         return self.modifier(modifier, state: state)

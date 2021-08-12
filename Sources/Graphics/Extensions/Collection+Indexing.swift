@@ -1,5 +1,5 @@
 //
-//  UIview+Coder.swift
+//  Collection+Indexing.swift
 //
 //  Copyright © 2021 Graphics - Alberto Saltarelli
 //
@@ -22,16 +22,11 @@
 //  THE SOFTWARE.
 //
 
-import UIKit
+import Foundation
 
-@objc extension UIView {
-    /// The `nib` having the name of the class as name
-    open class var nib: UINib {
-        UINib(nibName: identifier, bundle: Bundle(for: self))
-    }
-    
-    /// The name of the class
-    public static var identifier: String {
-        String(describing: self)
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        guard indices.contains(index) else { return nil }
+        return self[index]
     }
 }
