@@ -24,14 +24,53 @@
 
 import UIKit
 
-@IBDesignable open class GraphicsNibView: NibView, GraphicsItem {
+/**
+ An abstract class that allows to load view from nib.
+ A NibView sublcass can be instantiated programmatically or embeded inside a Storyboard.
+ 
+ To work properly a `GraphicsNibView` subclass must satisfy the following conditions:
+ - The the nib name must match the subclass name
+ - The view inside the nib acts as the content view
+ - The file's owner of the nib must be the subclass type
+ */
+@IBDesignable open class GraphicsNibView: UIView, GraphicsItem {
+    /// It returns the real nib view.
+    ///
+    /// You should use this view to setup the user interaction (e.g. UIGestureRecognizer).
+    public private(set) var nibView: UIView!
+    
     public var contentView: UIView {
         nibView
+    }
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        loadNib()
+        awakeFromNib()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        loadNib()
+    }
+    
+    private func loadNib() {
+        //swiftlint:disable:next force_cast
+        nibView = (type(of: self).nib.instantiate(withOwner: self, options: nil).first as! UIView)
+        addSubview(nibView)
+        
+        nibView.frame = bounds
+        nibView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
         modifySubviews()
+    }
+    
+    open override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        loadNib()
     }
 }
 

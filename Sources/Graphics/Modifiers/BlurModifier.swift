@@ -49,11 +49,7 @@ public class BlurModifier: GraphicsItemModifier {
     private weak var blurEffectView: UIVisualEffectView?
     private weak var vibrancyView: UIVisualEffectView?
     
-    private var intensityAnimator: UIViewPropertyAnimator? {
-        didSet {
-            oldValue?.stopAnimation(true)
-        }
-    }
+    private var intensityAnimator: UIViewPropertyAnimator?
     
     /// It creates a new blur modifier.
     ///
@@ -98,7 +94,7 @@ public class BlurModifier: GraphicsItemModifier {
             vibrancyView?.effect = vibrancyEffect
         }
         
-        intensityAnimator?.fractionComplete = blurIntensity
+        startAnimation()
     }
     
     public func revert(_ view: GraphicsItem) {
@@ -107,38 +103,51 @@ public class BlurModifier: GraphicsItemModifier {
     }
     
     public func purge() {
+        intensityAnimator?.stopAnimation(true)
+        intensityAnimator?.finishAnimation(at: .current)
         intensityAnimator = nil
         blurEffectView?.removeFromSuperview()
     }
     
     private func prepareBlurEffectView(in view: GraphicsItem) -> UIVisualEffectView {
-        let blurView: UIVisualEffectView
+        let backgroundView: UIVisualEffectView
         
         if let blurEffectView = blurEffectView {
-            blurView = blurEffectView
+            backgroundView = blurEffectView
         } else {
-            blurView = UIVisualEffectView()
-            blurView.clipsToBounds = true
+            backgroundView = UIVisualEffectView()
+            backgroundView.clipsToBounds = true
             
             switch vibrancy {
             case .none:
-                blurView.contentView.addSubview(view.contentView)
+                backgroundView.contentView.addSubview(view.contentView)
             case .default, .style:
                 let vibrancyEffectView = UIVisualEffectView()
                 vibrancyEffectView.contentView.addSubview(view.contentView)
-                blurView.contentView.addSubview(vibrancyEffectView)
-                vibrancyEffectView.fill(view: blurView, insets: .zero, useSafeArea: false)
+                backgroundView.contentView.addSubview(vibrancyEffectView)
                 self.vibrancyView = vibrancyEffectView
             }
 
-            view.insertSubview(blurView, at: 0)
-            blurView.fill(view: view, insets: .zero, useSafeArea: false)
-            self.blurEffectView = blurView
+            view.insertSubview(backgroundView, at: 0)
+            backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            backgroundView.fill(view: view, insets: .zero, useSafeArea: false)
+            self.blurEffectView = backgroundView
         }
         
-        blurView.frame = view.bounds
+        backgroundView.frame = view.bounds
+        view.contentView.frame = view.bounds
         
-        return blurView
+        return backgroundView
+    }
+    
+    private func startAnimation() {
+        DispatchQueue.main.async {
+            self.intensityAnimator?.fractionComplete = self.blurIntensity
+            DispatchQueue.main.async {
+                self.intensityAnimator?.stopAnimation(true)
+                self.intensityAnimator?.finishAnimation(at: .current)
+            }
+        }
     }
 }
 

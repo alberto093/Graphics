@@ -11,7 +11,7 @@
         <!--Graphics-->
         <scene sceneID="4fO-2P-KPm">
             <objects>
-                <tableViewController id="K1f-jW-iil" customClass="MainViewController" customModule="Graphics_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="K1f-jW-iil" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="36Y-54-yhQ">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,7 +120,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="8z2-dl-qGG" kind="show" identifier="light" id="Mky-H1-xUL"/>
+                                            <segue destination="soP-MS-ogW" kind="show" id="OTE-Rq-VCU"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -143,7 +143,7 @@
         <!--Cards (dark background)-->
         <scene sceneID="BBb-hh-qiK">
             <objects>
-                <viewController id="8z2-dl-qGG" customClass="GlassmorphicCardsViewController" customModule="Graphics_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8z2-dl-qGG" customClass="GlassmorphicDarkViewController" customModule="Graphics_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="pdb-ve-kdv">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -187,13 +187,56 @@
                                     <constraint firstAttribute="width" constant="250" id="Hhj-v4-Ltl"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUd-Vo-WPI" customClass="GradientView" customModule="Graphics">
+                                <rect key="frame" x="629" y="986" width="162" height="162"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="My8-MY-dvf"/>
+                                    <constraint firstAttribute="width" constant="162" id="zNd-wI-6pL"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4el-Ej-UQL" customClass="GradientView" customModule="Graphics">
+                                <rect key="frame" x="-70" y="880" width="300" height="300"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="Fae-1X-JM7"/>
+                                    <constraint firstAttribute="height" constant="300" id="uwd-sQ-WQO"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="bottom" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="khi-n3-tMu">
+                                <rect key="frame" x="60" y="730" width="700" height="350"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IFW-vJ-1E8" customClass="CardView" customModule="Graphics_Demo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="350"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="250" id="CIe-qX-G1d"/>
+                                            <constraint firstAttribute="height" constant="350" id="n36-YT-dBJ"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KV0-tH-YQB" customClass="CardView" customModule="Graphics_Demo" customModuleProvider="target">
+                                        <rect key="frame" x="350" y="100" width="350" height="250"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="250" id="Lhu-kh-xvx"/>
+                                            <constraint firstAttribute="width" constant="350" id="aqH-Jv-XVe"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HZg-3r-XyJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="4el-Ej-UQL" firstAttribute="leading" secondItem="IFW-vJ-1E8" secondAttribute="leading" constant="-130" id="1XD-c7-mVD"/>
+                            <constraint firstItem="CUd-Vo-WPI" firstAttribute="trailing" secondItem="KV0-tH-YQB" secondAttribute="trailing" constant="31" id="3W8-ZR-OBN"/>
+                            <constraint firstItem="CUd-Vo-WPI" firstAttribute="bottom" secondItem="KV0-tH-YQB" secondAttribute="bottom" constant="68" id="AOV-xt-kJd"/>
                             <constraint firstItem="DFC-EX-VwQ" firstAttribute="centerX" secondItem="HZg-3r-XyJ" secondAttribute="centerX" constant="9" id="Kn8-v2-Xrz"/>
+                            <constraint firstAttribute="bottom" secondItem="khi-n3-tMu" secondAttribute="bottom" constant="100" id="QSB-eJ-RWg"/>
                             <constraint firstItem="f4o-Lg-9oQ" firstAttribute="leading" secondItem="DFC-EX-VwQ" secondAttribute="leading" constant="70" id="YpW-gI-psJ"/>
+                            <constraint firstItem="4el-Ej-UQL" firstAttribute="bottom" secondItem="IFW-vJ-1E8" secondAttribute="bottom" constant="100" id="ZoF-gE-e8i"/>
                             <constraint firstItem="AAq-F4-zxw" firstAttribute="top" secondItem="DFC-EX-VwQ" secondAttribute="bottom" constant="28" id="b0c-g5-f4C"/>
+                            <constraint firstItem="khi-n3-tMu" firstAttribute="centerX" secondItem="HZg-3r-XyJ" secondAttribute="centerX" id="f9M-Tf-vjh"/>
                             <constraint firstItem="FMK-DW-5pI" firstAttribute="top" secondItem="HZg-3r-XyJ" secondAttribute="top" constant="-138" id="jph-qs-Gqc"/>
                             <constraint firstItem="f4o-Lg-9oQ" firstAttribute="top" secondItem="DFC-EX-VwQ" secondAttribute="top" constant="-10" id="s0P-0F-Ns5"/>
                             <constraint firstItem="DFC-EX-VwQ" firstAttribute="top" secondItem="HZg-3r-XyJ" secondAttribute="top" constant="110" id="uoF-JT-awZ"/>
@@ -203,16 +246,135 @@
                     </view>
                     <navigationItem key="navigationItem" title="Cards (dark background)" id="ICp-zo-bzy"/>
                     <connections>
+                        <outlet property="bottomLandscapeEllipse" destination="CUd-Vo-WPI" id="MwI-2m-8hu"/>
+                        <outlet property="bottomPortraitEllipse" destination="4el-Ej-UQL" id="RFj-j1-shF"/>
                         <outlet property="cardBottomEllipse" destination="AAq-F4-zxw" id="Nlh-oX-jpc"/>
                         <outlet property="cardTopEllipse" destination="DFC-EX-VwQ" id="uyj-WU-CqM"/>
                         <outlet property="cardView" destination="f4o-Lg-9oQ" id="61s-MT-Xib"/>
-                        <outlet property="cardViewContentView" destination="NRe-wR-aT3" id="V4p-kg-KPV"/>
+                        <outlet property="landscapeCardView" destination="KV0-tH-YQB" id="WSU-6o-fdc"/>
+                        <outlet property="portraitCardView" destination="IFW-vJ-1E8" id="49J-S9-XoZ"/>
                         <outlet property="topLeftEllipse" destination="FMK-DW-5pI" id="PXM-fC-9sw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LMH-Fl-7ie" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2212" y="575"/>
+        </scene>
+        <!--Cards (light background)-->
+        <scene sceneID="giz-y9-qCF">
+            <objects>
+                <viewController id="soP-MS-ogW" customClass="GlassmorphicLightViewController" customModule="Graphics_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="d9W-c7-Br1">
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XmT-Jg-bSK">
+                                <rect key="frame" x="0.0" y="50" width="820" height="1110"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QO9-Wz-qFq" customClass="GraphicsView" customModule="Graphics">
+                                        <rect key="frame" x="100" y="245" width="620" height="620"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GRX-qY-WTk" customClass="GradientView" customModule="Graphics">
+                                                <rect key="frame" x="0.0" y="0.0" width="620" height="620"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="GRX-qY-WTk" secondAttribute="trailing" id="L3w-if-hSG"/>
+                                            <constraint firstAttribute="width" secondItem="QO9-Wz-qFq" secondAttribute="height" id="OCr-C6-4qa"/>
+                                            <constraint firstItem="GRX-qY-WTk" firstAttribute="leading" secondItem="QO9-Wz-qFq" secondAttribute="leading" id="hCa-f8-rL5"/>
+                                            <constraint firstItem="GRX-qY-WTk" firstAttribute="top" secondItem="QO9-Wz-qFq" secondAttribute="top" id="lQV-lZ-R9b"/>
+                                            <constraint firstAttribute="bottom" secondItem="GRX-qY-WTk" secondAttribute="bottom" id="yc7-L6-y6u"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="100" left="100" bottom="100" right="100"/>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="in0-7S-wvM">
+                                <rect key="frame" x="0.0" y="50" width="820" height="1110"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="Cpd-Eh-84O">
+                                        <rect key="frame" x="30" y="210.5" width="760" height="689"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="jVg-VL-WWa">
+                                                <rect key="frame" x="0.0" y="0.0" width="760" height="328.5"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4cM-Ri-tv4" customClass="CardView" customModule="Graphics_Demo" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="233.5" height="328.5"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="4cM-Ri-tv4" secondAttribute="height" multiplier="0.71" id="lxw-Qt-TPe"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JOi-Pw-Qyr" customClass="CardView" customModule="Graphics_Demo" customModuleProvider="target">
+                                                        <rect key="frame" x="263.5" y="0.0" width="233" height="328.5"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="JOi-Pw-Qyr" secondAttribute="height" multiplier="0.71" id="r4K-Zi-4KV"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o5r-cN-dka" customClass="CardView" customModule="Graphics_Demo" customModuleProvider="target">
+                                                        <rect key="frame" x="526.5" y="0.0" width="233.5" height="328.5"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="o5r-cN-dka" secondAttribute="height" multiplier="0.71" id="S8s-Vs-lmC"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Wso-yu-CMs">
+                                                <rect key="frame" x="0.0" y="428.5" width="760" height="260.5"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MsT-uf-jq3" customClass="CardView" customModule="Graphics_Demo" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="365" height="260.5"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="MsT-uf-jq3" secondAttribute="height" multiplier="1.4" id="95J-ux-cLJ"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PC6-An-Dhw" customClass="CardView" customModule="Graphics_Demo" customModuleProvider="target">
+                                                        <rect key="frame" x="395" y="0.0" width="365" height="260.5"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </view>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="PC6-An-Dhw" firstAttribute="width" secondItem="PC6-An-Dhw" secondAttribute="height" multiplier="1.4" id="0h6-6G-AMc"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="30" left="30" bottom="30" right="30"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5vn-nJ-01x"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5vn-nJ-01x" firstAttribute="bottom" secondItem="XmT-Jg-bSK" secondAttribute="bottom" id="53a-tR-fj5"/>
+                            <constraint firstItem="5vn-nJ-01x" firstAttribute="trailing" secondItem="in0-7S-wvM" secondAttribute="trailing" id="8Ev-BE-YJF"/>
+                            <constraint firstItem="XmT-Jg-bSK" firstAttribute="top" secondItem="5vn-nJ-01x" secondAttribute="top" id="DtL-hv-nfg"/>
+                            <constraint firstItem="XmT-Jg-bSK" firstAttribute="leading" secondItem="5vn-nJ-01x" secondAttribute="leading" id="IdS-hG-2Ur"/>
+                            <constraint firstItem="5vn-nJ-01x" firstAttribute="trailing" secondItem="XmT-Jg-bSK" secondAttribute="trailing" id="JE3-1F-hG0"/>
+                            <constraint firstItem="in0-7S-wvM" firstAttribute="leading" secondItem="5vn-nJ-01x" secondAttribute="leading" id="Lc5-TK-F2H"/>
+                            <constraint firstItem="in0-7S-wvM" firstAttribute="top" secondItem="5vn-nJ-01x" secondAttribute="top" id="gbN-TM-ifA"/>
+                            <constraint firstItem="5vn-nJ-01x" firstAttribute="bottom" secondItem="in0-7S-wvM" secondAttribute="bottom" id="mPP-2C-m6a"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Cards (light background)" id="AiU-Nd-8db"/>
+                    <connections>
+                        <outlet property="backgroundEllipse" destination="QO9-Wz-qFq" id="TUV-FE-RWv"/>
+                        <outlet property="backgroundEllipseContentView" destination="GRX-qY-WTk" id="dCR-tf-Ufv"/>
+                        <outlet property="landscapeLeftCardView" destination="PC6-An-Dhw" id="CPG-1e-LlT"/>
+                        <outlet property="landscapeRightCardView" destination="MsT-uf-jq3" id="kAW-tY-mik"/>
+                        <outlet property="portraitCenterCardView" destination="JOi-Pw-Qyr" id="f6Z-Ol-d2R"/>
+                        <outlet property="portraitLeftCardView" destination="4cM-Ri-tv4" id="fzR-Qe-Znq"/>
+                        <outlet property="portraitRightCardView" destination="o5r-cN-dka" id="tek-sc-LeK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kfy-9U-gH0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3077" y="575"/>
         </scene>
         <!--Buttons-->
         <scene sceneID="0S9-HY-QiZ">
@@ -512,9 +674,6 @@
             <size key="intrinsicContentSize" width="414" height="0.0"/>
         </designable>
     </designables>
-    <inferredMetricsTieBreakers>
-        <segue reference="Iqj-w8-Hvc"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

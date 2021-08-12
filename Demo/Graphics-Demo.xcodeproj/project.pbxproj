@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		D31D60DE26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60DD26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift */; };
 		D31D60E026C3C4CF00F53FC8 /* NeumorphicViewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60DF26C3C4CF00F53FC8 /* NeumorphicViewsViewController.swift */; };
-		D31D60E326C3CC8A00F53FC8 /* GlassmorphicCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60E226C3CC8A00F53FC8 /* GlassmorphicCardsViewController.swift */; };
-		D31D60E526C3D02800F53FC8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60E426C3D02800F53FC8 /* MainViewController.swift */; };
+		D31D60E326C3CC8A00F53FC8 /* GlassmorphicDarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60E226C3CC8A00F53FC8 /* GlassmorphicDarkViewController.swift */; };
+		D31D60E726C3FD3600F53FC8 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60E626C3FD3600F53FC8 /* CardView.swift */; };
+		D31D60E926C3FD3E00F53FC8 /* CardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31D60E826C3FD3E00F53FC8 /* CardView.xib */; };
+		D31D60EB26C46BA100F53FC8 /* GlassmorphicLightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D60EA26C46BA100F53FC8 /* GlassmorphicLightViewController.swift */; };
 		D3531571266F972F00A656EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353156F266F96BB00A656EE /* AppDelegate.swift */; };
 		D3531573266F975900A656EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D353156A266F96BB00A656EE /* Assets.xcassets */; };
 		D3531574266F976400A656EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D353156B266F96BB00A656EE /* LaunchScreen.storyboard */; };
@@ -24,8 +26,10 @@
 		D312262D246B025500FD2B69 /* Graphics-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Graphics-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31D60DD26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeumorphicSegmentedControlsViewController.swift; sourceTree = "<group>"; };
 		D31D60DF26C3C4CF00F53FC8 /* NeumorphicViewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicViewsViewController.swift; sourceTree = "<group>"; };
-		D31D60E226C3CC8A00F53FC8 /* GlassmorphicCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicCardsViewController.swift; sourceTree = "<group>"; };
-		D31D60E426C3D02800F53FC8 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		D31D60E226C3CC8A00F53FC8 /* GlassmorphicDarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicDarkViewController.swift; sourceTree = "<group>"; };
+		D31D60E626C3FD3600F53FC8 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		D31D60E826C3FD3E00F53FC8 /* CardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardView.xib; sourceTree = "<group>"; };
+		D31D60EA26C46BA100F53FC8 /* GlassmorphicLightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicLightViewController.swift; sourceTree = "<group>"; };
 		D353156A266F96BB00A656EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D353156C266F96BB00A656EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D353156E266F96BB00A656EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -69,7 +73,10 @@
 		D31D60E126C3CC6F00F53FC8 /* Glassmorphism */ = {
 			isa = PBXGroup;
 			children = (
-				D31D60E226C3CC8A00F53FC8 /* GlassmorphicCardsViewController.swift */,
+				D31D60E226C3CC8A00F53FC8 /* GlassmorphicDarkViewController.swift */,
+				D31D60EA26C46BA100F53FC8 /* GlassmorphicLightViewController.swift */,
+				D31D60E626C3FD3600F53FC8 /* CardView.swift */,
+				D31D60E826C3FD3E00F53FC8 /* CardView.xib */,
 			);
 			path = Glassmorphism;
 			sourceTree = "<group>";
@@ -80,7 +87,6 @@
 				D3531570266F96BB00A656EE /* Info.plist */,
 				D353156F266F96BB00A656EE /* AppDelegate.swift */,
 				D353156A266F96BB00A656EE /* Assets.xcassets */,
-				D31D60E426C3D02800F53FC8 /* MainViewController.swift */,
 				D35841C42679020700E6A01D /* Extensions */,
 				D31D60E126C3CC6F00F53FC8 /* Glassmorphism */,
 				D35841C3267900D700E6A01D /* Neumorphism */,
@@ -179,6 +185,7 @@
 			files = (
 				D3531575266F976700A656EE /* Main.storyboard in Resources */,
 				D3531573266F975900A656EE /* Assets.xcassets in Resources */,
+				D31D60E926C3FD3E00F53FC8 /* CardView.xib in Resources */,
 				D3531574266F976400A656EE /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,12 +218,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D31D60E526C3D02800F53FC8 /* MainViewController.swift in Sources */,
 				D35841C2267900D400E6A01D /* NeumorphicButtonsViewController.swift in Sources */,
 				D3531571266F972F00A656EE /* AppDelegate.swift in Sources */,
-				D31D60E326C3CC8A00F53FC8 /* GlassmorphicCardsViewController.swift in Sources */,
+				D31D60E326C3CC8A00F53FC8 /* GlassmorphicDarkViewController.swift in Sources */,
+				D31D60EB26C46BA100F53FC8 /* GlassmorphicLightViewController.swift in Sources */,
 				D35841C62679021000E6A01D /* UIColor+.swift in Sources */,
 				D31D60E026C3C4CF00F53FC8 /* NeumorphicViewsViewController.swift in Sources */,
+				D31D60E726C3FD3600F53FC8 /* CardView.swift in Sources */,
 				D31D60DE26C2C58F00F53FC8 /* NeumorphicSegmentedControlsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
