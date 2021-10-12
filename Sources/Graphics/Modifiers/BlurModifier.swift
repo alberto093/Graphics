@@ -26,13 +26,6 @@ import UIKit
 
 /// A modifier that allows to blur a graphics view.
 public class BlurModifier: GraphicsItemModifier {
-    /// Constants that specify the vibrancy style.
-    public enum Vibrancy {
-        case `default`
-        
-        @available(iOS 13.0, *)
-        case style(UIVibrancyEffectStyle)
-    }
     
     /// The intensity of the blur effect. See [UIBlurEffect.Style](https://developer.apple.com/documentation/uikit/uiblureffect/style) for valid options.
     public let blurStyle: UIBlurEffect.Style
@@ -68,19 +61,16 @@ public class BlurModifier: GraphicsItemModifier {
         let effect = UIBlurEffect(style: blurStyle)
         let vibrancyEffect: UIVibrancyEffect?
         
-        switch vibrancy {
-        case .none:
-            vibrancyEffect = nil
-        case .default:
-            vibrancyEffect = UIVibrancyEffect(blurEffect: effect)
-        case .style(let style):
-            if #available(iOS 13.0, *) {
+        if let vibrancy = vibrancy {
+            if #available(iOS 13.0, *), let style = vibrancy.style {
                 vibrancyEffect = UIVibrancyEffect(blurEffect: effect, style: style)
             } else {
                 vibrancyEffect = UIVibrancyEffect(blurEffect: effect)
             }
+        } else {
+            vibrancyEffect = nil
         }
-
+    
         if let mask = view.contentView.layer.mask {
             blurView.layoutIfNeeded()
             blurView.layer.mask = mask
@@ -118,19 +108,17 @@ public class BlurModifier: GraphicsItemModifier {
             backgroundView = UIVisualEffectView()
             backgroundView.clipsToBounds = true
             
-            switch vibrancy {
-            case .none:
+            if vibrancy == nil {
                 backgroundView.contentView.addSubview(view.contentView)
-            case .default, .style:
+            } else {
                 let vibrancyEffectView = UIVisualEffectView()
                 vibrancyEffectView.contentView.addSubview(view.contentView)
                 backgroundView.contentView.addSubview(vibrancyEffectView)
                 self.vibrancyView = vibrancyEffectView
             }
-
+        
             view.insertSubview(backgroundView, at: 0)
             backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//            backgroundView.fill(view: view, insets: .zero, useSafeArea: false)
             self.blurEffectView = backgroundView
         }
         
@@ -148,6 +136,45 @@ public class BlurModifier: GraphicsItemModifier {
                 self.intensityAnimator?.finishAnimation(at: .current)
             }
         }
+    }
+}
+
+public extension BlurModifier {
+    /// It represents the vibrancy style. Additional vibrancy styles available in iOS 13, intended for use with the "system material" UIBlurEffect styles.
+    ///
+    ///  ````
+    ///  var vibrancy: Vibrancy?
+    ///  vibrancy = nil
+    ///  vibrancy = .default
+    ///  vibrancy = .style(.label) // available on iOS 13.0
+    ///
+    ///  ````
+    ///
+    /// These vibrancy styles, combined with those blur effect styles, cause only the alpha component of the content
+    /// to be used. Color information is ignored. (UIVibrancyEffectStyleLabel is an exception; it passes color through.)
+    public struct Vibrancy {
+        private let _style: Any?
+        
+        @available(iOS 13.0, *)
+        var style: UIVibrancyEffectStyle? {
+            _style as? UIVibrancyEffectStyle
+        }
+        
+        private init() {
+            _style = nil
+        }
+        
+        @available(iOS 13.0, *)
+        private init(style: UIVibrancyEffectStyle?) {
+            _style = style
+        }
+        
+        @available(iOS 13.0, *)
+        static func style(_ style: UIVibrancyEffectStyle) -> Vibrancy {
+            Vibrancy(style: style)
+        }
+    
+        static let `default` = Vibrancy()
     }
 }
 
