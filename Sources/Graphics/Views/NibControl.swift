@@ -52,6 +52,8 @@ To work properly a NibControl subclass must satisfy the following conditions:
     
     private func loadNib() {
         translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = true
+        
         //swiftlint:disable:next force_cast
         nibView = (type(of: self).nib.instantiate(withOwner: self, options: nil).first as! UIView)
         nibView.isUserInteractionEnabled = false
