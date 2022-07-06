@@ -46,7 +46,6 @@ import UIKit
     public override init(frame: CGRect) {
         super.init(frame: frame)
         loadNib()
-        awakeFromNib()
     }
     
     public required init?(coder aDecoder: NSCoder) {

@@ -42,7 +42,6 @@ To work properly a NibControl subclass must satisfy the following conditions:
     public override init(frame: CGRect) {
         super.init(frame: frame)
         loadNib()
-        awakeFromNib()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -63,6 +62,8 @@ To work properly a NibControl subclass must satisfy the following conditions:
             nibView.bottomAnchor.constraint(equalTo: bottomAnchor),
             nibView.trailingAnchor.constraint(equalTo: trailingAnchor),
             nibView.topAnchor.constraint(equalTo: topAnchor)])
+        
+        awakeFromNib()
     }
     
     open override func prepareForInterfaceBuilder() {
